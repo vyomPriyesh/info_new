@@ -1,0 +1,225 @@
+.not-allowed {
+  pointer-events: none ! important;
+  cursor: not-allowed ! important;
+}
+
+.logo {
+  animation: logo infinite 2s ease-in;
+}
+
+@keyframes logo {
+
+  0%,
+  100% {
+    scale: 1.2;
+  }
+
+  50% {
+    scale: 1;
+  }
+}
+
+.textt {
+  animation: leftt infinite 5s ease-in;
+}
+
+@keyframes leftt {
+  0% {
+    transform: translateX(100px);
+  }
+
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.heading::-webkit-scrollbar {
+  display: none;
+}
+
+.banner {
+  width: 95vw;
+  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+}
+
+.location {
+  clip-path: polygon(0% 0%, 70% 0%, 100% 100%, 0% 100%);
+}
+
+.banner-animation {
+  animation: banner infinite 7s ease-in;
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(0deg, rgb(173, 5, 5) 0%, rgb(255, 0, 0) 47%, rgb(194, 0, 0) 100%);
+}
+
+@keyframes banner {
+
+  /* Starting animation */
+  0% {
+    opacity: 0;
+    transform: rotateY(180deg) translateX(50%);
+  }
+
+  20% {
+    opacity: 1;
+    transform: rotateY(0deg) translateX(0%);
+  }
+
+  90% {
+    opacity: 1;
+    transform: rotateY(0deg) translateX(0%);
+  }
+
+  /* Ending animation */
+  100% {
+    opacity: 0;
+    transform: rotateY(180deg) translateX(50%);
+  }
+}
+
+
+.banner-animation2 {
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(0deg, rgb(173, 5, 5) 0%, rgb(255, 0, 0) 47%, rgb(194, 0, 0) 100%);
+  animation: banner2 alternate 2s ease-in;
+}
+
+@keyframes banner2 {
+  100% {
+    transform: rotateY(180deg) translateX(50%);
+    opacity: 0;
+  }
+
+  0% {
+    transform: rotateY(0deg) translateX(0%);
+  }
+}
+
+
+.bg {
+  background: linear-gradient(0deg, rgb(173, 5, 5) 0%, rgb(255, 0, 0) 47%, rgb(194, 0, 0) 100%);
+}
+
+.black {
+  background-color: rgba(63, 63, 63, 0.7);
+}
+
+.bgg {
+  background-color: rgb(56, 55, 55);
+}
+
+.bg_2 {
+  background: rgb(83, 83, 83, 0.9);
+
+}
+
+.text{
+  animation: text infinite 40s ease-in-out;
+  padding-left: 100%;
+}
+
+@keyframes text {
+  0% {
+    transform: translateX(0);
+  }
+  50%{
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.flip-text {
+  animation: flip 2s infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes flip {
+  0%, 100% { transform: rotatex(0deg); }
+  50% { transform: rotatex(180deg); }
+}
+
+.animated-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* space between lines */
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+/* Apply animation to each line */
+#wordDisplay span {
+  display: inline-block;
+  opacity: 0;
+  animation: showWord 1s ease-in-out forwards;
+}
+#wordDisplay span:nth-child(n) {
+  animation-delay: calc(0.05s * var(--i));
+}
+
+/* Keyframes for the slide-in animation */
+@keyframes showWord {
+  0% {
+      opacity: 0;
+      transform: translateX(20px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+
+.location{
+  animation: location infinite 5s linear;
+}
+
+@keyframes location {
+  0% {
+    transform: translateX(-130px);
+  }
+  10%{
+    transform: translateX(-120px);
+  }
+  30%{
+    transform: translateX(0px);
+  }
+  90%{
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(-130px);
+  }
+}
+
+.name {
+  clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 40% 0%);
+  animation: name infinite 5s linear;
+}
+
+@keyframes name {
+  0% {
+    transform: translateX(170px);
+  }
+  10%{
+    transform: translateX(140px);
+  }
+  30%{
+    transform: translateX(0px);
+  }
+  90%{
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(170px);
+  }
+}
+
+iframe {
+  /* pointer-events: none !important; */
+}
