@@ -71,7 +71,7 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
       playerVars: {
         autoplay: 1,
         mute: isMuted ? 1 : 0,
-        controls: 1,
+        controls: 0,
         modestbranding: 1,
         rel: 0,
         loop: 0,

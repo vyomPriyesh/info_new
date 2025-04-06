@@ -20,13 +20,13 @@ const Postdata = ({ title, moreData, profile, heroData }) => {
         document.querySelector('meta[property="og:title"]').setAttribute("content", title);
         document.querySelector('meta[property="og:site_name"]').setAttribute("content", 'Info Gujarat');
         document.querySelector('meta[property="og:description"]').setAttribute("content", description);
-        // document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`);
+        document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`);
         document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`);
 
         document.querySelector('meta[name="title"]').setAttribute("content", title);
         document.querySelector('meta[name="site_name"]').setAttribute("content", 'Info Gujarat');
         document.querySelector('meta[name="description"]').setAttribute("content", description);
-        // document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`);
+        document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`);
         document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`);
         document.title = title;
     };
