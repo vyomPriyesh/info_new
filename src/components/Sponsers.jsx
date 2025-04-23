@@ -5,6 +5,7 @@ import { Autoplay } from 'swiper/modules';
 
 const Sponsers = ({ sponsers }) => {
     return (
+        sponsers?.length > 0 &&
         <div>
             <Swiper
                 spaceBetween={30}

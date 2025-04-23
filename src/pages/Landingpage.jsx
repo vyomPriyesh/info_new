@@ -8,11 +8,11 @@ import Multipost from '../utilis/Multipost';
 import axios from 'axios';
 import Advertise from '../components/Advertise';
 import Sponsers from '../components/Sponsers';
+import RandomeFour from '../utilis/RandomeFour';
 
-const Landingpage = ({ all, changeVideo, advertise, sponsers ,title}) => {
+const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
     // const [title, setTitle] = useState('મહાત્માં ગાંઘીજીની જીવનગાથા | રાષ્ટ્રપિતા ગાંધીબાપુ જીવનકથા ગુજરાતી')
-
     const [moreData, setMoreData] = useState([
         'મહાત્માં ગાંઘીજીની જીવનગાથા | રાષ્ટ્રપિતા ગાંધીબાપુ જીવનકથા ગુજરાતી',
         'Mahatma Gandhi Bapu Life story in Gujarati'
@@ -97,12 +97,15 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers ,title}) => {
     return (
         <>
             <div className="mb-20 space-y-2" key={count + 1 + 'ff'}>
-                {all.map((list, i) => (
+                {all?.map((list, i) => (
                     <>
                         {list.type == 1 &&
                             <div className="" key={i}>
                                 <Imagetovideo key={i} {...data} list={list} bannerText={list?.blog_ticker[0]} />
                             </div>
+                        }
+                        {list.typeNew == 2 &&
+                            <RandomeFour data={list.data} {...data} />
                         }
                         {(i + 1) % 10 === 5 && <Advertise {...data} />}
                         {(i + 1) % 10 === 0 && <Sponsers {...data} />}
@@ -116,10 +119,6 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers ,title}) => {
                         } */}
                     </>
                 ))}
-                {/* <Multipost list={multiPost} />   
-
-
-                <Imagetovideo {...data} /> */}
             </div>
         </>
     )

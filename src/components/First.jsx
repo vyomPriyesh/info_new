@@ -14,11 +14,11 @@ import { RiFacebookFill } from 'react-icons/ri';
 import Postdata from '../utilis/Postdata';
 import { GoMute, GoUnmute } from 'react-icons/go';
 import YouTubePlayer from './YouTubePlayer';
+import YouTubePlayer2 from './Ch';
 
-const First = ({ type, location, title, moreData, profile, heroData, scrollNews, bannerImg, newsData, delay, bannerDelay, bannerText }) => {
+const First = ({ type, location, title, setHerodata, setTitle, moreData, profile, heroData, scrollNews, bannerImg, newsData, delay, bannerDelay, bannerText }) => {
 
     // console.log(object)
-
     const [show, setShow] = useState(false)
     const [mute, setMute] = useState(false)
     const [data, setData] = useState('')
@@ -72,7 +72,8 @@ const First = ({ type, location, title, moreData, profile, heroData, scrollNews,
 
 
     const loopWithDelay = async () => {
-        for (let i = 0; i <= bannerImg.length; i++) {
+        for (let i = 0; i < bannerImg.length; i++) {
+            setImg(true)
             setBanner(bannerImg[i]);
             await delay2(4000);
             if (i + 1 == bannerImg.length) {
@@ -89,16 +90,11 @@ const First = ({ type, location, title, moreData, profile, heroData, scrollNews,
             }, bannerDelay * 1000);
         }
 
-    }, [img])
-
-
-
-
-
+    }, [!img])
 
     useEffect(() => {
         loopWithDelay();
-    }, [bannerImg]);
+    }, [bannerImg.length > 0]);
 
 
     useEffect(() => {
@@ -180,14 +176,18 @@ const First = ({ type, location, title, moreData, profile, heroData, scrollNews,
     return (
         <>
             {/* <div className="sticky top-0"> */}
-            <YouTubePlayer type={type} videoIds={heroData} location={location} data={bannerText} profile={profile} />
+            {title ?
+                <YouTubePlayer setTitle={setTitle} setHerodata={setHerodata} type={type} videoIds={heroData} location={location} data={bannerText} profile={profile} />
+                :
+                <YouTubePlayer2 heroData={heroData} />
+            }
             <div className='bg-[#002793] relative h-5'>
                 <div>
                     <marquee className="marq text-white" direction="left" loop="" scrollAmount={5}>
                         <p className="space-x-4 flex flex-row" key={refresh + 1}>
                             {scrollNews?.map((list, index) => (
                                 <>
-                                    <span className='place-items-center font-bold flex text-sm flex-row gap-2' key={index}><img loading="lazy" src={profile?.logo} alt="" className='h-4 w-4' />{list + '\u00A0'}</span>
+                                    <span className='place-items-center font-black flex text-sm flex-row gap-2' key={index}><img loading="lazy" src={profile?.logo} alt="" className='h-4 w-4' />{list + '\u00A0'}</span>
                                 </>
                             ))}
                         </p>

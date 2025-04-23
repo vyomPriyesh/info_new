@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Hero from './components/Hero'
-import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Landingpage from './pages/Landingpage'
 import Aos from 'aos'
 import 'aos/dist/aos.css';
@@ -16,11 +16,16 @@ import { Userstate } from './context/Userstate'
 import Singlecategory from './components/Singlecategory'
 import Modalnews from './utilis/Modalnews'
 import Ourboard from './pages/Ourboard'
+import Reportersignup from './pages/Reportersignup'
+import Reporterdata from './components/Reporterdata'
+import YouTubePlayer from './components/Ch'
+import YouTubePlayer2 from './components/Ch'
 
 function App() {
 
   const params = new URLSearchParams(window.location.search);
   const nidValue = params.get('nid');
+  const rIdvalue = params.get('rid');
 
   Aos.init({
     duration: 2000,
@@ -30,6 +35,7 @@ function App() {
   const [active, setActive] = useState(0)
   const [modalData, setModaldata] = useState(null)
   const [open, setOpen] = useState(false)
+  const [reporterData, setReporterdata] = useState()
   const [images, setImages] = useState([])
   const [modalText, setModaltext] = useState([])
   const [all, setAll] = useState([])
@@ -50,11 +56,11 @@ function App() {
     view: '',
     share: '',
   })
-
+  const navigate = useNavigate();
   const [type, setType] = useState(null)
   const [location, setLocation] = useState([])
   const [heroData, setHerodata] = useState([])
-  const [change ,setChange] = useState(null)
+  const [change, setChange] = useState(null)
   const [menu, setMenu] = useState([])
   const [menu2, setMenu2] = useState([])
   const [scrollNews, setNews] = useState()
@@ -87,7 +93,7 @@ function App() {
         const allNews = response.data.data.ScrollNews.map(list => list.news)
         setNews(allNews)
         setCenterdata(response.data.data.BreakingNews)
-        setBannerimg(response.data.data.BannerAds.map(list => list.image ? list.image_path : ''))
+        setBannerimg(response.data.data.BannerAds.map(list => list.image !== null ? list.image_path : ''))
         setNewsData(response.data.data.BottomNews.map(list => list.name))
         setDelay(response.data.data.Setting.bottom_news_cycle)
         setBannerdelay(response.data.data.Setting.banner_ads_cycle)
@@ -127,11 +133,21 @@ function App() {
     try {
       const response = await axios.get(`${apiUrl}cms/1`);
       if (response.data.status) {
-        setMenu2(response.data.data.map(list => ({
+        const dynamicMenu = response.data.data.map(list => ({
           to: list.id,
           name: list.title,
           slug: list.slug,
-        })))
+        }));
+        const staticItem = [{
+          to: 1,
+          name: "Our Board",
+          slug: "our-board",
+        }, {
+          to: 1,
+          name: "Reporter Login",
+          slug: "reporter-sign-up",
+        }];
+        setMenu2([...staticItem, ...dynamicMenu]);
       }
     } catch (err) {
       console.log(err)
@@ -143,13 +159,18 @@ function App() {
     try {
       const response = await axios.get(`${apiUrl}video-schedule/1`);
       if (response.data.status) {
-        let video = []
-        if (response.data.data?.video) video.push({
-          ...response.data.data?.video,
-          details: response.data.data?.video?.video
-        })
+        // let video = []
+        // if (response.data.data) video.push({
+        //   ...response.data.data,
+        //   details: response.data.data?.video
+        // })
+        const video = response.data.data?.map(list => ({
+          details: list.video,
+          ...list,
+        }))
+        // console.log(video)
         setHerodata(video)
-        setChange(video[0]?.duration *1000)
+        setChange(video[0]?.duration * 1000)
       }
     } catch (err) {
       console.log(err)
@@ -160,7 +181,7 @@ function App() {
     try {
       const response = await axios.get(`${apiUrl}next-schedule/1`);
       if (response.data.status) {
-        
+
         // let video = []
         // if (response.data.data?.video) video.push({
         //   ...response.data.data?.video,
@@ -177,14 +198,20 @@ function App() {
 
 
   useEffect(() => {
-    if (!nidValue) {
+    if (!nidValue && !rIdvalue) {
       allData()
       firstVideo();
-      nextVideoes();
+      // nextVideoes();
     }
     allMenu()
     allMenu2()
   }, [])
+
+  // useEffect(() => {
+  //   if (!title) {
+  //     firstVideo()
+  //   }
+  // }, [title])
 
 
 
@@ -236,17 +263,18 @@ function App() {
           view: response.data.data.count,
           share: response.data.data.id,
         })
+
         document.querySelector('meta[property="og:title"]').setAttribute("content", response.data.data.title);
         document.querySelector('meta[property="og:site_name"]').setAttribute("content", 'Info Gujarat');
         document.querySelector('meta[property="og:description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
         document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
         document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
-        document.querySelector('meta[name="title"]').setAttribute("content", response.data.data.title);
-        document.querySelector('meta[name="site_name"]').setAttribute("content", 'Info Gujarat');
-        document.querySelector('meta[name="description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
-        document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
-        document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
+        document.querySelector('meta[property="title"]').setAttribute("content", response.data.data.title);
+        document.querySelector('meta[property="site_name"]').setAttribute("content", 'Info Gujarat');
+        document.querySelector('meta[property="description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
+        document.querySelector('meta[property="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
+        document.querySelector('meta[property="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
         document.title = response.data.data.title;
       }
@@ -256,17 +284,73 @@ function App() {
   }
 
   useEffect(() => {
-    const allMenu = async () => {
-      const response = await axios.get(`${apiUrl}news/1/${active}`);
-      if (response.data.status) {
-        // const filtered = response.data.data.filter(list => list.blog_image?.length > 1)
-        const filtered = response.data.data.filter(list => list.type == 1)
-        // setAll(filtered)
-        setAll(filtered)
+    const allDatanews = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}news/1/${active}`);
+        if (response.data.status) {
+          // setAll(response.data.data.map(list => ({
+          //   type: list.type,
+          //   ...list,
+          // })))
+
+
+          const step = 9;
+          const groupSize = 4;
+          let dataList = response.data.data;
+
+          const filteredDates = dataList.filter(item => item.type == 1);
+
+          const maxGroups = Math.floor(dataList.length / step);
+          const totalNeeded = maxGroups * groupSize;
+
+          const shuffled = filteredDates.sort(() => 0.5 - Math.random());
+          const selectedItems = shuffled.slice(0, totalNeeded).map(item => ({
+            ...item,
+            typeNew: 2
+          }));
+
+          const groupedItems = [];
+          for (let i = 0; i < selectedItems.length; i += groupSize) {
+            groupedItems.push(selectedItems.slice(i, i + groupSize));
+          }
+
+          let insertedCount = 0;
+          groupedItems.forEach((group, index) => {
+            const insertIndex = (index + 1) * step + insertedCount;
+
+            if (insertIndex <= dataList.length) {
+              dataList = dataList.filter(
+                item => !group.some(pick => pick.id === item.id)
+              );
+
+              dataList.splice(insertIndex, 0, {
+                typeNew: 2,
+                data: group
+              });
+
+              insertedCount++;
+            }
+          });
+
+          dataList = dataList.map(item => {
+            if (!item.typeNew) {
+              return { ...item, typeNew: 1 };
+            }
+            return item;
+          });
+
+          response.data.data = dataList;
+          setAll(response.data.data)
+        }
+      } catch (err) {
+        console.log("Error fetching data:", err);
       }
     }
-    allMenu()
+    allDatanews()
   }, [active])
+  // const filtered = response.data.data.filter(list => list.blog_image?.length > 1)
+  // const filtered = response.data.data.filter(list => list.type == 2)
+  // setAll(filtered)
 
   useEffect(() => {
     if (nidValue) {
@@ -322,10 +406,30 @@ function App() {
     }
   }
 
+  const reporterDatahandle = async (id) => {
+    try {
+      const response = await axios.get(`${apiUrl}reporter/${id}`);
+      if (response.data.status) {
+        setReporterdata(response.data.data.user)
+        setAll(response.data.data.BreakingNews)
+      }
+    } catch (err) {
+      console.log("Error fetching reporter data:", err);
+    }
+  }
+
+  useEffect(() => {
+    if (rIdvalue) {
+      reporterDatahandle(rIdvalue);
+    }
+  }, [rIdvalue])
+
   const data = {
     type,
     location,
     title,
+    setTitle,
+    setHerodata,
     moreData,
     shareImg,
     profile,
@@ -342,27 +446,34 @@ function App() {
     changeVideo,
     advertise,
     sponsers,
+    reporterData
   }
 
   return (
     <>
-      {/* {singleCenter && */}
-      <button onClick={() => openModal(singleCenter?.id)} className={`fixed ms-auto text-start flex flex-col text-white rounded-lg w-fit bg top-1/2 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-0 me-3 ' : 'translate-x-full me-0'}`}>
-        <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>
-        <span className='text-sm line-clamp-1'>{singleCenter?.title.substring(0, 20)}...</span>
-      </button>
-      {/* } */}
+      {singleCenter &&
+        <button onClick={() => openModal(singleCenter?.id)} className={`fixed ms-auto text-start flex flex-col text-white rounded-lg w-fit bg top-2/3 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-0 me-3 ' : 'translate-x-full me-0'}`}>
+          <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>
+          <span className='text-sm line-clamp-1'>{singleCenter?.title.substring(0, 20)}...</span>
+        </button>
+      }
       <div className='sticky top-0 z-50 bg-white'>
         <Menu menu={menu} first={true} setActive={setActive} />
         <First {...data} />
       </div>
+      {/* {!title && heroData &&
+        <YouTubePlayer2 {...data} />
+      } */}
       <Menu menu={menu2} />
       <Postdata {...data} />
+      <Reporterdata {...data} />
       {/* <Singlecategory {...data} /> */}
       <Routes>
+        {/* <Route path='/' element={<YouTubePlayer2 {...data} />} /> */}
         <Route path='/' element={<Landingpage {...data} />} />
-        <Route path='/d' element={<Landingpage {...data} />} />
-        <Route path='/cms/:id' element={<Ourboard {...data} />} />
+        <Route path='/cms/our-board' element={<Ourboard {...data} />} />
+        <Route path='/cms/reporter-sign-up' element={<Reportersignup {...data} />} />
+        {/* <Route path='/cms/:id' element={<Ourboard {...data} />} /> */}
       </Routes>
       <Modalnews images={images} open={open} set={setOpen} data={modalData} location={modalLocation} heroData={modalHerodata} type={type} text={modalText} />
     </>

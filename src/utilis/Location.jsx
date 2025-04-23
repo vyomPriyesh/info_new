@@ -9,7 +9,7 @@ const Location = ({ data = [] }) => {
     const delay2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const loopWithDelay = async () => {
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data?.length; i++) {
             setText(data[i]);
             await delay2(5000);
             if (i + 1 == data.length) {
@@ -25,7 +25,9 @@ const Location = ({ data = [] }) => {
     return (
         <>
             {text &&
-                <div className={`flex flex-row gap-2 px-1 overflow-hidden top-2 bg-white  absolute location pe-10 justify-center place-items-center capitalize`}>
+                <div 
+                // data-aos="fade-right" 
+                key={text} className={`flex flex-row gap-2 px-1 overflow-hidden top-2 bg-white  absolute location pe-10 justify-center place-items-center capitalize`}>
                     <IoLocationSharp className='text-red-500' />
                     <h1>{text}</h1>
                 </div>

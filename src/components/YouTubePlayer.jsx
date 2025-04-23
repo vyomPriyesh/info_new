@@ -4,7 +4,8 @@ import Redbanner from '../utilis/Redbanner';
 import { GoMute, GoUnmute } from 'react-icons/go';
 import Nameplate from '../utilis/Nameplate';
 
-const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
+const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, setTitle }) => {
+
 
   const instanceId = useRef(`yt-${Math.random().toString(36).substr(2, 9)}`).current;
 
@@ -21,8 +22,8 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      setIsScrolled(scrollY > playerRef_2.current); 
-      playerRef_2.current = scrollY; 
+      setIsScrolled(scrollY > playerRef_2.current);
+      playerRef_2.current = scrollY;
     };
 
     // const handleScroll = throttle(() => {
@@ -45,6 +46,7 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
   };
 
   const onPlayerStateChange = (event) => {
+    // setName([])
     if (event.data === YT.PlayerState.ENDED) {
       // Calculate next index (loop back to 0 if at the end)
       const nextIndex = (currentVideoIndex + 1) % videoIds.length;
@@ -52,6 +54,13 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
 
       // Load the next video (or restart from first if looped)
       playerRef.current.loadVideoById(videoIds[nextIndex]?.details);
+
+      const loopedBackToStart = nextIndex === 0;
+
+      if (loopedBackToStart) {
+        setHerodata([])
+        setTitle(""); // Reset title when all videos are completed
+      }
 
       // If we looped back to the first video, you can add a delay or trigger an event
       // if (nextIndex === 0) {
@@ -63,7 +72,7 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
   };
 
   const onYouTubeIframeAPIReady = () => {
-
+    // setName([])
     if (!document.getElementById(`youtube-player${instanceId}`)) return;
 
     playerRef.current = new window.YT.Player(`youtube-player${instanceId}`, {
@@ -71,7 +80,7 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
       playerVars: {
         autoplay: 1,
         mute: isMuted ? 1 : 0,
-        controls: 0,
+        controls: 1,
         modestbranding: 1,
         rel: 0,
         loop: 0,
@@ -121,7 +130,8 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
     }
   };
 
-  console.log(videoIds)
+  // console.log(names)
+  // console.log(videoIds)
 
   return (
     <div className='relative overflow-hidden'>
@@ -138,7 +148,7 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
         className={`flex transition-all  duration-1000 ease-in-out justify-center w-full place-items-center mt-1  
         h-[240px]
           `}
-          >
+      >
         {/* <iframe width="100%" height="240" src={`https://www.youtube.com/embed/${heroData}?enablejsapi=1&rel=0&amp;autoplay=1&mute=${mute ? '1':'0'}&controls=0&modestbranding=1`} className=" not-allowed"
                         allow="autoplay;  encrypted-media;"
                         allowFullScreen ></iframe> */}
@@ -147,7 +157,7 @@ const YouTubePlayer = ({ videoIds, profile, location, data, type }) => {
           className={`w-full h-full`}
         ></div>
       </div>
-      <button className="absolute bg-white aspect-square left-0 bottom-2 text-2xl p-1" onClick={toggleMute}>{isMuted ? <GoMute /> : <GoUnmute />}</button>
+      <button className="absolute bg-white aspect-square left-0 bottom-10 text-2xl p-1" onClick={toggleMute}>{isMuted ? <GoMute /> : <GoUnmute />}</button>
       <Nameplate data={names} />
       <Location data={location} />
       <Redbanner data={data} />

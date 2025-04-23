@@ -11,7 +11,7 @@ const Menu = ({ menu, first, setActive }) => {
             <Link to='/' onClick={() => setActive(0)} className='text-red-500 px-3 border-red-500 border-2 rounded-md font-medium text-sm md:text-base'>Home</Link>
           }
           {menu.map((list, i) => (
-            <Link onClick={() => setActive(list.to)} key={i} to={`?id=${list.to}`} className='text-red-500 px-3 border-red-500 border-2 rounded-md font-medium text-sm md:text-base'>{list.name}</Link>
+            <Link onClick={() => setActive(list.to)} key={i} to={`/?id=${list.to}`} className='text-red-500 px-3 border-red-500 border-2 rounded-md font-medium text-sm md:text-base'>{list.name}</Link>
           ))}
         </div>
         :

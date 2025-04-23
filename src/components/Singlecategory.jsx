@@ -19,10 +19,10 @@ const Singlecategory = ({ all, changeVideo }) => {
                 <Link className='rounded-xl border border-black px-2 py-1'><FaLongArrowAltRight /></Link>
             </div>
             <div className="flex flex-row overflow-x-auto gap-5 heading">
-                {all.slice(3, 4).map((list, i) => (
+                {all.map((list, i) => (
                     <>
                         {list.type == 1 &&
-                            <div className="" key={i}>
+                            <div className="w-4/6" key={i}>
                                 <Imagetovideo key={i} {...data} list={list} bannerText={list?.blog_ticker[0]} />
                             </div>
                         }

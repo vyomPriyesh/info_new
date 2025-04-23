@@ -111,7 +111,7 @@
 }
 
 .bg_2 {
-  background: rgb(83, 83, 83, 0.9);
+  background: rgba(0, 0, 0, 0.5);
 
 }
 
@@ -179,10 +179,10 @@
 
 @keyframes location {
   0% {
-    transform: translateX(-130px);
+    transform: translateX(-100%);
   }
   10%{
-    transform: translateX(-120px);
+    transform: translateX(-90%);
   }
   30%{
     transform: translateX(0px);
@@ -192,12 +192,12 @@
   }
 
   100% {
-    transform: translateX(-130px);
+    transform: translateX(-100%);
   }
 }
 
 .name {
-  clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 40% 0%);
+  clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 30% 0%);
   animation: name infinite 5s linear;
 }
 
@@ -221,5 +221,5 @@
 }
 
 iframe {
-  pointer-events: none !important;
+  /* pointer-events: none !important; */
 }

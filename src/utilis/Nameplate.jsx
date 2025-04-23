@@ -19,15 +19,15 @@ const Nameplate = ({ data = [] }) => {
 
     useEffect(() => {
         loopWithDelay()
-    }, [data?.length > 0, refresh])
+    }, [data, refresh])
 
 
     return (
         <>
             {text &&
-                <div className={` px-1 overflow-hidden name bottom-2 right-0 z-30 bg-white  absolute pe-10 justify-center place-items-center capitalize`}>
+                <div className={`overflow-hidden name bottom-10 right-0 z-30 bg-white absolute flex justify-center place-items-center capitalize`}>
                     {/* <IoLocationSharp className='text-red-500' /> */}
-                    <h1 className='text-center w-full ps-14'>{text?.substring(0, 8)}</h1>
+                    <h1 className='text-center w-full ps-10 pe-5'>{text?.substring(0, 8)}</h1>
                 </div>
             }
         </>
