@@ -9,6 +9,7 @@ const Location = ({ data = [] }) => {
     const delay2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const loopWithDelay = async () => {
+        await delay2(5000);
         for (let i = 0; i < data?.length; i++) {
             setText(data[i]);
             await delay2(5000);

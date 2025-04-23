@@ -50,10 +50,10 @@ const Postdata = ({ title, moreData, profile, heroData }) => {
                 <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
                 <meta name="url" content={shareUrl} />
             </Helmet>
-            <div className="px-1.5">
+            <div className="px-1.5 pb-2">
                 {title &&
-                    <div className="flex flex-row flex-wrap gap-2">
-                        <h1 className="gap-2 text-base place-items-start mt-2 px-1 font-semibold line-clamp-2">
+                    <div className="flex flex-row flex-wrap gap-2 place-items-center mt-2">
+                        <h1 className="gap-2 text-base place-items-start  px-1 font-semibold line-clamp-2">
                             {title}
                         </h1>
                         <button onClick={() => setMore(!more)} className="text-blue-500 font-extrabold mt-0 text-sm md:text-base">{more ? 'Less' : 'More'}</button>
