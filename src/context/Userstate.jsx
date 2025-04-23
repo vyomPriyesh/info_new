@@ -1,8 +1,8 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
 const Userdata = createContext();
 
-const Userstate = ({ children }) => {
+export const Userstate = ({ children }) => {
 
     const [id, setId] = useState('1');
 
@@ -13,4 +13,6 @@ const Userstate = ({ children }) => {
     )
 }
 
-export { Userdata, Userstate };
+export const useMyContext = () => {
+    return useContext(Userdata);
+  };
