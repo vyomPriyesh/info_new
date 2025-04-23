@@ -1,18 +1,18 @@
 import React, { createContext, useContext, useState } from 'react'
 
-const Userdata = createContext();
+const UserData = createContext();
 
-export const Userstate = ({ children }) => {
+export const UserState = ({ children }) => {
 
     const [id, setId] = useState('1');
 
     return (
-        <Userdata.Provider value={{ id, setId }}>
+        <UserData.Provider value={{ id, setId }}>
             {children}
-        </Userdata.Provider>
+        </UserData.Provider>
     )
 }
 
 export const useMyContext = () => {
-    return useContext(Userdata);
-  };
+    return useContext(UserData);
+};
