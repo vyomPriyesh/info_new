@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet';
 import { FaEye, FaInstagram, FaStopwatch, FaWhatsapp } from 'react-icons/fa';
 import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri';
@@ -9,8 +10,8 @@ const Postdata = ({ title, moreData, profile, heroData }) => {
     const [more, setMore] = useState(false)
     const [share, setShare] = useState(false)
 
-    const protocol = window.location.protocol; 
-    const host = window.location.hostname;      
+    const protocol = window.location.protocol;
+    const host = window.location.hostname;
     const port = window.location.port;
 
     const updateOGTags = () => {
@@ -35,6 +36,20 @@ const Postdata = ({ title, moreData, profile, heroData }) => {
 
     return (
         <>
+            <Helmet>
+                <title>{title}</title>
+                <meta property="og:title" content={title} />
+                <meta property="og:site_name" content="Info Gujarat" />
+                <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''} />
+                <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
+                <meta property="og:url" content={shareUrl} />
+
+                <meta name="title" content={title} />
+                <meta name="site_name" content="Info Gujarat" />
+                <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''} />
+                <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
+                <meta name="url" content={shareUrl} />
+            </Helmet>
             <div className="px-1.5">
                 {title &&
                     <div className="flex flex-row flex-wrap gap-2">
