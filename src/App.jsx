@@ -19,6 +19,7 @@ import Reportersignup from './pages/Reportersignup'
 import Reporterdata from './components/Reporterdata'
 import YouTubePlayer from './components/Ch'
 import YouTubePlayer2 from './components/Ch'
+import { Helmet } from 'react-helmet'
 
 function App() {
 
@@ -263,19 +264,19 @@ function App() {
           share: response.data.data.id,
         })
 
-        document.querySelector('meta[property="og:title"]').setAttribute("content", response.data.data.title);
-        document.querySelector('meta[property="og:site_name"]').setAttribute("content", 'Info Gujarat');
-        document.querySelector('meta[property="og:description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
-        document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
-        document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
+        // document.querySelector('meta[property="og:title"]').setAttribute("content", response.data.data.title);
+        // document.querySelector('meta[property="og:site_name"]').setAttribute("content", 'Info Gujarat');
+        // document.querySelector('meta[property="og:description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
+        // document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
+        // document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
-        document.querySelector('meta[property="title"]').setAttribute("content", response.data.data.title);
-        document.querySelector('meta[property="site_name"]').setAttribute("content", 'Info Gujarat');
-        document.querySelector('meta[property="description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
-        document.querySelector('meta[property="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
-        document.querySelector('meta[property="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
+        // document.querySelector('meta[property="title"]').setAttribute("content", response.data.data.title);
+        // document.querySelector('meta[property="site_name"]').setAttribute("content", 'Info Gujarat');
+        // document.querySelector('meta[property="description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
+        // document.querySelector('meta[property="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
+        // document.querySelector('meta[property="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
-        document.title = response.data.data.title;
+        // document.title = response.data.data.title;
       }
     } catch (err) {
       console.log(err)
@@ -448,8 +449,24 @@ function App() {
     reporterData
   }
 
+  const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`
+
   return (
     <>
+      <Helmet>
+        <title>{title}</title>
+        <meta property="og:title" content={title} />
+        <meta property="og:site_name" content="Info Gujarat" />
+        <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''} />
+        <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
+        <meta property="og:url" content={shareUrl} />
+
+        <meta name="title" content={title} />
+        <meta name="site_name" content="Info Gujarat" />
+        <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''} />
+        <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
+        <meta name="url" content={shareUrl} />
+      </Helmet>
       {singleCenter &&
         <button onClick={() => openModal(singleCenter?.id)} className={`fixed ms-auto text-start flex flex-col text-white rounded-lg w-fit bg top-2/3 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-0 me-3 ' : 'translate-x-full me-0'}`}>
           <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>

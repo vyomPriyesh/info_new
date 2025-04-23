@@ -9,31 +9,26 @@ const Postdata = ({ title, moreData, profile, heroData }) => {
     const [more, setMore] = useState(false)
     const [share, setShare] = useState(false)
 
-    const protocol = window.location.protocol;  // 'http:' or 'https:'
-    const host = window.location.hostname;      // e.g., '192.168.29.202'
+    const protocol = window.location.protocol; 
+    const host = window.location.hostname;      
     const port = window.location.port;
 
     const updateOGTags = () => {
         const description = typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''; // Strip HTML tags
 
-        // Update Open Graph meta tags
-        document.querySelector('meta[property="og:title"]').setAttribute("content", title);
-        document.querySelector('meta[property="og:site_name"]').setAttribute("content", 'Info Gujarat');
-        document.querySelector('meta[property="og:description"]').setAttribute("content", description);
-        document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`);
-        document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`);
+        // document.querySelector('meta[property="og:title"]').setAttribute("content", title);
+        // document.querySelector('meta[property="og:site_name"]').setAttribute("content", 'Info Gujarat');
+        // document.querySelector('meta[property="og:description"]').setAttribute("content", description);
+        // document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`);
+        // document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`);
 
-        document.querySelector('meta[name="title"]').setAttribute("content", title);
-        document.querySelector('meta[name="site_name"]').setAttribute("content", 'Info Gujarat');
-        document.querySelector('meta[name="description"]').setAttribute("content", description);
-        document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`);
-        document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`);
-        document.title = title;
+        // document.querySelector('meta[name="title"]').setAttribute("content", title);
+        // document.querySelector('meta[name="site_name"]').setAttribute("content", 'Info Gujarat');
+        // document.querySelector('meta[name="description"]').setAttribute("content", description);
+        // document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`);
+        // document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`);
+        // document.title = title;
     };
-
-    // useEffect(() => {
-    //     updateOGTags();
-    // }, [profile?.share, moreData]);
 
     const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`;
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`;
