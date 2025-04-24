@@ -5,11 +5,12 @@ import { GoMute, GoUnmute } from 'react-icons/go';
 import Redbanner from '../utilis/Redbanner';
 
 const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
+  const fallbackVideo = 'T9A3N7OPUt8';
   const [isMuted, setIsMuted] = useState(true);
-  const [currentVideoId, setCurrentVideoId] = useState('T9A3N7OPUt8');
+  const [currentVideoId, setCurrentVideoId] = useState(fallbackVideo);
   const [player, setPlayer] = useState(null);
 
-  const getCurrentVideo = () => {
+  const getCurrentScheduledVideo = () => {
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
@@ -24,23 +25,20 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
       }
     }
 
-    return 'T9A3N7OPUt8'; // fallback video
+    return fallbackVideo;
   };
 
-  // Set the video on mount and update every 1 minute
+  // Check current schedule every minute
   useEffect(() => {
-    const updateVideo = () => {
-      const newVideoId = getCurrentVideo();
-      if (newVideoId && newVideoId !== currentVideoId) {
-        setCurrentVideoId(newVideoId);
+    const interval = setInterval(() => {
+      const scheduledVideo = getCurrentScheduledVideo();
+      if (scheduledVideo !== currentVideoId) {
+        setCurrentVideoId(scheduledVideo);
       }
-    };
+    }, 60000); // every 1 minute
 
-    updateVideo(); // Initial check
-    const interval = setInterval(updateVideo, 60000); // Check every minute
-
-    return () => clearInterval(interval); // Clean up on unmount
-  }, [heroData]); // only re-run if heroData changes
+    return () => clearInterval(interval);
+  }, [currentVideoId, heroData]);
 
   const onReady = (event) => {
     setPlayer(event.target);
@@ -54,27 +52,60 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
     setIsMuted(!isMuted);
   };
 
+  const onEnd = () => {
+    const scheduledVideo = getCurrentScheduledVideo();
+
+    // Force reload by clearing and setting again
+    if (scheduledVideo !== currentVideoId) {
+      setCurrentVideoId(''); // clear temporarily
+      setTimeout(() => {
+        setCurrentVideoId(scheduledVideo);
+      }, 100); // slight delay to force rerender
+    } else {
+      // If same video still scheduled, still reload
+      setCurrentVideoId('');
+      setTimeout(() => {
+        setCurrentVideoId(scheduledVideo);
+      }, 100);
+    }
+  };
+
   return (
     <div className='relative overflow-hidden'>
-      {profile?.logo &&
-        <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo' src={profile?.logo} />
-      }
-      <YouTube
-        videoId={currentVideoId}
-        onReady={onReady}
-        opts={{
-          width: '100%',
-          height: '240px',
-          playerVars: {
-            autoplay: 1,
-            controls: 1,
-            modestbranding: 1,
-            rel: 0,
-          },
-        }}
-      />
-      <button className="absolute bg-white aspect-square left-0 bottom-10 z-50 text-2xl p-1" onClick={toggleMute}>{isMuted ? <GoMute /> : <GoUnmute />}</button>
-      {/* <Nameplate data={names} /> */}
+      {profile?.logo && (
+        <img
+          loading="lazy"
+          className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo'
+          src={profile.logo}
+          alt="logo"
+        />
+      )}
+
+      {currentVideoId && (
+        <YouTube
+          videoId={currentVideoId}
+          onReady={onReady}
+          onEnd={onEnd}
+          opts={{
+            width: '100%',
+            height: '240px',
+            playerVars: {
+              autoplay: 1,
+              controls: 1,
+              modestbranding: 1,
+              rel: 0,
+            },
+          }}
+        />
+      )}
+
+      <button
+        className="absolute bg-white aspect-square left-0 bottom-10 z-50 text-2xl p-1"
+        onClick={toggleMute}
+      >
+        {isMuted ? <GoMute /> : <GoUnmute />}
+      </button>
+
       <Location data={location} />
       <Redbanner data={data} />
     </div>
