@@ -179,7 +179,7 @@ const First = ({ type, location, title, setHerodata, setTitle, moreData, profile
             {title ?
                 <YouTubePlayer setTitle={setTitle} setHerodata={setHerodata} type={type} videoIds={heroData} location={location} data={bannerText} profile={profile} />
                 :
-                <YouTubePlayer2 heroData={heroData} />
+                <YouTubePlayer2 heroData={heroData} location={location} profile={profile}/>
             }
             <div className='bg-[#002793] relative h-5'>
                 <div>

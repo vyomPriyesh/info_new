@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import YouTube from 'react-youtube';
+import Location from '../utilis/Location';
+import { GoMute, GoUnmute } from 'react-icons/go';
+import Redbanner from '../utilis/Redbanner';
 
-const YouTubePlayer2 = ({ heroData }) => {
-
+const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
   const [isMuted, setIsMuted] = useState(true);
   const [currentVideoId, setCurrentVideoId] = useState('T9A3N7OPUt8');
   const [player, setPlayer] = useState(null);
@@ -22,45 +24,41 @@ const YouTubePlayer2 = ({ heroData }) => {
       }
     }
 
-    return 'T9A3N7OPUt8'; // fallback
+    return 'T9A3N7OPUt8'; // fallback video
   };
 
-  // Update current video based on time
+  // Set the video on mount and update every 1 minute
   useEffect(() => {
     const updateVideo = () => {
       const newVideoId = getCurrentVideo();
-      if (newVideoId !== currentVideoId) {
+      if (newVideoId && newVideoId !== currentVideoId) {
         setCurrentVideoId(newVideoId);
       }
     };
 
-    updateVideo(); // initial check
-    const interval = setInterval(updateVideo, 60000);
-    return () => clearInterval(interval);
-  }, [currentVideoId]);
+    updateVideo(); // Initial check
+    const interval = setInterval(updateVideo, 60000); // Check every minute
+
+    return () => clearInterval(interval); // Clean up on unmount
+  }, [heroData]); // only re-run if heroData changes
 
   const onReady = (event) => {
     setPlayer(event.target);
-    if (isMuted) {
-      event.target.mute();
-    } else {
-      event.target.unMute();
-    }
+    isMuted ? event.target.mute() : event.target.unMute();
     event.target.playVideo();
   };
 
   const toggleMute = () => {
     if (!player) return;
-    if (isMuted) {
-      player.unMute();
-    } else {
-      player.mute();
-    }
+    isMuted ? player.unMute() : player.mute();
     setIsMuted(!isMuted);
   };
 
   return (
-    <div className='w-full'>
+    <div className='relative overflow-hidden'>
+      {profile?.logo &&
+        <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo' src={profile?.logo} />
+      }
       <YouTube
         videoId={currentVideoId}
         onReady={onReady}
@@ -75,9 +73,10 @@ const YouTubePlayer2 = ({ heroData }) => {
           },
         }}
       />
-      {/* <button onClick={(toggleMute)}>
-        {isMuted ? 'Unmute' : 'Mute'}
-      </button> */}
+      <button className="absolute bg-white aspect-square left-0 bottom-10 z-50 text-2xl p-1" onClick={toggleMute}>{isMuted ? <GoMute /> : <GoUnmute />}</button>
+      {/* <Nameplate data={names} /> */}
+      <Location data={location} />
+      <Redbanner data={data} />
     </div>
   );
 };

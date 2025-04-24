@@ -17,27 +17,27 @@ const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, s
   const playerRef_2 = useRef(null);
 
 
-  useEffect(() => {
-    if (type !== 1) return;
+  // useEffect(() => {
+  //   if (type !== 1) return;
 
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > playerRef_2.current);
-      playerRef_2.current = scrollY;
-    };
+  //   const handleScroll = () => {
+  //     const scrollY = window.scrollY;
+  //     setIsScrolled(scrollY > playerRef_2.current);
+  //     playerRef_2.current = scrollY;
+  //   };
 
-    // const handleScroll = throttle(() => {
-    //   const scrollY = window.scrollY;
-    //   setScrolly(scrollY)
-    //   setIsScrolled(scrollY > scrolly); // Adjust threshold as needed
-    // }, 2000); // Adjust throttle delay (in ms)
+  //   // const handleScroll = throttle(() => {
+  //   //   const scrollY = window.scrollY;
+  //   //   setScrolly(scrollY)
+  //   //   setIsScrolled(scrollY > scrolly); // Adjust threshold as needed
+  //   // }, 2000); // Adjust throttle delay (in ms)
 
-    window.addEventListener('scroll', handleScroll);
+  //   window.addEventListener('scroll', handleScroll);
 
-    // Cleanup on component unmount
-    return () => window.removeEventListener('scroll', handleScroll);
+  //   // Cleanup on component unmount
+  //   return () => window.removeEventListener('scroll', handleScroll);
 
-  }, [type]);
+  // }, [type]);
 
 
 
@@ -80,7 +80,7 @@ const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, s
       playerVars: {
         autoplay: 1,
         mute: isMuted ? 1 : 0,
-        controls: 1,
+        controls: 0,
         modestbranding: 1,
         rel: 0,
         loop: 0,
