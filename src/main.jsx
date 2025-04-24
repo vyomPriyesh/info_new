@@ -6,11 +6,11 @@ import { BrowserRouter } from 'react-router-dom'
 import { AllProvider } from './context/Allcontext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
       <AllProvider>
         <App />
       </AllProvider>
     </BrowserRouter>
-  </StrictMode>,
+  // </StrictMode>,
 )

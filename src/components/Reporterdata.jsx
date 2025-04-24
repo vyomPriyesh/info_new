@@ -26,7 +26,7 @@ const Reporterdata = ({ reporterData }) => {
         reporterData &&
         <div className="p-3">
             <div className='p-3 w-full shadow-[0_0px_10px_0px_gray] rounded-lg '>
-                <div className="flex justify-end" ref={dropdownRef}>
+                {/* <div className="flex justify-end" ref={dropdownRef}>
                     <button onClick={() => setShare(!share)} className="text-lg text-blue-500 relative ">
                         <IoShareSocial />
                         {share &&
@@ -37,12 +37,11 @@ const Reporterdata = ({ reporterData }) => {
                                     href={`https://api.whatsapp.com/send?text=${protocol}//${host}${port ? `:${port}` : ''}/?rid=${reporterData?.id}`}
                                     id="whatsapp-share"
                                     className="text-green-600"><FaWhatsapp /></a>
-                                {/* <a href="#" className="text-yellow-700"><FaInstagram /></a> */}
-                                {/* <a href="#"><RiFacebookFill /></a> */}
+                                
                             </div>
                         }
                     </button>
-                </div>
+                </div> */}
                 <div className="flex flex-col gap-2 justify-center place-items-center">
                     {reporterData?.image ?
                         <img loading="lazy" id="profile_5" src={`${reporterData?.image_path}/${reporterData?.image}`}
@@ -51,7 +50,7 @@ const Reporterdata = ({ reporterData }) => {
                         <img loading="lazy" id="profile_5" src={`https://ui-avatars.com/api/?name=${reporterData?.name}&size=20`}
                             className="h-20 w-20 rounded-full aspact-square" alt="" />
                     }
-                    <div className="flex flex-col gap-1 w-full">
+                    <div className="flex flex-col gap-1 w-full place-items-center">
                         {reporterData?.name &&
                             <h1 className='font-semibold text-lg'><span className='font-normal text-sm'>Name : </span>{reporterData?.name}</h1>
                         }
@@ -61,13 +60,12 @@ const Reporterdata = ({ reporterData }) => {
                         {reporterData?.mobile &&
                             <span className='text-sm'><span className='font-normal text-sm'>Mobile No. : </span>{reporterData?.mobile}</span>
                         }
-                        {reporterData?.address &&
+                        {/* {reporterData?.address &&
                             <span className='text-sm'><span className='font-normal text-sm'>Address : </span>{reporterData?.address}</span>
                         }
                         {reporterData?.whatsapp &&
                             <span className='text-sm'><span className='font-normal text-sm'>Whatsapp No. : </span>{reporterData?.whatsapp}</span>
-                        }
-
+                        } */}
                     </div>
                 </div>
             </div>

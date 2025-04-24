@@ -9,7 +9,7 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
   const fallbackVideo = 'T9A3N7OPUt8';
   const { setFirstrefresh } = useMyContext();
   const [isMuted, setIsMuted] = useState(true);
-  const [currentVideoId, setCurrentVideoId] = useState(fallbackVideo);
+  const [currentVideoId, setCurrentVideoId] = useState(null);
   const [player, setPlayer] = useState(null);
 
   const getCurrentScheduledVideo = () => {
@@ -27,7 +27,7 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
       }
     }
 
-    return fallbackVideo;
+    return null;
   };
 
   // Log every minute
@@ -38,12 +38,20 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
       }
     }, 60000);
     return () => clearInterval(logInterval);
-  }, []);
+  }, [currentVideoId]);
 
-  // Set initial video on mount
+  // Set initial video on mount or when heroData updates
   useEffect(() => {
     const scheduledVideo = getCurrentScheduledVideo();
-    setCurrentVideoId(scheduledVideo);
+
+    if (scheduledVideo) {
+      setCurrentVideoId(scheduledVideo);
+    } else {
+      const fallbackTimeout = setTimeout(() => {
+        setCurrentVideoId({ video: fallbackVideo, type: 'default' });
+      }, 10000);
+      return () => clearTimeout(fallbackTimeout);
+    }
   }, [heroData]);
 
   // When video is ready
@@ -75,12 +83,12 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
 
     setCurrentVideoId('');
     setTimeout(() => {
-      setCurrentVideoId(scheduledVideo);
+      setCurrentVideoId(scheduledVideo || { video: fallbackVideo, type: 'default' });
     }, 100);
   };
 
-  console.log(currentVideoId)
-  
+  console.log(currentVideoId);
+
   return (
     <div className='relative overflow-hidden'>
       {profile?.logo && (

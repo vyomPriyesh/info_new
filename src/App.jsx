@@ -72,7 +72,7 @@ function App() {
   const [bannerDelay, setBannerdelay] = useState(null)
   const [bannerText, setBannerText] = useState([]);
   const [shareImg, setShareimg] = useState(null)
-  const {firstRefresh} = useMyContext();
+  const { firstRefresh } = useMyContext();
 
 
   const apiUrl = import.meta.env.VITE_APP_BASEURL;
@@ -181,6 +181,73 @@ function App() {
     }
   }
 
+  const allDatanews = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}news/1/${active}`);
+      if (response.data.status) {
+        // setAll(response.data.data.map(list => ({
+        //   type: list.type,
+        //   ...list,
+        // })))
+
+
+        const step = 9;
+        const groupSize = 4;
+        let dataList = response.data.data;
+
+        const filteredDates = dataList.filter(item => item.type == 1);
+
+        const maxGroups = Math.floor(dataList.length / step);
+        const totalNeeded = maxGroups * groupSize;
+
+        const shuffled = filteredDates.sort(() => 0.5 - Math.random());
+        const selectedItems = shuffled.slice(0, totalNeeded).map(item => ({
+          ...item,
+          typeNew: 2
+        }));
+
+        const groupedItems = [];
+        for (let i = 0; i < selectedItems.length; i += groupSize) {
+          groupedItems.push(selectedItems.slice(i, i + groupSize));
+        }
+
+        let insertedCount = 0;
+        groupedItems.forEach((group, index) => {
+          const insertIndex = (index + 1) * step + insertedCount;
+
+          if (insertIndex <= dataList.length) {
+            dataList = dataList.filter(
+              item => !group.some(pick => pick.id === item.id)
+            );
+
+            dataList.splice(insertIndex, 0, {
+              typeNew: 2,
+              data: group
+            });
+
+            insertedCount++;
+          }
+        });
+
+        dataList = dataList.map(item => {
+          if (!item.typeNew) {
+            return { ...item, typeNew: 1 };
+          }
+          return item;
+        });
+
+        response.data.data = dataList;
+        setAll(response.data.data)
+      }
+    } catch (err) {
+      console.log("Error fetching data:", err);
+    }
+  }
+
+  useEffect(() => {
+    allDatanews()
+  }, [active])
+
   useEffect(() => {
     if (!nidValue && !rIdvalue) {
       allData()
@@ -269,71 +336,7 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    const allDatanews = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}news/1/${active}`);
-        if (response.data.status) {
-          // setAll(response.data.data.map(list => ({
-          //   type: list.type,
-          //   ...list,
-          // })))
 
-
-          const step = 9;
-          const groupSize = 4;
-          let dataList = response.data.data;
-
-          const filteredDates = dataList.filter(item => item.type == 1);
-
-          const maxGroups = Math.floor(dataList.length / step);
-          const totalNeeded = maxGroups * groupSize;
-
-          const shuffled = filteredDates.sort(() => 0.5 - Math.random());
-          const selectedItems = shuffled.slice(0, totalNeeded).map(item => ({
-            ...item,
-            typeNew: 2
-          }));
-
-          const groupedItems = [];
-          for (let i = 0; i < selectedItems.length; i += groupSize) {
-            groupedItems.push(selectedItems.slice(i, i + groupSize));
-          }
-
-          let insertedCount = 0;
-          groupedItems.forEach((group, index) => {
-            const insertIndex = (index + 1) * step + insertedCount;
-
-            if (insertIndex <= dataList.length) {
-              dataList = dataList.filter(
-                item => !group.some(pick => pick.id === item.id)
-              );
-
-              dataList.splice(insertIndex, 0, {
-                typeNew: 2,
-                data: group
-              });
-
-              insertedCount++;
-            }
-          });
-
-          dataList = dataList.map(item => {
-            if (!item.typeNew) {
-              return { ...item, typeNew: 1 };
-            }
-            return item;
-          });
-
-          response.data.data = dataList;
-          setAll(response.data.data)
-        }
-      } catch (err) {
-        console.log("Error fetching data:", err);
-      }
-    }
-    allDatanews()
-  }, [active])
   // const filtered = response.data.data.filter(list => list.blog_image?.length > 1)
   // const filtered = response.data.data.filter(list => list.type == 2)
   // setAll(filtered)
