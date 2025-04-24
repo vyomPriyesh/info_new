@@ -91,7 +91,7 @@ const Reportersignup = () => {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            if (response.success) {
+            if (response.status) {
                 // localStorage.setItem("email", data?.email)
                 setEmailid(true)
             }
