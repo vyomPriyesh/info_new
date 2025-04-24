@@ -87,8 +87,6 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
     }, 100);
   };
 
-  console.log(currentVideoId);
-
   return (
     <div className='relative overflow-hidden'>
       {profile?.logo && (
@@ -102,7 +100,7 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
 
       {currentVideoId && (
         <YouTube
-          videoId={currentVideoId?.video || fallbackVideo}
+          videoId={currentVideoId?.video}
           onReady={onReady}
           onEnd={onEnd}
           opts={{
