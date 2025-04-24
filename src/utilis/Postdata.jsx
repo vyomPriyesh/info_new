@@ -120,7 +120,7 @@ const Postdata = ({ title, profile, moreData }) => {
                                             data-description={moreData}
                                             data-image={`https://img.youtube.com/vi/${profile?.video_img}/0.jpg`}
                                             data-url={whatsappUrl}
-                                            onClick={updateOGTags}
+                                            // onClick={updateOGTags}
                                             id="whatsapp-share"
                                             className="text-green-600"><FaWhatsapp /></a>
                                         <a href="#" className="text-yellow-700"><FaInstagram /></a>
