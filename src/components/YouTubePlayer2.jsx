@@ -3,9 +3,11 @@ import YouTube from 'react-youtube';
 import Location from '../utilis/Location';
 import { GoMute, GoUnmute } from 'react-icons/go';
 import Redbanner from '../utilis/Redbanner';
+import { useMyContext } from '../context/Allcontext';
 
 const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
   const fallbackVideo = 'T9A3N7OPUt8';
+  const { setFirstrefresh } = useMyContext()
   const [isMuted, setIsMuted] = useState(true);
   const [currentVideoId, setCurrentVideoId] = useState(fallbackVideo);
   const [player, setPlayer] = useState(null);
@@ -21,24 +23,30 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
       const end = endHour * 60 + endMin;
 
       if (currentMinutes >= start && currentMinutes <= end) {
-        return v.video;
+        return v;
       }
     }
 
     return fallbackVideo;
   };
 
-  // Check current schedule every minute
   useEffect(() => {
-    const interval = setInterval(() => {
-      const scheduledVideo = getCurrentScheduledVideo();
-      if (scheduledVideo !== currentVideoId) {
-        setCurrentVideoId(scheduledVideo);
+    const logInterval = setInterval(() => {
+      if (currentVideoId?.type == 'day_time' || currentVideoId?.type == 'default') {
+        setFirstrefresh(prev => prev + 1)
       }
-    }, 60000); // every 1 minute
+      console.log('🕐 Logging every minute:', new Date().toLocaleTimeString());
+    }, 60000);
 
-    return () => clearInterval(interval);
-  }, [currentVideoId, heroData]);
+    return () => clearInterval(logInterval);
+  }, []);
+
+
+  useEffect(() => {
+    // Set initial video on mount
+    const scheduledVideo = getCurrentScheduledVideo();
+    setCurrentVideoId(scheduledVideo);
+  }, [heroData]);
 
   const onReady = (event) => {
     setPlayer(event.target);
@@ -57,18 +65,19 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
 
     // Force reload by clearing and setting again
     if (scheduledVideo !== currentVideoId) {
-      setCurrentVideoId(''); // clear temporarily
+      setCurrentVideoId('');
       setTimeout(() => {
         setCurrentVideoId(scheduledVideo);
-      }, 100); // slight delay to force rerender
+      }, 100);
     } else {
-      // If same video still scheduled, still reload
       setCurrentVideoId('');
       setTimeout(() => {
         setCurrentVideoId(scheduledVideo);
       }, 100);
     }
   };
+
+  console.log(currentVideoId)
 
   return (
     <div className='relative overflow-hidden'>
@@ -83,7 +92,7 @@ const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
 
       {currentVideoId && (
         <YouTube
-          videoId={currentVideoId}
+          videoId={currentVideoId?.video}
           onReady={onReady}
           onEnd={onEnd}
           opts={{

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet';
 import { FaEye, FaInstagram, FaStopwatch, FaWhatsapp } from 'react-icons/fa';
 import { IoShareSocial } from 'react-icons/io5';
@@ -33,6 +33,19 @@ const Postdata = ({ title, moreData, profile, heroData }) => {
 
     const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`;
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`;
+
+    const dropdownRef = useRef();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShare(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
 
     return (
         <>
@@ -94,7 +107,7 @@ const Postdata = ({ title, moreData, profile, heroData }) => {
                             </div>
                         }
                         {profile?.share &&
-                            <button onClick={() => setShare(!share)} className="text-lg text-blue-500 relative ">
+                            <button ref={dropdownRef} onClick={() => setShare(!share)} className="text-lg text-blue-500 relative ">
                                 <IoShareSocial />
                                 {share &&
                                     <div

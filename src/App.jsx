@@ -20,6 +20,7 @@ import Reporterdata from './components/Reporterdata'
 import YouTubePlayer from './components/YouTubePlayer2'
 import YouTubePlayer2 from './components/YouTubePlayer2'
 import { Helmet } from 'react-helmet'
+import { useMyContext } from './context/Allcontext'
 
 function App() {
 
@@ -71,6 +72,8 @@ function App() {
   const [bannerDelay, setBannerdelay] = useState(null)
   const [bannerText, setBannerText] = useState([]);
   const [shareImg, setShareimg] = useState(null)
+  const {firstRefresh} = useMyContext();
+
 
   const apiUrl = import.meta.env.VITE_APP_BASEURL;
 
@@ -178,35 +181,17 @@ function App() {
     }
   }
 
-  const nextVideoes = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}next-schedule/1`);
-      if (response.data.status) {
-
-        // let video = []
-        // if (response.data.data?.video) video.push({
-        //   ...response.data.data?.video,
-        //   details: response.data.data?.video?.video
-        // })
-        // setHerodata(video)
-        // setChange(video[0]?.duration *1000)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-
-
   useEffect(() => {
     if (!nidValue && !rIdvalue) {
       allData()
-      firstVideo();
-      // nextVideoes();
     }
     allMenu()
     allMenu2()
   }, [])
+
+  useEffect(() => {
+    firstVideo()
+  }, [firstRefresh])
 
   // useEffect(() => {
   //   if (!title) {
@@ -447,7 +432,7 @@ function App() {
     changeVideo,
     advertise,
     sponsers,
-    reporterData
+    reporterData,
   }
 
   const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`

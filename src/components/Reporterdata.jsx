@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
 import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri'
@@ -10,12 +10,23 @@ const Reporterdata = ({ reporterData }) => {
     const port = window.location.port;
     const [share, setShare] = useState(false)
 
+    const dropdownRef = useRef();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShare(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         reporterData &&
         <div className="p-3">
             <div className='p-3 w-full shadow-[0_0px_10px_0px_gray] rounded-lg '>
-                <div className="flex justify-end ">
+                <div className="flex justify-end" ref={dropdownRef}>
                     <button onClick={() => setShare(!share)} className="text-lg text-blue-500 relative ">
                         <IoShareSocial />
                         {share &&
