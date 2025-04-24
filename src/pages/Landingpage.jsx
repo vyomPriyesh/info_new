@@ -9,6 +9,8 @@ import axios from 'axios';
 import Advertise from '../components/Advertise';
 import Sponsers from '../components/Sponsers';
 import RandomeFour from '../utilis/RandomeFour';
+import Reporterdata from '../components/Reporterdata'
+import Ourboarddata from '../components/Ourboarddata';
 
 const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
@@ -96,12 +98,14 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
     return (
         <>
+            <Reporterdata />
+            <Ourboarddata />
             <div className="mb-20 space-y-2" key={count + 1 + 'ff'}>
                 {all?.map((list, i) => (
                     <>
                         {list.type == 1 &&
                             <div className="" key={i}>
-                                <Imagetovideo key={i} {...data} list={list}  />
+                                <Imagetovideo key={i} {...data} list={list} />
                             </div>
                         }
                         {list.typeNew == 2 &&

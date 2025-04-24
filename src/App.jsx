@@ -16,7 +16,6 @@ import Singlecategory from './components/Singlecategory'
 import Modalnews from './utilis/Modalnews'
 import Ourboard from './pages/Ourboard'
 import Reportersignup from './pages/Reportersignup'
-import Reporterdata from './components/Reporterdata'
 import YouTubePlayer from './components/YouTubePlayer2'
 import YouTubePlayer2 from './components/YouTubePlayer2'
 import { Helmet } from 'react-helmet'
@@ -28,6 +27,7 @@ function App() {
   const nidValue = params.get('nid');
   const rIdvalue = params.get('rid');
   const idValue = params.get('id');
+  const oIdValue = params.get('oid');
 
   Aos.init({
     duration: 2000,
@@ -41,7 +41,7 @@ function App() {
   const { setReporterdata } = useMyContext()
   const { firstRefresh } = useMyContext();
   const { setLocation } = useMyContext();
-  const { setHerodata } = useMyContext();
+  const { setHerodata, setOurdata } = useMyContext();
 
   const [images, setImages] = useState([])
   const [modalText, setModaltext] = useState([])
@@ -244,6 +244,23 @@ function App() {
       console.log("Error fetching data:", err);
     }
   }
+
+  const oidData = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}our-board/1`);
+      if (response.data.status) {
+        setOurdata(response.data.data.find(list => list.id == oIdValue))
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    if (oIdValue) {
+      oidData()
+    }
+  }, [oIdValue])
 
   useEffect(() => {
     allDatanews()
@@ -465,7 +482,6 @@ function App() {
       } */}
       <Menu menu={menu2} />
       <Postdata {...data} />
-      <Reporterdata />
       {/* <Singlecategory {...data} /> */}
       <Routes>
         {/* <Route path='/' element={<YouTubePlayer2 {...data} />} /> */}

@@ -8,10 +8,10 @@ export const AllProvider = ({ children }) => {
     const [reporterData, setReporterdata] = useState()
     const [location, setLocation] = useState([])
     const [heroData, setHerodata] = useState([])
-
+    const [ourData, setOurdata] = useState()
 
     return (
-        <AllContext.Provider value={{ firstRefresh, setFirstrefresh, reporterData, setReporterdata, location, setLocation, heroData, setHerodata }}>
+        <AllContext.Provider value={{ firstRefresh, setFirstrefresh, reporterData, setReporterdata, location, setLocation, heroData, setHerodata, ourData, setOurdata }}>
             {children}
         </AllContext.Provider>
     );
