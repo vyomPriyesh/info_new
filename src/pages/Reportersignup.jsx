@@ -4,6 +4,7 @@ import axios from 'axios'
 import * as Yup from "yup";
 import { Link } from 'react-router-dom';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
+import { address } from 'framer-motion/client';
 
 
 const Reportersignup = () => {
@@ -19,6 +20,9 @@ const Reportersignup = () => {
         name: '',
         email: '',
         mobile: '',
+        whatsApp: '',
+        city: '',
+        address: '',
         password: '',
         c_password: '',
         file: '',
@@ -47,6 +51,19 @@ const Reportersignup = () => {
                     "Phone number must be only digits"
                 )
                 .required("Phone No is required"),
+            whatsApp: Yup
+                .string()
+                .matches(
+                    /^[0-9]+$/,
+                    "Phone number must be only digits"
+                )
+                .required("Phone No is required"),
+            city: Yup
+                .string()
+                .required("City is required"),
+            address: Yup
+                .string()
+                .required("Address is required"),
             password: Yup
                 .string()
                 .min(8, "Password must be at least 8 characters")
@@ -72,6 +89,9 @@ const Reportersignup = () => {
         formData.append(`name`, data?.name);
         formData.append(`email`, data?.email);
         formData.append(`mobile`, data?.mobile);
+        formData.append(`whatsApp`, data?.whatsApp);
+        formData.append(`city`, data?.city);
+        formData.append(`address`, data?.address);
         formData.append(`image`, data?.file);
         formData.append(`password`, data?.password);
 
@@ -79,6 +99,9 @@ const Reportersignup = () => {
             name: data?.name ?? '',
             email: data?.email ?? '',
             mobile: data?.mobile ?? '',
+            whatsApp: data?.whatsApp ?? '',
+            city: data?.city ?? '',
+            address: data?.address ?? '',
             file: data?.file ?? '',
             password: data?.password ?? '',
             c_password: data?.c_password ?? '',
@@ -91,24 +114,28 @@ const Reportersignup = () => {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            if (response.status) {
+            if (response.data.status) {
                 // localStorage.setItem("email", data?.email)
                 setEmailid(true)
             }
 
         } catch (err) {
-            // console.log(err)
-            const newErrors = {};
-            if (err.inner) {
-                err.inner.forEach((error) => {
-                    newErrors[error.path?.split(".")[1]] = error.message;
-                });
+            if (err.status == 422) {
+                console.log(err)
+                setErrors({
+                    email: err.response.data.message
+                })
+            } else {
+                const newErrors = {};
+                if (err.inner) {
+                    err.inner.forEach((error) => {
+                        newErrors[error.path?.split(".")[1]] = error.message;
+                    });
+                }
+                setErrors(newErrors);
             }
-            setErrors(newErrors);
         }
     }
-
-    // console.log(images)
 
     return (
         <>
@@ -132,6 +159,9 @@ const Reportersignup = () => {
                                 <Labelinput label='Email' type='email' error={errors?.email} value={data?.email} onChange={(e) => setData({ ...data, email: e.target.value })} placeholder='Enter E-mail' />
                                 <Labelinput label='Profile Image' type='file' error={errors?.file} onChange={(e) => setData({ ...data, file: e.target.files[0] })} />
                                 <Labelinput label='Mobile Number' type='number' error={errors?.mobile} value={data?.mobile} onChange={(e) => setData({ ...data, mobile: e.target.value })} placeholder='Enter Mobile Number' />
+                                <Labelinput label='Whatsapp Number' type='number' error={errors?.whatsApp} value={data?.whatsApp} onChange={(e) => setData({ ...data, whatsApp: e.target.value })} placeholder='Enter Whatsapp Number' />
+                                <Labelinput label='City' type='text' error={errors?.city} value={data?.city} onChange={(e) => setData({ ...data, city: e.target.value })} placeholder='Enter Your City' />
+                                <Labelinput label='Address' type='text' error={errors?.address} value={data?.address} onChange={(e) => setData({ ...data, address: e.target.value })} placeholder='Enter Your Address' />
                                 <Labelinput pass={true} label='Password' type='password' error={errors?.password} view={pass} setView={setPass} value={data?.password} onChange={(e) => setData({ ...data, password: e.target.value })} placeholder='Enter Password' />
                                 <Labelinput pass={true} label='Confirm Password' error={errors?.c_password} view={cPass} setView={setCpass} value={data?.c_password} onChange={(e) => setData({ ...data, c_password: e.target.value })} placeholder='Enter Confirm Password' />
                                 <div className="flex justify-center place-items-center mt-5">

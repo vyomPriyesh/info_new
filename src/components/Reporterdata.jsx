@@ -48,10 +48,10 @@ const Reporterdata = ({  }) => {
                 <div className="flex flex-col gap-2 justify-center place-items-center">
                     {reporterData?.image ?
                         <img loading="lazy" id="profile_5" src={`${reporterData?.image_path}/${reporterData?.image}`}
-                            className="h-20 w-20 aspact-square rounded-full" alt="" />
+                            className="aspect-square w-48 object-cover" alt="" />
                         :
                         <img loading="lazy" id="profile_5" src={`https://ui-avatars.com/api/?name=${reporterData?.name}&size=20`}
-                            className="h-20 w-20 rounded-full aspact-square" alt="" />
+                            className="aspect-square w-48 object-cover" alt="" />
                     }
                     <div className="flex flex-col gap-1 w-full place-items-center">
                         {reporterData?.name &&
