@@ -461,7 +461,7 @@ function App() {
         <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
         <meta property="og:url" content={shareUrl} /> */}
 
-        <meta name="title" content={title ?? 'hh'} />
+        <meta name="title" content={'hh'} />
         {/* <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} /> */}
         {/* <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} /> */}
         {/* <meta name="url" content={shareUrl} /> */}
