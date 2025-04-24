@@ -26,13 +26,14 @@ function App() {
   const params = new URLSearchParams(window.location.search);
   const nidValue = params.get('nid');
   const rIdvalue = params.get('rid');
+  const idValue = params.get('id');
 
   Aos.init({
     duration: 2000,
     easing: 'ease',
   });
 
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(idValue ?? 0)
   const [modalData, setModaldata] = useState(null)
   const [open, setOpen] = useState(false)
   const [reporterData, setReporterdata] = useState()
