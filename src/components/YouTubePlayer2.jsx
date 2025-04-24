@@ -4,7 +4,7 @@ import YouTube from 'react-youtube';
 const YouTubePlayer2 = ({ heroData }) => {
 
   const [isMuted, setIsMuted] = useState(true);
-  const [currentVideoId, setCurrentVideoId] = useState('jqOuWRtgsXU');
+  const [currentVideoId, setCurrentVideoId] = useState('T9A3N7OPUt8');
   const [player, setPlayer] = useState(null);
 
   const getCurrentVideo = () => {
@@ -22,7 +22,7 @@ const YouTubePlayer2 = ({ heroData }) => {
       }
     }
 
-    return 'jqOuWRtgsXU'; // fallback
+    return 'T9A3N7OPUt8'; // fallback
   };
 
   // Update current video based on time

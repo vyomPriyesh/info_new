@@ -17,8 +17,8 @@ import Modalnews from './utilis/Modalnews'
 import Ourboard from './pages/Ourboard'
 import Reportersignup from './pages/Reportersignup'
 import Reporterdata from './components/Reporterdata'
-import YouTubePlayer from './components/Ch'
-import YouTubePlayer2 from './components/Ch'
+import YouTubePlayer from './components/YouTubePlayer2'
+import YouTubePlayer2 from './components/YouTubePlayer2'
 import { Helmet } from 'react-helmet'
 
 function App() {

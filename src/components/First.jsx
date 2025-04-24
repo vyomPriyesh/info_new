@@ -14,7 +14,7 @@ import { RiFacebookFill } from 'react-icons/ri';
 import Postdata from '../utilis/Postdata';
 import { GoMute, GoUnmute } from 'react-icons/go';
 import YouTubePlayer from './YouTubePlayer';
-import YouTubePlayer2 from './Ch';
+import YouTubePlayer2 from './YouTubePlayer2';
 
 const First = ({ type, location, title, setHerodata, setTitle, moreData, profile, heroData, scrollNews, bannerImg, newsData, delay, bannerDelay, bannerText }) => {
 
