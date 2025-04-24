@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { FaEye, FaInstagram, FaStopwatch, FaWhatsapp } from 'react-icons/fa';
 import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri';
-
+// import Head from 'next/head';
 
 const Postdata = ({ title, profile, moreData }) => {
 
@@ -15,8 +15,9 @@ const Postdata = ({ title, profile, moreData }) => {
     const host = window.location.hostname;
     const port = window.location.port;
 
+    const description = typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''; // Strip HTML tags
+
     const updateOGTags = () => {
-        const description = typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''; // Strip HTML tags
 
         // document.querySelector('meta[property="og:title"]').setAttribute("content", title);
         // document.querySelector('meta[property="og:site_name"]').setAttribute("content", 'Info Gujarat');
@@ -54,13 +55,12 @@ const Postdata = ({ title, profile, moreData }) => {
                 <title>{title}</title>
                 <meta property="og:title" content={title} />
                 <meta property="og:site_name" content="Info Gujarat" />
-                <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''} />
+                <meta property="og:description" content={description} />
                 <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
                 <meta property="og:url" content={shareUrl} />
 
                 <meta name="title" content={title} />
-                <meta name="site_name" content="Info Gujarat" />
-                <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''} />
+                <meta name="description" content={description} />
                 <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
                 <meta name="url" content={shareUrl} />
             </Helmet>

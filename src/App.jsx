@@ -462,11 +462,11 @@ function App() {
         <meta property="og:url" content={shareUrl} />
 
         <meta name="title" content={title} />
-        <meta name="site_name" content="Info Gujarat" />
         <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : ''} />
         <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
         <meta name="url" content={shareUrl} />
       </Helmet>
+      
       {singleCenter &&
         <button onClick={() => openModal(singleCenter?.id)} className={`fixed ms-auto text-start flex flex-col text-white rounded-lg w-fit bg top-2/3 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-0 me-3 ' : 'translate-x-full me-0'}`}>
           <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>
