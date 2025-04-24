@@ -3,9 +3,13 @@ import Location from '../utilis/Location';
 import Redbanner from '../utilis/Redbanner';
 import { GoMute, GoUnmute } from 'react-icons/go';
 import Nameplate from '../utilis/Nameplate';
+import { useMyContext } from '../context/Allcontext';
 
-const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, setTitle }) => {
+const YouTubePlayer = ({   profile, type, setTitle }) => {
 
+  const { heroData,setHerodata } = useMyContext();
+
+  const {location} = useMyContext();
 
   const instanceId = useRef(`yt-${Math.random().toString(36).substr(2, 9)}`).current;
 
@@ -49,11 +53,11 @@ const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, s
     // setName([])
     if (event.data === YT.PlayerState.ENDED) {
       // Calculate next index (loop back to 0 if at the end)
-      const nextIndex = (currentVideoIndex + 1) % videoIds.length;
+      const nextIndex = (currentVideoIndex + 1) % heroData.length;
       setCurrentVideoIndex(nextIndex);
 
       // Load the next video (or restart from first if looped)
-      playerRef.current.loadVideoById(videoIds[nextIndex]?.details);
+      playerRef.current.loadVideoById(heroData[nextIndex]?.details);
 
       const loopedBackToStart = nextIndex === 0;
 
@@ -76,7 +80,7 @@ const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, s
     if (!document.getElementById(`youtube-player${instanceId}`)) return;
 
     playerRef.current = new window.YT.Player(`youtube-player${instanceId}`, {
-      videoId: videoIds[currentVideoIndex]?.details,
+      videoId: heroData[currentVideoIndex]?.details,
       playerVars: {
         autoplay: 1,
         mute: isMuted ? 1 : 0,
@@ -90,7 +94,7 @@ const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, s
         onStateChange: onPlayerStateChange,
       },
     });
-    const fileterd = videoIds.find(list => list.details === videoIds[currentVideoIndex].details)
+    const fileterd = heroData.find(list => list.details === heroData[currentVideoIndex].details)
     let authors = []
     if (fileterd?.name_1) authors.push(fileterd?.name_1);
     if (fileterd?.name_2) authors.push(fileterd?.name_2);
@@ -116,7 +120,7 @@ const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, s
       }
       delete window[`onYouTubeIframeAPIReady_${type}`];
     };
-  }, [videoIds, currentVideoIndex]);
+  }, [heroData, currentVideoIndex]);
 
 
   const toggleMute = () => {
@@ -131,7 +135,7 @@ const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, s
   };
 
   // console.log(names)
-  // console.log(videoIds)
+  // console.log(heroData)
 
   return (
     <div className='relative overflow-hidden'>
@@ -160,7 +164,7 @@ const YouTubePlayer = ({ setHerodata, videoIds, profile, location, data, type, s
       <button className="absolute bg-white aspect-square left-0 bottom-10 text-2xl p-1" onClick={toggleMute}>{isMuted ? <GoMute /> : <GoUnmute />}</button>
       <Nameplate data={names} />
       <Location data={location} />
-      <Redbanner data={data} />
+      <Redbanner  />
     </div>
   );
 };

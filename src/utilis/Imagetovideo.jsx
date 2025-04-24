@@ -6,7 +6,7 @@ import { RiFacebookFill } from 'react-icons/ri';
 import Postdata from './Postdata';
 import Location from './Location';
 
-const Imagetovideo = ({ title, moreData, list, changeVideo, key }) => {
+const Imagetovideo = ({ title, list, changeVideo, key }) => {
 
     const [refresh, setRefresh] = useState(0)
     const [all, setAll] = useState([])

@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
 import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri'
+import { useMyContext } from '../context/Allcontext';
 
-const Reporterdata = ({ reporterData }) => {
+const Reporterdata = ({  }) => {
+
+    const {reporterData} = useMyContext();
 
     const protocol = window.location.protocol;  // 'http:' or 'https:'
     const host = window.location.hostname;      // e.g., '192.168.29.202'

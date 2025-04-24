@@ -101,7 +101,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
                     <>
                         {list.type == 1 &&
                             <div className="" key={i}>
-                                <Imagetovideo key={i} {...data} list={list} bannerText={list?.blog_ticker[0]} />
+                                <Imagetovideo key={i} {...data} list={list}  />
                             </div>
                         }
                         {list.typeNew == 2 &&

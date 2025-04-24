@@ -16,7 +16,7 @@ import { GoMute, GoUnmute } from 'react-icons/go';
 import YouTubePlayer from './YouTubePlayer';
 import YouTubePlayer2 from './YouTubePlayer2';
 
-const First = ({ type, location, title, setHerodata, setTitle, moreData, profile, heroData, scrollNews, bannerImg, newsData, delay, bannerDelay, bannerText }) => {
+const First = ({ type, title, setTitle,  profile, scrollNews, bannerImg, newsData, delay, bannerDelay }) => {
 
     // console.log(object)
     const [show, setShow] = useState(false)
@@ -177,9 +177,9 @@ const First = ({ type, location, title, setHerodata, setTitle, moreData, profile
         <>
             {/* <div className="sticky top-0"> */}
             {title ?
-                <YouTubePlayer setTitle={setTitle} setHerodata={setHerodata} type={type} videoIds={heroData} location={location} data={bannerText} profile={profile} />
+                <YouTubePlayer setTitle={setTitle} type={type}  profile={profile} />
                 :
-                <YouTubePlayer2 heroData={heroData} location={location} profile={profile}/>
+                <YouTubePlayer2 profile={profile} />
             }
             <div className='bg-[#002793] relative h-5'>
                 <div>

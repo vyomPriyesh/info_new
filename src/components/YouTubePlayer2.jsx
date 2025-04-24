@@ -5,9 +5,13 @@ import { GoMute, GoUnmute } from 'react-icons/go';
 import Redbanner from '../utilis/Redbanner';
 import { useMyContext } from '../context/Allcontext';
 
-const YouTubePlayer2 = ({ heroData, location, profile, data }) => {
-  const fallbackVideo = 'T9A3N7OPUt8';
+const YouTubePlayer2 = ({ profile, data }) => {
+
+  const { location, heroData } = useMyContext();
   const { setFirstrefresh } = useMyContext();
+
+
+  const fallbackVideo = 'T9A3N7OPUt8';
   const [isMuted, setIsMuted] = useState(true);
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [player, setPlayer] = useState(null);

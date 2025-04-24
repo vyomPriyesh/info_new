@@ -5,7 +5,8 @@ import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri';
 
 
-const Postdata = ({ title, moreData, profile, heroData }) => {
+const Postdata = ({ title, profile, moreData }) => {
+
 
     const [more, setMore] = useState(false)
     const [share, setShare] = useState(false)

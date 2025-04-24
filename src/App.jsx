@@ -37,7 +37,12 @@ function App() {
   const [active, setActive] = useState(idValue ?? 0)
   const [modalData, setModaldata] = useState(null)
   const [open, setOpen] = useState(false)
-  const [reporterData, setReporterdata] = useState()
+
+  const { setReporterdata } = useMyContext()
+  const { firstRefresh } = useMyContext();
+  const { setLocation } = useMyContext();
+  const { setHerodata } = useMyContext();
+
   const [images, setImages] = useState([])
   const [modalText, setModaltext] = useState([])
   const [all, setAll] = useState([])
@@ -60,8 +65,6 @@ function App() {
   })
   const navigate = useNavigate();
   const [type, setType] = useState(null)
-  const [location, setLocation] = useState([])
-  const [heroData, setHerodata] = useState([])
   const [change, setChange] = useState(null)
   const [menu, setMenu] = useState([])
   const [menu2, setMenu2] = useState([])
@@ -71,8 +74,6 @@ function App() {
   const [delay, setDelay] = useState(null)
   const [bannerDelay, setBannerdelay] = useState(null)
   const [bannerText, setBannerText] = useState([]);
-  const [shareImg, setShareimg] = useState(null)
-  const { firstRefresh } = useMyContext();
 
 
   const apiUrl = import.meta.env.VITE_APP_BASEURL;
@@ -279,7 +280,6 @@ function App() {
       setType(null)
       setLocation(null)
       setHerodata([])
-      setShareimg(null)
       setBannerText([])
       setTitle('')
       setMoreData('')
@@ -303,7 +303,6 @@ function App() {
         if (response.data.data.location_2) locations.push(response.data.data.location_2);
         setLocation(locations)
         setHerodata(response.data.data.blog_image)
-        setShareimg(response.data.data.blog_image[0].details)
         setBannerText(response.data.data.blog_ticker.map(list => list.details))
         setTitle(response.data.data.title)
         setMoreData(response.data.data.description)
@@ -415,14 +414,10 @@ function App() {
 
   const data = {
     type,
-    location,
     title,
     setTitle,
-    setHerodata,
     moreData,
-    shareImg,
     profile,
-    heroData,
     scrollNews,
     bannerImg,
     newsData,
@@ -435,7 +430,6 @@ function App() {
     changeVideo,
     advertise,
     sponsers,
-    reporterData,
   }
 
   const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`
@@ -471,7 +465,7 @@ function App() {
       } */}
       <Menu menu={menu2} />
       <Postdata {...data} />
-      <Reporterdata {...data} />
+      <Reporterdata />
       {/* <Singlecategory {...data} /> */}
       <Routes>
         {/* <Route path='/' element={<YouTubePlayer2 {...data} />} /> */}
