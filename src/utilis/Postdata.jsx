@@ -51,7 +51,7 @@ const Postdata = ({ title, profile, moreData }) => {
 
     return (
         <>
-            <Helmet>
+            {/* <Helmet>
                 <title>{title}</title>
                 <meta property="og:title" content={title} />
                 <meta property="og:site_name" content="Info Gujarat" />
@@ -63,7 +63,7 @@ const Postdata = ({ title, profile, moreData }) => {
                 <meta name="description" content={description} />
                 <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
                 <meta name="url" content={shareUrl} />
-            </Helmet>
+            </Helmet> */}
             <div className="px-1.5 pb-2">
                 {title &&
                     <div className="flex flex-row flex-wrap gap-2 place-items-center mt-2">

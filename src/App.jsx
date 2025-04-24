@@ -454,7 +454,7 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>{title}</title>
+        {/* <title>{title}</title> */}
         {/* <meta property="og:title" content={title} />
         <meta property="og:site_name" content="Info Gujarat" />
         <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} />
