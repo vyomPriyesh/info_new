@@ -5,11 +5,11 @@ import { GoMute, GoUnmute } from 'react-icons/go';
 import Nameplate from '../utilis/Nameplate';
 import { useMyContext } from '../context/Allcontext';
 
-const YouTubePlayer = ({   profile, type, setTitle }) => {
+const YouTubePlayer = ({ profile, type, setTitle }) => {
 
-  const { heroData,setHerodata } = useMyContext();
+  const { heroData, setHerodata } = useMyContext();
 
-  const {location} = useMyContext();
+  const { location } = useMyContext();
 
   const instanceId = useRef(`yt-${Math.random().toString(36).substr(2, 9)}`).current;
 
@@ -17,9 +17,24 @@ const YouTubePlayer = ({   profile, type, setTitle }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const playerRef = useRef(null);
   const [names, setName] = useState({})
-  const [isScrolled, setIsScrolled] = useState(false);
-  const playerRef_2 = useRef(null);
 
+
+  const [isShrunk, setIsShrunk] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      // Adjust scroll trigger as needed
+      if (offset > 100) {
+        setIsShrunk(true);
+      } else {
+        setIsShrunk(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // useEffect(() => {
   //   if (type !== 1) return;
@@ -149,9 +164,8 @@ const YouTubePlayer = ({   profile, type, setTitle }) => {
         //   type === 2 ? 'h-[620px]' : 'h-[240px]'
         //   }
         //   `}>
-        className={`flex transition-all  duration-1000 ease-in-out justify-center w-full place-items-center mt-1  
-        h-[240px]
-          `}
+        className={`flex transition-all duration-500 ease-in-out overflow-hidden justify-center w-full place-items-center mt-1  
+        ${type ==3 ? isShrunk ? 'h-[240px]' : 'h-[640px]' :'h-[240px]'} `}
       >
         {/* <iframe width="100%" height="240" src={`https://www.youtube.com/embed/${heroData}?enablejsapi=1&rel=0&amp;autoplay=1&mute=${mute ? '1':'0'}&controls=0&modestbranding=1`} className=" not-allowed"
                         allow="autoplay;  encrypted-media;"
@@ -164,7 +178,7 @@ const YouTubePlayer = ({   profile, type, setTitle }) => {
       <button className="absolute bg-white aspect-square left-0 bottom-10 text-2xl p-1" onClick={toggleMute}>{isMuted ? <GoMute /> : <GoUnmute />}</button>
       <Nameplate data={names} />
       <Location data={location} />
-      <Redbanner  />
+      <Redbanner />
     </div>
   );
 };

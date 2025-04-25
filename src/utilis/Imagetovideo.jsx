@@ -26,7 +26,7 @@ const Imagetovideo = ({ title, list, changeVideo, key }) => {
     useEffect(() => {
         if (list) {
             setProfile({
-                video_img: list?.blog_image[0].details,
+                video_img: list?.blog_image[0]?.details,
                 name: list.user.name,
                 img: list.user.image ? list.user.image_path + '/' + list.user.image : null,
                 time: list.create_date,
@@ -53,7 +53,7 @@ const Imagetovideo = ({ title, list, changeVideo, key }) => {
 
     return (
         <>
-            <div className="border-b border-gray-200 pb-2 pt-1 w-full" key={key}>
+            <div className="border-b border-gray-200 w-full" key={key}>
                 <div className="relative z-30 overflow-hidden h-full w-full">
                     {title == list?.title &&
                         <div className="bg-black/45 absolute h-full w-full z-20"></div>

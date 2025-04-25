@@ -11,6 +11,7 @@ import Sponsers from '../components/Sponsers';
 import RandomeFour from '../utilis/RandomeFour';
 import Reporterdata from '../components/Reporterdata'
 import Ourboarddata from '../components/Ourboarddata';
+import Check from '../utilis/Check';
 
 const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
@@ -100,7 +101,8 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
         <>
             <Reporterdata />
             <Ourboarddata />
-            <div className="mb-20 space-y-2" key={count + 1 + 'ff'}>
+            {/* <Check /> */}
+            <div className="mb-20 space-y-1" key={count + 1 + 'ff'}>
                 {all?.map((list, i) => (
                     <>
                         {list.type == 1 &&
@@ -108,6 +110,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
                                 <Imagetovideo key={i} {...data} list={list} />
                             </div>
                         }
+                       
                         {list.typeNew == 2 &&
                             <RandomeFour data={list.data} {...data} />
                         }
@@ -116,6 +119,11 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
                         {list.type == 2 &&
                             <div className="" key={i}>
                                 <Postimgslider key={i} list={list} />
+                            </div>
+                        }
+                        {list.type == 3 &&
+                            <div className="" key={i}>
+                                <Imagetovideo key={i} {...data} list={list} />
                             </div>
                         }
                         {/* {list.type == 3 &&

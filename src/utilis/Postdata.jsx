@@ -64,7 +64,7 @@ const Postdata = ({ title, profile, moreData }) => {
                 <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
                 <meta name="url" content={shareUrl} />
             </Helmet> */}
-            <div className="px-1.5 pb-2">
+            <div className="px-1.5 ">
                 {title &&
                     <div className="flex flex-row flex-wrap gap-2 place-items-center mt-2">
                         <h1 className="gap-2 text-base place-items-start  px-1 font-semibold line-clamp-2">
@@ -82,7 +82,7 @@ const Postdata = ({ title, profile, moreData }) => {
                     </div>
                 }
                 {title && profile &&
-                    <div className="flex flex-row gap-7 flex-wrap place-items-center px-1 mt-2 text-nowrap">
+                    <div className="flex flex-row gap-7 flex-wrap place-items-center px-1 mt-2 text-nowrap pb-1.5">
                         {profile?.name &&
                             <div className="flex flex-row gap-3 place-items-center">
                                 {profile?.img ?

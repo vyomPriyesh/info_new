@@ -20,6 +20,7 @@ import YouTubePlayer from './components/YouTubePlayer2'
 import YouTubePlayer2 from './components/YouTubePlayer2'
 import { Helmet } from 'react-helmet'
 import { useMyContext } from './context/Allcontext'
+import Check from './utilis/Check'
 
 function App() {
 
@@ -143,15 +144,17 @@ function App() {
           name: list.title,
           slug: list.slug,
         }));
-        const staticItem = [{
-          to: 1,
-          name: "Our Board",
-          slug: "our-board",
-        }, {
-          to: 1,
-          name: "Reporter Login",
-          slug: "reporter-sign-up",
-        }];
+        const staticItem = [
+          // {
+          //   to: 1,
+          //   name: "Our Board",
+          //   slug: "our-board",
+          // },
+          {
+            to: 1,
+            name: "Reporter Login",
+            slug: "reporter-sign-up",
+          }];
         setMenu2([...staticItem, ...dynamicMenu]);
       }
     } catch (err) {
@@ -457,7 +460,7 @@ function App() {
         <meta property="og:site_name" content="Info Gujarat" />
         <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} />
         <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />*/}
-        <meta property="og:url" content={shareUrl} /> 
+        <meta property="og:url" content={shareUrl} />
 
         <meta property="og:title" content={'hh'} />
         {/* <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} /> */}
@@ -475,16 +478,13 @@ function App() {
         <Menu menu={menu} first={true} setActive={setActive} />
         <First {...data} />
       </div>
-      {/* {!title && heroData &&
-        <YouTubePlayer2 {...data} />
-      } */}
       <Menu menu={menu2} />
       <Postdata {...data} />
       {/* <Singlecategory {...data} /> */}
       <Routes>
-        {/* <Route path='/' element={<YouTubePlayer2 {...data} />} /> */}
+        {/* <Route path='/web' element={<Check />} /> */}
         <Route path='/' element={<Landingpage {...data} />} />
-        <Route path='/cms/our-board' element={<Ourboard {...data} />} />
+        {/* <Route path='/cms/our-board' element={<Ourboard {...data} />} /> */}
         <Route path='/cms/reporter-sign-up' element={<Reportersignup {...data} />} />
         {/* <Route path='/cms/:id' element={<Ourboard {...data} />} /> */}
       </Routes>

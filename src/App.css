@@ -43,7 +43,7 @@
 }
 
 .location {
-  clip-path: polygon(0% 0%, 70% 0%, 100% 100%, 0% 100%);
+  clip-path: polygon(0% 0%, 75% 0%, 100% 100%, 0% 100%);
 }
 
 .banner-animation {
@@ -197,7 +197,7 @@
 }
 
 .name {
-  clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 30% 0%);
+  clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 25% 0%);
   animation: name infinite 5s linear;
 }
 
