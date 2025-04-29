@@ -42,7 +42,7 @@ function App() {
 
   const { setReporterdata } = useMyContext()
   const { firstRefresh } = useMyContext();
-  const { setLocation } = useMyContext();
+  const { setLocation, setFallbackVideo } = useMyContext();
   const { setHerodata, setOurdata } = useMyContext();
 
   const [images, setImages] = useState([])
@@ -99,6 +99,7 @@ function App() {
         // })))
         const allNews = response.data.data.ScrollNews.map(list => list.news)
         setNews(allNews)
+        setFallbackVideo(response.data.data.Setting.preload_link)
         setCenterdata(response.data.data.BreakingNews)
         setBannerimg(response.data.data.BannerAds.map(list => list.image !== null ? list.image_path : ''))
         setNewsData(response.data.data.BottomNews.map(list => list.name))

@@ -11,7 +11,8 @@ const YouTubePlayer2 = ({ profile, data }) => {
   const { setFirstrefresh } = useMyContext();
 
 
-  const fallbackVideo = 'T9A3N7OPUt8';
+  const { fallbackVideo } = useMyContext();
+
   const [isMuted, setIsMuted] = useState(true);
   const [currentVideoId, setCurrentVideoId] = useState(null);
   const [player, setPlayer] = useState(null);
@@ -46,17 +47,18 @@ const YouTubePlayer2 = ({ profile, data }) => {
 
   // Set initial video on mount or when heroData updates
   useEffect(() => {
+    if (!fallbackVideo) return;
     const scheduledVideo = getCurrentScheduledVideo();
 
     if (scheduledVideo) {
       setCurrentVideoId(scheduledVideo);
     } else {
       // const fallbackTimeout = setTimeout(() => {
-        setCurrentVideoId({ video: fallbackVideo, type: 'default' });
+      setCurrentVideoId({ video: fallbackVideo, type: 'default' });
       // }, 10000);
       // return () => clearTimeout(fallbackTimeout);
     }
-  }, [heroData]);
+  }, [heroData, fallbackVideo]);
 
   // When video is ready
   const onReady = (event) => {
