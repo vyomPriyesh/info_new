@@ -478,13 +478,14 @@ function App() {
         <meta property="og:url" content="https://example.com/page" />
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
-
-      {singleCenter &&
-        <button onClick={() => openModal(singleCenter?.id)} className={`fixed ms-auto text-start flex flex-col text-white rounded-lg w-fit bg top-2/3 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-0 me-3 ' : 'translate-x-full me-0'}`}>
-          <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>
-          <span className='text-sm line-clamp-1'>{singleCenter?.title.substring(0, 20)}...</span>
-        </button>
-      }
+      <div className="">
+        {singleCenter &&
+          <button onClick={() => openModal(singleCenter?.id)} className={`fixed ms-auto text-start flex flex-col text-white rounded-lg w-fit bg top-2/3 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-0 me-3 ' : 'translate-x-full me-0'}`}>
+            <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>
+            <span className='text-sm line-clamp-1'>{singleCenter?.title.substring(0, 20)}...</span>
+          </button>
+        }
+      </div>
       <div className='sticky top-0 z-50 bg-white'>
         <Menu menu={menu} first={true} setActive={setActive} />
         <First {...data} />
