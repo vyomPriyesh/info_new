@@ -9,6 +9,7 @@ const YouTubePlayer = ({ profile, type, setTitle, data }) => {
 
   const { heroData, setHerodata } = useMyContext();
 
+
   const { location } = useMyContext();
 
   const instanceId = useRef(`yt-${Math.random().toString(36).substr(2, 9)}`).current;

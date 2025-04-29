@@ -15,6 +15,8 @@ import Postdata from '../utilis/Postdata';
 import { GoMute, GoUnmute } from 'react-icons/go';
 import YouTubePlayer from './YouTubePlayer';
 import YouTubePlayer2 from './YouTubePlayer2';
+import { useMyContext } from '../context/Allcontext';
+import YoutubeLive from './YoutubeLive';
 
 const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerText, newsData, delay, bannerDelay }) => {
 
@@ -33,6 +35,8 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
     const [time, setTime] = useState(10);
     const [banner, setBanner] = useState()
     const [showBanner, setShowbanner] = useState(true)
+
+    const { liveData } = useMyContext();
 
 
 
@@ -57,10 +61,10 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
         const newsDatachange = async () => {
             while (!isCancelled) {
                 for (let i = 0; i < newsData.length && !isCancelled; i++) {
-                    setNews(false); 
-                    await delay2(3000); 
+                    setNews(false);
+                    await delay2(3000);
 
-                    setSinglenews(newsData[i]); 
+                    setSinglenews(newsData[i]);
                     setNews(true);
                     await delay2(5000);
                 }
@@ -83,6 +87,7 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
     //         }, delay * 1000);
     //     }
     // }, [showNews, delay])
+
 
 
 
@@ -192,10 +197,13 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
     return (
         <>
             {/* <div className="sticky top-0"> */}
-            {title ?
-                <YouTubePlayer setTitle={setTitle} type={type} profile={profile} data={bannerText} />
+            {liveData.length > 0 ?
+                <YoutubeLive/>
                 :
-                <YouTubePlayer2 profile={profile} data={bannerText} />
+                title ?
+                    <YouTubePlayer setTitle={setTitle} type={type} profile={profile} data={bannerText} />
+                    :
+                    <YouTubePlayer2 profile={profile} data={bannerText} />
             }
             <div className='bg-[#002793] relative h-5'>
                 <div>

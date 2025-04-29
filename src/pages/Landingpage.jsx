@@ -12,31 +12,18 @@ import RandomeFour from '../utilis/RandomeFour';
 import Reporterdata from '../components/Reporterdata'
 import Ourboarddata from '../components/Ourboarddata';
 import Check from '../utilis/Check';
+import Singlecategory from '../components/Singlecategory';
+import { useMyContext } from '../context/Allcontext';
 
 const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
-    // const [title, setTitle] = useState('મહાત્માં ગાંઘીજીની જીવનગાથા | રાષ્ટ્રપિતા ગાંધીબાપુ જીવનકથા ગુજરાતી')
-    const [moreData, setMoreData] = useState([
-        'મહાત્માં ગાંઘીજીની જીવનગાથા | રાષ્ટ્રપિતા ગાંધીબાપુ જીવનકથા ગુજરાતી',
-        'Mahatma Gandhi Bapu Life story in Gujarati'
-    ])
-    const count = 2
+    const { allCtg } = useMyContext();
 
-    const [profile, setProfile] = useState({
-        video_img: '',
-        name: '',
-        img: '',
-        time: '',
-        view: ''
-    })
+    const count = 2
 
     const data = {
         title,
-        moreData,
-        profile,
         changeVideo,
-        advertise,
-        sponsers,
     }
 
     const [allPost, setAllpost] = useState([
@@ -103,34 +90,49 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
             <Ourboarddata />
             {/* <Check /> */}
             <div className="mb-20 space-y-1" key={count + 1 + 'ff'}>
-                {all?.map((list, i) => (
-                    <>
-                        {list.type == 1 &&
-                            <div className="" key={i}>
-                                <Imagetovideo key={i} {...data} list={list} />
-                            </div>
-                        }
-                       
-                        {list.typeNew == 2 &&
-                            <RandomeFour data={list.data} {...data} />
-                        }
-                        {(i + 1) % 10 === 5 && <Advertise {...data} />}
-                        {(i + 1) % 10 === 0 && <Sponsers {...data} />}
-                        {list.type == 2 &&
-                            <div className="" key={i}>
-                                <Postimgslider key={i} list={list} />
-                            </div>
-                        }
-                        {list.type == 3 &&
-                            <div className="" key={i}>
-                                <Imagetovideo key={i} {...data} list={list} />
-                            </div>
-                        }
-                        {/* {list.type == 3 &&
+                {all?.map((list, i) => {
+                    let singleCategoryIndex = -1;
+
+                    // Count how many times we've already rendered Singlecategory
+                    const renderedSingleCategories = Math.floor((i + 1) / 8);
+
+                    return (
+                        <React.Fragment key={i}>
+                            {list.type === 1 && (
+                                <div>
+                                    <Imagetovideo {...data} list={list} />
+                                </div>
+                            )}
+
+                            {list.typeNew === 2 && <RandomeFour data={list.data} {...data} />}
+
+                            {(i + 1) % 10 === 5 && <Advertise {...data} />}
+                            {(i + 1) % 8 === 0 && renderedSingleCategories <= allCtg?.length && (
+                                <Singlecategory
+                                    activeTitle={title}
+                                    id={allCtg[renderedSingleCategories - 1]?.id}
+                                    changeVideo={changeVideo}
+                                    title={allCtg[renderedSingleCategories - 1]?.name}
+                                    all={allCtg[renderedSingleCategories - 1]?.blog}
+                                />
+                            )}
+                            {(i + 1) % 10 === 0 && <Sponsers {...data} />}
+                            {list.type == 2 &&
+                                <div className="" key={i}>
+                                    <Postimgslider key={i} list={list} />
+                                </div>
+                            }
+                            {list.type == 3 &&
+                                <div className="" key={i}>
+                                    <Imagetovideo key={i} {...data} list={list} />
+                                </div>
+                            }
+                            {/* {list.type == 3 &&
                             <Postimgslider key={i} list={list} />
                         } */}
-                    </>
-                ))}
+                        </React.Fragment>
+                    );
+                })}
             </div>
         </>
     )

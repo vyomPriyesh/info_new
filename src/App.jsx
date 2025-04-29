@@ -22,6 +22,7 @@ import { Helmet } from 'react-helmet'
 import { useMyContext } from './context/Allcontext'
 import Check from './utilis/Check'
 import Contact from './pages/Contact'
+import Ctg from './pages/Ctg'
 
 function App() {
 
@@ -36,14 +37,15 @@ function App() {
     easing: 'ease',
   });
 
-  const [active, setActive] = useState(idValue ?? 0)
+  const { active, setActive } = useMyContext();
+
   const [modalData, setModaldata] = useState(null)
   const [open, setOpen] = useState(false)
 
   const { setReporterdata } = useMyContext()
-  const { firstRefresh } = useMyContext();
+  const { firstRefresh, setLivedata } = useMyContext();
   const { setLocation, setFallbackVideo } = useMyContext();
-  const { setHerodata, setOurdata } = useMyContext();
+  const { setHerodata, setOurdata, setAllctg } = useMyContext();
 
   const [images, setImages] = useState([])
   const [modalText, setModaltext] = useState([])
@@ -76,6 +78,12 @@ function App() {
   const [delay, setDelay] = useState(null)
   const [bannerDelay, setBannerdelay] = useState(null)
   const [bannerText, setBannerText] = useState([]);
+
+  useEffect(() => {
+    if (idValue) {
+      setActive(idValue)
+    }
+  }, [idValue])
 
 
   const apiUrl = import.meta.env.VITE_APP_BASEURL;
@@ -180,6 +188,7 @@ function App() {
         }))
         // console.log(video)
         setHerodata(video)
+        setLivedata(response.data.live ?? [])
         setChange(video[0]?.duration * 1000)
       }
     } catch (err) {
@@ -261,6 +270,17 @@ function App() {
     }
   }
 
+  const getAllctg = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}category-video/1`);
+      if (response.data.status) {
+        setAllctg(response.data.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     if (oIdValue) {
       oidData()
@@ -275,6 +295,7 @@ function App() {
     if (!nidValue && !rIdvalue) {
       allData()
     }
+    getAllctg()
     allMenu()
     allMenu2()
   }, [])
@@ -299,6 +320,7 @@ function App() {
     // console.log(list)
     // return
     if (!list?.center_news) {
+      setLivedata([])
       setType(null)
       setLocation(null)
       setHerodata([])
@@ -483,10 +505,10 @@ function App() {
       </div>
       <Menu menu={menu2} />
       <Postdata {...data} />
-      {/* <Singlecategory {...data} /> */}
       <Routes>
         {/* <Route path='/web' element={<Check />} /> */}
         <Route path='/' element={<Landingpage {...data} />} />
+        <Route path='/ctg/:id' element={<Ctg {...data} />} />
         {/* <Route path='/cms/our-board' element={<Ourboard {...data} />} /> */}
         <Route path='/cms/reporter-sign-up' element={<Reportersignup {...data} />} />
         <Route path='/cms/:id' element={<Contact {...data} />} />
