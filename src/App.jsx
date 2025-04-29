@@ -347,7 +347,7 @@ function App() {
         // document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
         // document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
-        document.title = response.data.data.title;
+        // document.title = response.data.data.title;
       }
     } catch (err) {
       console.log(err)
