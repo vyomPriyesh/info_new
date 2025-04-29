@@ -6,7 +6,7 @@ import { RiFacebookFill } from 'react-icons/ri';
 import Postdata from './Postdata';
 import Location from './Location';
 
-const Imagetovideo = ({ title, list, changeVideo, key }) => {
+const Imagetovideo = ({ title, list, changeVideo }) => {
 
     const [refresh, setRefresh] = useState(0)
     const [all, setAll] = useState([])
@@ -53,17 +53,19 @@ const Imagetovideo = ({ title, list, changeVideo, key }) => {
 
     return (
         <>
-            <div className="border-b border-gray-200 w-full" key={key}>
-                <div className="relative z-30 overflow-hidden h-full w-full">
-                    {title == list?.title &&
-                        <div className="bg-black/45 absolute h-full w-full z-20"></div>
-                    }
-                    <img loading="lazy" className="w-full h-full z-10" onClick={() => changeVideo(list)} src={`https://img.youtube.com/vi/${list?.blog_image[0]?.details}/mqdefault.jpg`} alt="" />
-                    <Location data={location} />
-                    <Redbanner data={all} />
+            {list?.blog_image.length > 0 &&
+                <div className="border-b border-gray-200 w-full" >
+                    <div className="relative z-30 overflow-hidden h-full w-full">
+                        {title == list?.title &&
+                            <div className="bg-black/45 absolute h-full w-full z-20"></div>
+                        }
+                        <img loading="lazy" className="w-full h-full z-10" onClick={() => changeVideo(list)} src={`https://img.youtube.com/vi/${list?.blog_image[0]?.details}/hqdefault.jpg`} alt="" />
+                        <Location data={location} />
+                        <Redbanner data={all} />
+                    </div>
+                    <Postdata title={list?.title} moreData={list?.description} profile={profile} />
                 </div>
-                <Postdata title={list?.title} moreData={list?.description} profile={profile} />
-            </div>
+            }
         </>
     )
 }

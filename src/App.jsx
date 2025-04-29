@@ -21,6 +21,7 @@ import YouTubePlayer2 from './components/YouTubePlayer2'
 import { Helmet } from 'react-helmet'
 import { useMyContext } from './context/Allcontext'
 import Check from './utilis/Check'
+import Contact from './pages/Contact'
 
 function App() {
 
@@ -486,7 +487,7 @@ function App() {
         <Route path='/' element={<Landingpage {...data} />} />
         {/* <Route path='/cms/our-board' element={<Ourboard {...data} />} /> */}
         <Route path='/cms/reporter-sign-up' element={<Reportersignup {...data} />} />
-        {/* <Route path='/cms/:id' element={<Ourboard {...data} />} /> */}
+        <Route path='/cms/:id' element={<Contact {...data} />} />
       </Routes>
       <Modalnews images={images} open={open} set={setOpen} data={modalData} location={modalLocation} heroData={modalHerodata} type={type} text={modalText} />
     </>

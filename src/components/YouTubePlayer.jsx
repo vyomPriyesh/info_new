@@ -5,7 +5,7 @@ import { GoMute, GoUnmute } from 'react-icons/go';
 import Nameplate from '../utilis/Nameplate';
 import { useMyContext } from '../context/Allcontext';
 
-const YouTubePlayer = ({ profile, type, setTitle }) => {
+const YouTubePlayer = ({ profile, type, setTitle, data }) => {
 
   const { heroData, setHerodata } = useMyContext();
 
@@ -165,7 +165,7 @@ const YouTubePlayer = ({ profile, type, setTitle }) => {
         //   }
         //   `}>
         className={`flex transition-all duration-500 ease-in-out overflow-hidden justify-center w-full place-items-center mt-1  
-        ${type ==3 ? isShrunk ? 'h-[240px]' : 'h-[640px]' :'h-[240px]'} `}
+        ${type == 3 ? isShrunk ? 'h-[240px]' : 'h-[640px]' : 'h-[240px]'} `}
       >
         {/* <iframe width="100%" height="240" src={`https://www.youtube.com/embed/${heroData}?enablejsapi=1&rel=0&amp;autoplay=1&mute=${mute ? '1':'0'}&controls=0&modestbranding=1`} className=" not-allowed"
                         allow="autoplay;  encrypted-media;"
@@ -178,7 +178,7 @@ const YouTubePlayer = ({ profile, type, setTitle }) => {
       <button className="absolute bg-white aspect-square left-0 bottom-10 text-2xl p-1" onClick={toggleMute}>{isMuted ? <GoMute /> : <GoUnmute />}</button>
       <Nameplate data={names} />
       <Location data={location} />
-      <Redbanner />
+      <Redbanner data={data} />
     </div>
   );
 };

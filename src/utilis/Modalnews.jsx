@@ -8,6 +8,22 @@ const Modalnews = ({ open, set, data, images, location, heroData, type, text }) 
 
     const imgUrl = import.meta.env.VITE_IMAGE_BASEURL;
 
+    useEffect(() => {
+        if (!open) return;
+
+        const handleBackButton = (e) => {
+            e.preventDefault();
+            set(false);
+        };
+
+        window.history.pushState(null, '', window.location.pathname);
+        window.addEventListener('popstate', handleBackButton);
+
+        return () => {
+            window.removeEventListener('popstate', handleBackButton);
+        };
+    }, [open, set]);
+
     // const [data2, setData2] = useState([])
     const [refresh, setRefresh] = useState(0)
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));

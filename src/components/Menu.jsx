@@ -11,7 +11,6 @@ const Menu = ({ menu, first, setActive }) => {
     setActive(list)
     setOurdata()
     setReporterdata()
-  
   }
 
 return (

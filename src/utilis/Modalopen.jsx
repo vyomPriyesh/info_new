@@ -139,6 +139,8 @@ import { AnimatePresence, motion, wrap } from 'framer-motion';
 import Postdata from './Postdata';
 
 const Modalopen = ({ open, set, data }) => {
+
+
     useEffect(() => {
         if (!open) return;
 
@@ -186,6 +188,16 @@ const Modalopen = ({ open, set, data }) => {
     const paginate = (newDirection) => {
         setPage([page + newDirection, newDirection]);
     };
+
+    useEffect(() => {
+        if (!open || !data?.blog_image?.length) return;
+
+        const interval = setInterval(() => {
+            paginate(1); // Go to next image
+        }, 3000);
+
+        return () => clearInterval(interval); // Clean up on unmount or modal close
+    }, [open, data?.blog_image?.length, page]);
 
     return (
         <>

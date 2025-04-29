@@ -16,7 +16,7 @@ import { GoMute, GoUnmute } from 'react-icons/go';
 import YouTubePlayer from './YouTubePlayer';
 import YouTubePlayer2 from './YouTubePlayer2';
 
-const First = ({ type, title, setTitle,  profile, scrollNews, bannerImg, newsData, delay, bannerDelay }) => {
+const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerText, newsData, delay, bannerDelay }) => {
 
     // console.log(object)
     const [show, setShow] = useState(false)
@@ -34,40 +34,55 @@ const First = ({ type, title, setTitle,  profile, scrollNews, bannerImg, newsDat
     const [banner, setBanner] = useState()
     const [showBanner, setShowbanner] = useState(true)
 
+
+
+    // const newsDatachange = async () => {
+
+    //     while (true) {
+    //         await delay2(2000);
+    //         for (let i = 0; i < newsData.length; i++) {
+    //             setNews(true);
+    //             setSinglenews(newsData[i]);
+    //             await delay2(4000);
+    //             setNews(false);
+    //         }
+    //     }
+    // };
+
     const delay2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-
-    const newsDatachange = async () => {
-        let i = 0;
-        let loopCompleted = false; // Track if the loop has completed a full cycle
-
-        while (true) {
-            await delay2(2000);
-            i = (i + 1) % newsData.length; // Loop through the newsData array
-            setNews(true);
-            setSinglenews(newsData[i]);
-            await delay2(4000);
-            setNews(false);
-
-            if (i === 0 && !loopCompleted) {
-                setShownews(false);
-                loopCompleted = true;
-                await delay2(delay * 1000); // Wait before starting again
-            } else if (i !== 0) {
-                loopCompleted = false; // Reset when the loop hasn't completed
-            }
-        }
-    };
-
-
     useEffect(() => {
-        if (!showNews) {
-            setTimeout(() => {
-                setShownews(true)
-                newsDatachange();
-            }, delay * 1000);
-        }
-    }, [showNews, delay])
+        if (!newsData || newsData.length === 0) return;
+        let isCancelled = false;
+        const newsDatachange = async () => {
+            while (!isCancelled) {
+                for (let i = 0; i < newsData.length && !isCancelled; i++) {
+                    setNews(false); 
+                    await delay2(3000); 
+
+                    setSinglenews(newsData[i]); 
+                    setNews(true);
+                    await delay2(5000);
+                }
+            }
+        };
+
+        newsDatachange();
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [newsData]);
+
+
+    // useEffect(() => {
+    //     if (!showNews) {
+    //         setTimeout(() => {
+    //             setShownews(true)
+    //             newsDatachange();
+    //         }, delay * 1000);
+    //     }
+    // }, [showNews, delay])
 
 
 
@@ -97,11 +112,11 @@ const First = ({ type, title, setTitle,  profile, scrollNews, bannerImg, newsDat
     }, [bannerImg.length > 0]);
 
 
-    useEffect(() => {
-        if (!news && newsData.length > 0) {
-            newsDatachange();
-        }
-    }, [refresh2, newsData]);
+    // useEffect(() => {
+    //     if (!news && newsData.length > 0) {
+    //         newsDatachange();
+    //     }
+    // }, [refresh2, newsData]);
 
     const dateFormate = (startDate) => {
         const start = new Date(startDate);
@@ -173,13 +188,14 @@ const First = ({ type, title, setTitle,  profile, scrollNews, bannerImg, newsDat
 
     }, [refresh3]);
 
+
     return (
         <>
             {/* <div className="sticky top-0"> */}
             {title ?
-                <YouTubePlayer setTitle={setTitle} type={type}  profile={profile} />
+                <YouTubePlayer setTitle={setTitle} type={type} profile={profile} data={bannerText} />
                 :
-                <YouTubePlayer2 profile={profile} />
+                <YouTubePlayer2 profile={profile} data={bannerText} />
             }
             <div className='bg-[#002793] relative h-5'>
                 <div>

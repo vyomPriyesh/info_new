@@ -6,7 +6,7 @@ import { Autoplay } from 'swiper/modules';
 const Advertise = ({ advertise }) => {
 
     return (
-        advertise?.lenght > 0 &&
+        advertise?.length > 0 &&
         <div className="">
             <Swiper
                 spaceBetween={30}
