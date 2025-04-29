@@ -337,15 +337,15 @@ function App() {
           share: response.data.data.id,
         })
 
-        document.querySelector('meta[property="og:title"]').setAttribute("content", response.data.data.title);
-        document.querySelector('meta[property="og:description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
-        document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
-        document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
+        // document.querySelector('meta[property="og:title"]').setAttribute("content", response.data.data.title);
+        // document.querySelector('meta[property="og:description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
+        // document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
+        // document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
-        document.querySelector('meta[name="title"]').setAttribute("content", response.data.data.title);
-        document.querySelector('meta[name="description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
-        document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
-        document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
+        // document.querySelector('meta[name="title"]').setAttribute("content", response.data.data.title);
+        // document.querySelector('meta[name="description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
+        // document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
+        // document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
         document.title = response.data.data.title;
       }
@@ -455,18 +455,28 @@ function App() {
 
   return (
     <>
-      <Helmet>
-        {/* <title>{title}</title> */}
-        {/* <meta property="og:title" content={title} />
+      {/* <Helmet>
+        <title>{title}</title>
+        <meta property="og:title" content={title} />
         <meta property="og:site_name" content="Info Gujarat" />
         <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} />
-        <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />*/}
+        <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
         <meta property="og:url" content={shareUrl} />
 
         <meta property="og:title" content={'hh'} />
-        {/* <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} /> */}
-        {/* <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} /> */}
-        {/* <meta name="url" content={shareUrl} /> */}
+        <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} />
+        <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/mqdefault.jpg`} />
+        <meta name="url" content={shareUrl} />
+      </Helmet> */}
+
+      <Helmet>
+        <title>My Custom Page Title</title>
+        <meta name="description" content="This is a description for SEO and social sharing." />
+        <meta property="og:title" content="My Custom Page Title" />
+        <meta property="og:description" content="Open Graph description for sharing." />
+        <meta property="og:image" content="https://example.com/og-image.jpg" />
+        <meta property="og:url" content="https://example.com/page" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
       {singleCenter &&
