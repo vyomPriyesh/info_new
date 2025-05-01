@@ -36,7 +36,7 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
     const [banner, setBanner] = useState()
     const [showBanner, setShowbanner] = useState(true)
 
-    const { liveData } = useMyContext();
+    const { liveData, firstRefresh } = useMyContext();
 
 
 
@@ -196,61 +196,62 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
 
     return (
         <>
-            {/* <div className="sticky top-0"> */}
-            {liveData.length > 0 ?
-                <YoutubeLive/>
-                :
-                title ?
-                    <YouTubePlayer setTitle={setTitle} type={type} profile={profile} data={bannerText} />
+            <div className="" key={firstRefresh}>
+                {/* <div className="sticky top-0"> */}
+                {liveData.length > 0 ?
+                    <YoutubeLive />
                     :
-                    <YouTubePlayer2 profile={profile} data={bannerText} />
-            }
-            <div className='bg-[#002793] relative h-5'>
-                <div>
-                    <marquee className="marq text-white" direction="left" loop="" scrollAmount={5}>
-                        <p className="space-x-4 flex flex-row" key={refresh + 1}>
-                            {scrollNews?.map((list, index) => (
-                                <>
-                                    <span className='place-items-center font-black flex text-sm flex-row gap-2' key={index}><img loading="lazy" src={profile?.logo} alt="" className='h-4 w-4' />{list + '\u00A0'}</span>
-                                </>
-                            ))}
-                        </p>
-                    </marquee>
+                    title ?
+                        <YouTubePlayer setTitle={setTitle} type={type} profile={profile} data={bannerText} />
+                        :
+                        <YouTubePlayer2 profile={profile} data={bannerText} />
+                }
+                <div className='bg-[#002793] relative h-5'>
+                    <div>
+                        <marquee className="marq text-white" direction="left" loop="" scrollAmount={5}>
+                            <p className="space-x-4 flex flex-row" key={refresh + 1}>
+                                {scrollNews?.map((list, index) => (
+                                    <>
+                                        <span className='place-items-center font-black flex text-sm flex-row gap-2' key={index}><img loading="lazy" src={profile?.logo} alt="" className='h-4 w-4' />{list + '\u00A0'}</span>
+                                    </>
+                                ))}
+                            </p>
+                        </marquee>
+                    </div>
+                    <span className={`${show ? 'translate-x-0 ' : '-translate-x-full `'} uppercase transition-all duration-1000 ease-in bg-white px-1 absolute top-0`}>{data}</span>
                 </div>
-                <span className={`${show ? 'translate-x-0 ' : '-translate-x-full `'} uppercase transition-all duration-1000 ease-in bg-white px-1 absolute top-0`}>{data}</span>
-            </div>
-            <div className="bg-white h-[49px] relative">
-                {showNews &&
-                    <div className={`bg heading overflow-hidden absolute h-[47px] mt-[1px]  z-30 w-full`}>
-                        <>
-                            {news ?
-                                <div data-aos="fade-left" className="text-white h-full text-center" >
-                                    <h1 key={singleNews} className="text-base flex justify-center place-items-center p-0  h-full font-semibold">
-                                        {singleNews}
-                                    </h1>
-                                </div>
-                                :
-                                <div key={news} className="flex flex-row h-full" data-aos="fade-left">
-                                    <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-xl font-bold">
-                                        <h1 className="">Breaking</h1>
+                <div className="bg-white h-[49px] relative">
+                    {showNews &&
+                        <div className={`bg heading overflow-hidden absolute h-[47px] mt-[1px]  z-30 w-full`}>
+                            <>
+                                {news ?
+                                    <div data-aos="fade-left" className="text-white h-full text-center" >
+                                        <h1 key={singleNews} className="text-base flex justify-center place-items-center p-0  h-full font-semibold">
+                                            {singleNews}
+                                        </h1>
                                     </div>
-                                    <div className="w-1/2 bg flex justify-center place-items-center text-white text-xl font-bold">
-                                        <h1 className="">News</h1>
+                                    :
+                                    <div key={news} className="flex flex-row h-full" data-aos="fade-left">
+                                        <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-xl font-bold">
+                                            <h1 className="">Breaking</h1>
+                                        </div>
+                                        <div className="w-1/2 bg flex justify-center place-items-center text-white text-xl font-bold">
+                                            <h1 className="">News</h1>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        </>
-                    </div>
-                }
-                {img &&
-                    <div className="absolute z-20  w-full mt-[1px] h-[47px] heading overflow-hidden">
-                        <img loading="lazy" src={banner} data-aos="fade-left" className='h-full w-full' key={banner} alt="" />
-                    </div>
-                }
-            </div>
-            <div className="">
+                                }
+                            </>
+                        </div>
+                    }
+                    {img &&
+                        <div className="absolute z-20  w-full mt-[1px] h-[47px] heading overflow-hidden">
+                            <img loading="lazy" src={banner} data-aos="fade-left" className='h-full w-full' key={banner} alt="" />
+                        </div>
+                    }
+                </div>
+                <div className="">
 
-                {/* <Swiper
+                    {/* <Swiper
 
                     data-aos="fade-left"
                     spaceBetween={30}
@@ -269,9 +270,9 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                         </SwiperSlide>
                     ))}
                 </Swiper> */}
+                </div>
+                {/* </div> */}
             </div>
-            {/* </div> */}
-
         </>
     )
 }

@@ -3,7 +3,7 @@ import { FaLongArrowAltRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import Imagetovideo from '../utilis/Imagetovideo'
 import { Swiper, SwiperSlide } from 'swiper/react';
-
+import { Autoplay } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
 
@@ -19,8 +19,8 @@ const Singlecategory = ({ all, changeVideo, title, activeTitle, id }) => {
     return (
         all.length > 0 &&
         <div className='pt-2 px-2 w-full' >
-            <div className="flex flex-row justify-between place-items-center">
-                <h1 className='font-bold'>{title}</h1>
+            <div className="flex flex-row justify-between place-items-center text-red-500">
+                <h1 className='font-bold  ps-5 text-xl'>{title}</h1>
                 <Link to={`/ctg/${id}`} className='rounded-xl border border-black px-2 py-1'><FaLongArrowAltRight /></Link>
             </div>
             <Swiper
@@ -29,12 +29,17 @@ const Singlecategory = ({ all, changeVideo, title, activeTitle, id }) => {
                 pagination={{
                     clickable: true,
                 }}
+                autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                }}
+                modules={[Autoplay]}
                 className="mySwiper mt-2"
             >
-                {all?.slice(0, 5).map((list, i) => (
+                {all?.slice(0, 20).map((list, i) => (
                     <>
                         {list.type == 1 &&
-                            <SwiperSlide className='max-w-[300px] w-full overflow-hidden'><Imagetovideo key={i} {...data} list={list} title={activeTitle} /></SwiperSlide>
+                            <SwiperSlide className='max-w-[250px] w-full overflow-hidden'><Imagetovideo key={i} {...data} list={list} title={activeTitle} /></SwiperSlide>
                         }
                     </>
                 ))}

@@ -166,7 +166,7 @@ const YouTubePlayer = ({ profile, type, setTitle, data }) => {
         //   }
         //   `}>
         className={`flex transition-all duration-500 ease-in-out overflow-hidden justify-center w-full place-items-center mt-1  
-        ${type == 3 ? isShrunk ? 'h-[240px]' : 'h-[640px]' : 'h-[240px]'} `}
+        ${type == 3 ? isShrunk ? 'h-[240px]' : 'h-[450px]' : 'h-[240px]'} `}
       >
         {/* <iframe width="100%" height="240" src={`https://www.youtube.com/embed/${heroData}?enablejsapi=1&rel=0&amp;autoplay=1&mute=${mute ? '1':'0'}&controls=0&modestbranding=1`} className=" not-allowed"
                         allow="autoplay;  encrypted-media;"

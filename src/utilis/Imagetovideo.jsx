@@ -55,11 +55,13 @@ const Imagetovideo = ({ title, list, changeVideo }) => {
         <>
             {list?.blog_image.length > 0 &&
                 <div className="border-b border-gray-200 w-full" >
-                    <div className="relative z-30 overflow-hidden h-full w-full">
+                    <div
+                     onClick={() => changeVideo(list)} style={{ backgroundImage: `url(https://img.youtube.com/vi/${list?.blog_image[0]?.details}/hqdefault.jpg)` }} 
+                     className="relative z-30 bg-youtube h-[220px] overflow-hidden w-full">
                         {title == list?.title &&
                             <div className="bg-black/45 absolute h-full w-full z-20"></div>
                         }
-                        <img loading="lazy" className="w-full h-full z-10" onClick={() => changeVideo(list)} src={`https://img.youtube.com/vi/${list?.blog_image[0]?.details}/hqdefault.jpg`} alt="" />
+                        {/* <img loading="lazy" className="aspect-video object-cover z-10" onClick={() => changeVideo(list)} src={`https://img.youtube.com/vi/${list?.blog_image[0]?.details}/hqdefault.jpg`} alt="" /> */}
                         <Location data={location} />
                         <Redbanner data={all} />
                     </div>

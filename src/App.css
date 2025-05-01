@@ -223,3 +223,12 @@
 iframe {
   /* pointer-events: none !important; */
 }
+
+
+.bg-youtube{
+  /* height: 220px; */
+  background-position-x: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: center;
+}

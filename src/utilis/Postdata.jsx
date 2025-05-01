@@ -112,7 +112,7 @@ const Postdata = ({ title, profile, moreData }) => {
                                 <IoShareSocial />
                                 {share &&
                                     <div
-                                        className="absolute flex rounded-md z-40 flex-row gap-3 text-2xl left-0 -translate-x-[100%] top-7 bg-white border border-gray-300 p-2">
+                                        className="absolute flex rounded-md z-40 flex-row gap-6 text-4xl left-0 -translate-x-[100%] top-7 bg-white border border-gray-300 p-2">
                                         <a
                                             target='_blank'
                                             href={whatsappUrl}

@@ -24,6 +24,8 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
     const data = {
         title,
         changeVideo,
+        advertise,
+        sponsers,
     }
 
     const [allPost, setAllpost] = useState([
@@ -108,13 +110,15 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
                             {(i + 1) % 10 === 5 && <Advertise {...data} />}
                             {(i + 1) % 8 === 0 && renderedSingleCategories <= allCtg?.length && (
-                                <Singlecategory
-                                    activeTitle={title}
-                                    id={allCtg[renderedSingleCategories - 1]?.id}
-                                    changeVideo={changeVideo}
-                                    title={allCtg[renderedSingleCategories - 1]?.name}
-                                    all={allCtg[renderedSingleCategories - 1]?.blog}
-                                />
+                                <div className=''>
+                                    <Singlecategory
+                                        activeTitle={title}
+                                        id={allCtg[renderedSingleCategories - 1]?.id}
+                                        changeVideo={changeVideo}
+                                        title={allCtg[renderedSingleCategories - 1]?.name}
+                                        all={allCtg[renderedSingleCategories - 1]?.blog}
+                                    />
+                                </div>
                             )}
                             {(i + 1) % 10 === 0 && <Sponsers {...data} />}
                             {list.type == 2 &&

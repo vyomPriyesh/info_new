@@ -2,7 +2,8 @@ import { Modal } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import YouTubePlayer from '../components/YouTubePlayer';
+import { Autoplay } from 'swiper/modules';
+import Modalyoutubeplayer from '../components/Modalyoutubeplayer';
 
 const Modalnews = ({ open, set, data, images, location, heroData, type, text }) => {
 
@@ -75,6 +76,11 @@ const Modalnews = ({ open, set, data, images, location, heroData, type, text }) 
                         {data?.type == 2 &&
                             <Swiper
                                 direction={'vertical'}
+                                autoplay={{
+                                    delay: 2500,
+                                    disableOnInteraction: false,
+                                }}
+                                modules={[Autoplay]}
                                 className="mySwiper h-[40vh] w-full mb-10"
                             >
                                 {images?.map((l, i) => (
@@ -87,7 +93,7 @@ const Modalnews = ({ open, set, data, images, location, heroData, type, text }) 
                         {data?.type == 1 &&
                             <>
                                 <div className="mb-10">
-                                    <YouTubePlayer type={type} videoIds={heroData} location={location} />
+                                    <Modalyoutubeplayer type={type} heroData={heroData} location={location} />
                                 </div>
                             </>
                         }
