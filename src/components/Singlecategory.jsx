@@ -18,7 +18,7 @@ const Singlecategory = ({ all, changeVideo, title, activeTitle, id }) => {
 
     return (
         all.length > 0 &&
-        <div className='pt-2 px-2 w-full' >
+        <div className='pt-2 px-2 w-full bg-gray-200' >
             <div className="flex flex-row justify-between place-items-center text-red-500">
                 <h1 className='font-bold  ps-5 text-xl'>{title}</h1>
                 <Link to={`/ctg/${id}`} className='rounded-xl border border-black px-2 py-1'><FaLongArrowAltRight /></Link>
@@ -39,7 +39,7 @@ const Singlecategory = ({ all, changeVideo, title, activeTitle, id }) => {
                 {all?.slice(0, 20).map((list, i) => (
                     <>
                         {list.type == 1 &&
-                            <SwiperSlide className='max-w-[250px] w-full overflow-hidden'><Imagetovideo key={i} {...data} list={list} title={activeTitle} /></SwiperSlide>
+                            <SwiperSlide className='max-w-[250px] w-full z-50'><Imagetovideo key={i} {...data} list={list} title={activeTitle} show={list.category_id == 1}/></SwiperSlide>
                         }
                     </>
                 ))}

@@ -34,7 +34,7 @@ const Nameplate = ({ data = [] }) => {
     return (
         <>
             {text &&
-                <div className={`overflow-hidden name bottom-[25px] right-0 z-30 bg-white absolute flex justify-center place-items-center pe-2 ps-5 capitalize`}>
+                <div className={`overflow-hidden name bottom-[27px] right-0 z-30 bg-white absolute flex justify-center place-items-center pe-2 ps-5 capitalize`}>
                     {/* <IoLocationSharp className='text-red-500' /> */}
                     <h1 className='text-center text-sm '>{text?.substring(0, 8)}</h1>
                 </div>

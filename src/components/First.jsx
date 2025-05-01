@@ -56,28 +56,29 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
     const delay2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     useEffect(() => {
-        if (!newsData || newsData.length === 0) return;
-        let isCancelled = false;
-        const newsDatachange = async () => {
-            while (!isCancelled) {
-                for (let i = 0; i < newsData.length && !isCancelled; i++) {
-                    setNews(false);
-                    await delay2(3000);
-
-                    setSinglenews(newsData[i]);
-                    setNews(true);
-                    await delay2(5000);
-                }
+        let isMounted = true;
+    
+        const loopWithDelay = async () => {
+            if (!bannerImg || bannerImg.length === 0 || showNews) return;
+    
+            for (let i = 0; i < bannerImg.length && isMounted; i++) {
+                setImg(true);
+                setBanner(bannerImg[i]);
+                await delay2(4000);
+            }
+    
+            if (isMounted) {
+                setImg(false);
+                setShownews(true); // Switch to news
             }
         };
-
-        newsDatachange();
-
+    
+        loopWithDelay();
+    
         return () => {
-            isCancelled = true;
+            isMounted = false;
         };
-    }, [newsData]);
-
+    }, [bannerImg, showNews]);
 
     // useEffect(() => {
     //     if (!showNews) {
@@ -89,32 +90,58 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
     // }, [showNews, delay])
 
 
-
-
-    const loopWithDelay = async () => {
-        for (let i = 0; i < bannerImg.length; i++) {
-            setImg(true)
-            setBanner(bannerImg[i]);
-            await delay2(4000);
-            if (i + 1 == bannerImg.length) {
-                setImg(false)
+    useEffect(() => {
+        if (!newsData || newsData.length === 0 || !showNews) return;
+    
+        let isCancelled = false;
+    
+        const newsDatachange = async () => {
+            for (let i = 0; i < newsData.length && !isCancelled; i++) {
+                setNews(false);
+                await delay2(3000);
+    
+                setSinglenews(newsData[i]);
+                setNews(true);
+                await delay2(5000);
             }
-        }
-    };
+    
+            if (!isCancelled) {
+                setShownews(false); // Switch back to banners
+                setImg(true);
+            }
+        };
+    
+        newsDatachange();
+    
+        return () => {
+            isCancelled = true;
+        };
+    }, [newsData, showNews]);
 
-    useEffect(() => {
-        if (!img) {
-            setTimeout(() => {
-                setImg(true)
-                loopWithDelay();
-            }, bannerDelay * 1000);
-        }
+    // const loopWithDelay = async () => {
+    //     for (let i = 0; i < bannerImg.length; i++) {
+    //         setImg(true)
+    //         setBanner(bannerImg[i]);
+    //         await delay2(4000);
+    //         if (i + 1 == bannerImg.length) {
+    //             setImg(false)
+    //         }
+    //     }
+    // };
 
-    }, [!img])
+    // useEffect(() => {
+    //     if (!img) {
+    //         setTimeout(() => {
+    //             setImg(true)
+    //             loopWithDelay();
+    //         }, bannerDelay * 1000);
+    //     }
 
-    useEffect(() => {
-        loopWithDelay();
-    }, [bannerImg.length > 0]);
+    // }, [!img])
+
+    // useEffect(() => {
+    //     loopWithDelay();
+    // }, [bannerImg.length > 0]);
 
 
     // useEffect(() => {
@@ -193,7 +220,6 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
 
     }, [refresh3]);
 
-
     return (
         <>
             <div className="" key={firstRefresh}>
@@ -220,7 +246,7 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                     </div>
                     <span className={`${show ? 'translate-x-0 ' : '-translate-x-full `'} uppercase transition-all duration-1000 ease-in bg-white px-1 absolute top-0`}>{data}</span>
                 </div>
-                <div className="bg-white h-[49px] relative">
+                <div className="bg-white h-[46px] relative">
                     {showNews &&
                         <div className={`bg heading overflow-hidden absolute h-[47px] mt-[1px]  z-30 w-full`}>
                             <>

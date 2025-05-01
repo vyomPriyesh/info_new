@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Postdata from './Postdata'
 import Modalopen from './Modalopen';
 
-const Postimgslider = ({ list }) => {
+const Postimgslider = ({ list, show }) => {
 
 
     const [open, setOpen] = useState(false)
@@ -45,8 +45,8 @@ const Postimgslider = ({ list }) => {
                     {list?.blog_image.map((item, i) => (
                         list?.blog_image.length == 1 ?
                             <img src={`${imgUrl}${item?.details}`} alt="" className='w-full aspect-[16/9] bg-cover bg-no-repeat h-full  object-contain'
-                                                 style={{
-                            backgroundImage: `
+                                style={{
+                                    backgroundImage: `
                               linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
                               url(${imgUrl}${item?.details})
                             `}}
@@ -70,7 +70,7 @@ const Postimgslider = ({ list }) => {
                     ))}
                     {/* <img loading="lazy" className={` ${list?.blog_image.length == 1 ? 'w-full' : list?.blog_image.length ==2 ? 'w-1/2': 'w-2/5'} object-cover aspect-[16/8]`} key={i} src={`${imgUrl}${item?.details}`} alt="" /> */}
                 </div>
-                <Postdata title={list?.title} moreData={list?.description} profile={profile} />
+                <Postdata title={list?.title} moreData={list?.description} profile={profile} show={show} />
             </div>
             <Modalopen open={open} set={setOpen} data={single} />
         </>

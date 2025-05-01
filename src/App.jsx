@@ -37,7 +37,7 @@ function App() {
     easing: 'ease',
   });
 
-  const { active, setActive } = useMyContext();
+  const { active, setActive, refresh } = useMyContext();
 
   const [modalData, setModaldata] = useState(null)
   const [open, setOpen] = useState(false)
@@ -172,7 +172,6 @@ function App() {
     }
   }
 
-
   const firstVideo = async () => {
     try {
       const response = await axios.get(`${apiUrl}video-schedule/1`);
@@ -288,11 +287,13 @@ function App() {
   }, [oIdValue])
 
   useEffect(() => {
-    allDatanews()
-  }, [active])
+    if (!rIdvalue) {
+      allDatanews()
+    }
+  }, [active, refresh])
 
   useEffect(() => {
-    if (!nidValue && !rIdvalue) {
+    if (!nidValue) {
       allData()
     }
     getAllctg()
@@ -474,7 +475,13 @@ function App() {
     sponsers,
   }
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // add behavior for clarity
+  }, [active]);
+
   const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`
+
+  const pathname = useLocation();
 
   return (
     <>
@@ -492,7 +499,7 @@ function App() {
         <meta name="url" content={shareUrl} />
       </Helmet>
       <div className="">
-        {singleCenter &&
+        {pathname?.pathname !== '/cms/reporter-sign-up' && pathname?.pathname !== '/cms/Info%20Gujarat' && singleCenter &&
           <button onClick={() => openModal(singleCenter?.id)} className={`fixed me-auto text-start flex flex-col text-white rounded-lg w-fit bg top-2/3 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-3 me-3 ' : '-translate-x-28 me-0'} `}>
             <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>
             <span className='text-sm line-clamp-1'>{singleCenter?.title.substring(0, 13)}...</span>
@@ -504,7 +511,7 @@ function App() {
         <First {...data} />
       </div>
       <Menu menu={menu2} />
-      <Postdata {...data} />
+      <Postdata {...data} show={true} />
       <Routes>
         {/* <Route path='/web' element={<Check />} /> */}
         <Route path='/' element={<Landingpage {...data} />} />

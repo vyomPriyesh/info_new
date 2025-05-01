@@ -4,9 +4,9 @@ import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri'
 import { useMyContext } from '../context/Allcontext';
 
-const Reporterdata = ({  }) => {
+const Reporterdata = ({ }) => {
 
-    const {reporterData} = useMyContext();
+    const { reporterData } = useMyContext();
 
     const protocol = window.location.protocol;  // 'http:' or 'https:'
     const host = window.location.hostname;      // e.g., '192.168.29.202'
@@ -45,15 +45,15 @@ const Reporterdata = ({  }) => {
                         }
                     </button>
                 </div> */}
-                <div className="flex flex-col gap-2 justify-center place-items-center">
+                <div className="flex flex-row gap-2 justify-center place-items-start">
                     {reporterData?.image ?
-                        <img loading="lazy" id="profile_5" src={`${reporterData?.image_path}/${reporterData?.image}`}
-                            className="aspect-square w-48 object-cover" alt="" />
+                        <img loading="lazy" id="profile_5" src={`${reporterData?.image_path}`}
+                            className="h-full aspect-square w-40 object-cover" alt="" />
                         :
                         <img loading="lazy" id="profile_5" src={`https://ui-avatars.com/api/?name=${reporterData?.name}&size=20`}
-                            className="aspect-square w-48 object-cover" alt="" />
+                            className="h-full aspect-square w-40 object-cover" alt="" />
                     }
-                    <div className="flex flex-col gap-1 w-full place-items-center">
+                    <div className="flex flex-col gap-1 w-full place-items-start">
                         {reporterData?.name &&
                             <h1 className='font-semibold text-lg'><span className='font-normal text-sm'>Name : </span>{reporterData?.name}</h1>
                         }
@@ -63,9 +63,10 @@ const Reporterdata = ({  }) => {
                         {reporterData?.mobile &&
                             <span className='text-sm'><span className='font-normal text-sm'>Mobile No. : </span>{reporterData?.mobile}</span>
                         }
-                        {/* {reporterData?.address &&
-                            <span className='text-sm'><span className='font-normal text-sm'>Address : </span>{reporterData?.address}</span>
+                        {reporterData?.city &&
+                            <span className='text-sm'><span className='font-normal text-sm'>City : </span>{reporterData?.city}</span>
                         }
+                        {/*
                         {reporterData?.whatsapp &&
                             <span className='text-sm'><span className='font-normal text-sm'>Whatsapp No. : </span>{reporterData?.whatsapp}</span>
                         } */}

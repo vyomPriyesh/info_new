@@ -4,14 +4,17 @@ import { useMyContext } from '../context/Allcontext'
 
 const Menu = ({ menu, first }) => {
 
-  const { setOurdata, setReporterdata, setActive } = useMyContext();
+  const { setOurdata, setReporterdata, setActive,  setRefresh } = useMyContext();
 
 
   const handleClick = (list) => {
     setActive(list)
     setOurdata()
+    setRefresh(prev => prev + 1)
     setReporterdata()
   }
+
+
 
   return (
     <>
@@ -25,7 +28,7 @@ const Menu = ({ menu, first }) => {
           ))}
         </div>
         :
-        <div className='flex flex-row gap-1 overflow-y-auto text-nowrap heading pt-1 ps-1 pb-1'>
+        <div className='flex flex-row gap-1 overflow-y-auto text-nowrap heading pt-1.5 ps-1 pb-1'>
           {menu.map((list, i) => (
             <Link key={i} to={`/cms/${list.slug}`} className='text-red-500 px-3 border-red-500 border-2 rounded-md font-medium text-sm md:text-base'>{list.name}</Link>
           ))}

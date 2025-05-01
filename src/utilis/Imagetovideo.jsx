@@ -6,7 +6,7 @@ import { RiFacebookFill } from 'react-icons/ri';
 import Postdata from './Postdata';
 import Location from './Location';
 
-const Imagetovideo = ({ title, list, changeVideo }) => {
+const Imagetovideo = ({ title, list, changeVideo, show }) => {
 
     const [refresh, setRefresh] = useState(0)
     const [all, setAll] = useState([])
@@ -28,7 +28,7 @@ const Imagetovideo = ({ title, list, changeVideo }) => {
             setProfile({
                 video_img: list?.blog_image[0]?.details,
                 name: list.user.name,
-                img: list.user.image ? list.user.image_path + '/' + list.user.image : null,
+                img: list.user.image ? list.user.image_path : null,
                 time: list.create_date,
                 view: list.count,
                 share: list.id
@@ -56,8 +56,8 @@ const Imagetovideo = ({ title, list, changeVideo }) => {
             {list?.blog_image.length > 0 &&
                 <div className="border-b border-gray-200 w-full" >
                     <div
-                     onClick={() => changeVideo(list)} style={{ backgroundImage: `url(https://img.youtube.com/vi/${list?.blog_image[0]?.details}/hqdefault.jpg)` }} 
-                     className="relative z-30 bg-youtube h-[220px] overflow-hidden w-full">
+                        onClick={() => changeVideo(list)} style={{ backgroundImage: `url(https://img.youtube.com/vi/${list?.blog_image[0]?.details}/hqdefault.jpg)` }}
+                        className="relative z-30 bg-youtube h-[220px] overflow-hidden w-full">
                         {title == list?.title &&
                             <div className="bg-black/45 absolute h-full w-full z-20"></div>
                         }
@@ -65,7 +65,7 @@ const Imagetovideo = ({ title, list, changeVideo }) => {
                         <Location data={location} />
                         <Redbanner data={all} />
                     </div>
-                    <Postdata title={list?.title} moreData={list?.description} profile={profile} />
+                    <Postdata title={list?.title} moreData={list?.description} profile={profile} show={show} />
                 </div>
             }
         </>
