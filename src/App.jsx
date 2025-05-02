@@ -186,8 +186,8 @@ function App() {
           ...list,
         }))
         // console.log(video)
-        // setHerodata(video)
-        // setLivedata(response.data.live ?? [])
+        setHerodata(video)
+        setLivedata(response.data.live ?? [])
         setChange(video[0]?.duration * 1000)
       }
     } catch (err) {
@@ -355,7 +355,7 @@ function App() {
           ...profile,
           video_img: response.data.data.blog_image[0].details,
           name: response.data.data.user.name,
-          img: response.data.data.user.image ? response.data.data.user.image_path + '/' + response.data.data.user.image : null,
+          img: response.data.data.user.image ? response.data.data.user.image_path : null,
           time: response.data.data.create_date,
           view: response.data.data.count,
           share: response.data.data.id,

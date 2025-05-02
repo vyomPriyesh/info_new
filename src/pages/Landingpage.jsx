@@ -20,20 +20,25 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
         sponsers,
     };
 
-    console.log(all.length)
-
+    const renderedCategoryIds = new Set();
     let advertiseRendered = false;
-    let singleCategoryRendered = false;
     let sponsersRendered = false;
 
     const content = all?.map((list, i) => {
-        const renderedSingleCategories = Math.floor((i + 1) / 8);
         const elements = [];
 
-        if (list.type === 1) {
+        if (list.type === 1 || list.type === 3) {
             elements.push(
                 <div key={`imgtovideo-${i}`}>
                     <Imagetovideo {...data} list={list} show={list.category_id === 1} />
+                </div>
+            );
+        }
+
+        if (list.type === 2) {
+            elements.push(
+                <div className="" key={`postslider-${i}`}>
+                    <Postimgslider list={list} show={true} />
                 </div>
             );
         }
@@ -49,10 +54,12 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
             elements.push(<Advertise key={`ad-${i}`} {...data} />);
         }
 
-        if ((i + 1) % 8 === 0 && renderedSingleCategories <= allCtg?.length) {
-            singleCategoryRendered = true;
-            const category = allCtg[renderedSingleCategories - 1];
-            if (category && active !== category.id) {
+        if ((i + 1) % 8 === 0 && allCtg?.length) {
+            const categoryIndex = Math.floor((i + 1) / 8) - 1;
+            const category = allCtg[categoryIndex];
+
+            if (category  && !renderedCategoryIds.has(category.id)) {
+                renderedCategoryIds.add(category.id);
                 elements.push(
                     <div className='' key={`singlecat-${i}`}>
                         <Singlecategory
@@ -72,48 +79,40 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
             elements.push(<Sponsers key={`sponsor-${i}`} {...data} />);
         }
 
-        if (list.type === 2) {
-            elements.push(
-                <div className="" key={`postslider-${i}`}>
-                    <Postimgslider list={list} show={true} />
-                </div>
-            );
-        }
-
-        if (list.type === 3) {
-            elements.push(
-                <div className="" key={`imgtovideo3-${i}`}>
-                    <Imagetovideo {...data} list={list} show={list.category_id === 1} />
-                </div>
-            );
-        }
-
         return <React.Fragment key={i}>{elements}</React.Fragment>;
     });
 
-    // Add fallbacks if not rendered
-    if (!advertiseRendered) {
+    // 🔁 Render remaining Singlecategory components if any left
+    if (!advertiseRendered && allCtg.length ==0) {
         content.push(<Advertise key="ad-fallback" {...data} />);
     }
-    if (!singleCategoryRendered && allCtg?.length > 0) {
-        allCtg.forEach((category, index) => {
-            if (active !== category.id) {
-                content.push(
-                    <div key={`singlecat-fallback-${index}`}>
-                        <Singlecategory
-                            activeTitle={title}
-                            id={category.id}
-                            changeVideo={changeVideo}
-                            title={category.name}
-                            all={category.blog}
-                        />
-                    </div>
-                );
-            }
-        });
+
+    const fallbackCategories = [];
+
+    allCtg?.forEach((category, index) => {
+        if (!renderedCategoryIds.has(category.id)) {
+            fallbackCategories.push(
+                <div key={`singlecat-fallback-${index}`}>
+                    <Singlecategory
+                        activeTitle={title}
+                        id={category.id}
+                        changeVideo={changeVideo}
+                        title={category.name}
+                        all={category.blog}
+                    />
+                </div>
+            );
+        }
+    });
+
+    if (fallbackCategories.length > 0) {
+        content.push(<Sponsers key="sponsor-before-fallback" {...data} />);
+        content.push(...fallbackCategories);
+        content.push(<Advertise key="advertise-after-fallback" {...data} />);
     }
-    
-    if (!sponsersRendered) {
+
+
+    if (!sponsersRendered && allCtg.length ==0) {
         content.push(<Sponsers key="sponsor-fallback" {...data} />);
     }
 
