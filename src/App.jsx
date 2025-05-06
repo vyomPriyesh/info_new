@@ -507,11 +507,11 @@ function App() {
         }
       </div>
       <div className='sticky top-0 z-50 bg-white'>
-        <Menu menu={menu} first={true} setActive={setActive} />
+        <Menu menu={menu2} />
         <First {...data} />
       </div>
-      <Menu menu={menu2} />
       <Postdata {...data} show={true} />
+      <Menu menu={menu} first={true} setActive={setActive} />
       <Routes>
         {/* <Route path='/web' element={<Check />} /> */}
         <Route path='/' element={<Landingpage {...data} />} />

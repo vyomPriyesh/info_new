@@ -54,7 +54,7 @@ const YouTubePlayer2 = ({ profile, data }) => {
       setCurrentVideoId(scheduledVideo);
     } else {
       // const fallbackTimeout = setTimeout(() => {
-      setCurrentVideoId({ video: fallbackVideo, type: 'default' });
+      setCurrentVideoId({ video: fallbackVideo});
       // }, 10000);
       // return () => clearTimeout(fallbackTimeout);
     }
