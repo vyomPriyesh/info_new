@@ -279,8 +279,9 @@ function App() {
 
   const location = useLocation();
 
+
   useEffect(() => {
-    if (!rIdvalue && active && !location.pathname.startsWith('/our-board')) {
+    if (!rIdvalue && active && !location.pathname.includes('/our-board')) {
       allDatanews()
     }
   }, [active, refresh])
