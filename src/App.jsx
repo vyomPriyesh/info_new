@@ -34,7 +34,7 @@ function App() {
 
 
   const {
-    active, setActive, refresh,
+    active, setActive,
     setReporterdata,
     firstRefresh,
     setLivedata,
@@ -279,15 +279,15 @@ function App() {
 
   const location = useLocation();
 
-  const datda = !location.pathname.includes('/our-board')
 
-  console.log(datda)
 
   useEffect(() => {
     if (!rIdvalue && active && !location.pathname.includes('/our-board')) {
+      const datda = typeof active?.to === 'string' && active.to.includes('/our-board');
+      console.log(datda)
       allDatanews()
     }
-  }, [active, refresh])
+  }, [active])
 
   useEffect(() => {
     if (!nidValue) {

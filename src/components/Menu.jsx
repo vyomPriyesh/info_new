@@ -4,13 +4,12 @@ import { useMyContext } from '../context/Allcontext'
 
 const Menu = ({ menu, first }) => {
 
-  const { setOurdata, setReporterdata, setActive, setRefresh, active } = useMyContext();
+  const { setOurdata, setReporterdata, setActive, active } = useMyContext();
 
 
   const handleClick = (list) => {
     setActive(list)
     setOurdata()
-    setRefresh(prev => prev + 1)
     setReporterdata()
   }
 
