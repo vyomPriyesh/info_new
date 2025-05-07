@@ -279,6 +279,9 @@ function App() {
 
   const location = useLocation();
 
+  const datda = !location.pathname.includes('/our-board')
+
+  console.log(datda)
 
   useEffect(() => {
     if (!rIdvalue && active && !location.pathname.includes('/our-board')) {
