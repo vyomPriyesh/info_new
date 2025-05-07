@@ -3,7 +3,7 @@ import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
 import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri'
 import { useMyContext } from '../context/Allcontext';
-import Reporterui from '../utilis/Reporterui';
+import Usercardui from '../utilis/Usercardui';
 
 const Reporterdata = ({ }) => {
 
@@ -29,7 +29,7 @@ const Reporterdata = ({ }) => {
 
     return (
         reporterData &&
-        <Reporterui data={reporterData} />
+        <Usercardui data={reporterData} />
     )
 }
 

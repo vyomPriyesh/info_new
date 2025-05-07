@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useMyContext } from '../context/Allcontext';
 import axios from 'axios';
-import Ourboardui from '../utilis/Ourboardui';
-import Reporterui from '../utilis/Reporterui';
+import Usercardui from '../utilis/Usercardui';
 
 const Ourboardmenudata = () => {
     const apiUrl = import.meta.env.VITE_APP_BASEURL;
@@ -36,16 +35,9 @@ const Ourboardmenudata = () => {
     return (
         <>
             <div className="flex flex-col">
-                {data?.slug == 'our-board' &&
-                    allOur.map((list, i) => (
-                        <Ourboardui data={list} key={i} />
-                    ))
-                }
-                {data?.slug == 'our-reporter' &&
-                    allOur.map((list, i) => (
-                        <Reporterui data={list} key={i} />
-                    ))
-                }
+                {allOur.map((list, i) => (
+                    <Usercardui data={list} key={i} />
+                ))}
             </div>
         </>
     )

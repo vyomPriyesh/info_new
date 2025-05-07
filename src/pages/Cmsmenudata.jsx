@@ -2,8 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useMyContext } from '../context/Allcontext';
-import Ourboardui from '../utilis/Ourboardui';
-import Reporterui from '../utilis/Reporterui';
 
 const Cmsmenudata = () => {
 

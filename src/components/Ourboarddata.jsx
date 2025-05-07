@@ -1,13 +1,13 @@
 import React from 'react'
 import { useMyContext } from '../context/Allcontext';
-import Ourboardui from '../utilis/Ourboardui';
+import Usercardui from '../utilis/Usercardui';
 
 const Ourboarddata = () => {
 
     const { ourData } = useMyContext();
     return (
         ourData &&
-        <Ourboardui data={ourData} />
+        <Usercardui data={ourData} />
     )
 }
 
