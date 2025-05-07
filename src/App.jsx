@@ -277,8 +277,10 @@ function App() {
     }
   }, [oIdValue])
 
+  const location = useLocation();
+
   useEffect(() => {
-    if (!rIdvalue && active) {
+    if (!rIdvalue && active && !location.pathname.startsWith('/our-board')) {
       allDatanews()
     }
   }, [active, refresh])
