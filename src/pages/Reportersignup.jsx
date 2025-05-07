@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Labelinput from '../utilis/Labelinput'
 import axios from 'axios'
 import * as Yup from "yup";
@@ -14,7 +14,14 @@ const Reportersignup = () => {
 
     const apiUrl = import.meta.env.VITE_APP_BASEURL;
 
-    const { loading, setLoading } = useMyContext();
+    const { loading, setLoading, setActive, menu2 } = useMyContext();
+
+    useEffect(() => {
+        if (menu2.length > 0) {
+            const find = menu2?.find(list => list.to == `/our-board/reporter-sign-up`)
+            setActive(find)
+        }
+    }, [menu2])
 
     const [pass, setPass] = useState(false)
     const [cPass, setCpass] = useState(false)
@@ -23,6 +30,7 @@ const Reportersignup = () => {
     const [data, setData] = useState({
         name: '',
         email: '',
+        experience: '',
         mobile: '',
         whatsApp: '',
         city: '',
@@ -30,6 +38,7 @@ const Reportersignup = () => {
         password: '',
         c_password: '',
         file: '',
+        press_file: ''
     })
 
     const [images, setImages] = useState({
@@ -48,6 +57,9 @@ const Reportersignup = () => {
                 .string()
                 .email("Invalid email format")
                 .required("Email is required"),
+            experience: Yup
+                .string()
+                .required("Experience is required"),
             mobile: Yup.string()
                 .required("Phone No is required")
                 .matches(/^[0-9]{10}$/, "Phone No must be exactly 10 digits"),
@@ -76,6 +88,9 @@ const Reportersignup = () => {
             file: Yup
                 .string()
                 .required("Profile Image is required"),
+            press_file: Yup
+                .string()
+                .required("Press ID is required"),
         }),
     });
 
@@ -85,21 +100,25 @@ const Reportersignup = () => {
 
         formData.append(`name`, data?.name);
         formData.append(`email`, data?.email);
+        formData.append(`experience`, data?.experience);
         formData.append(`mobile`, data?.mobile);
         formData.append(`whatsApp`, data?.whatsApp);
         formData.append(`city`, data?.city);
         formData.append(`address`, data?.address);
         formData.append(`image`, data?.file);
+        formData.append(`press_id`, data?.press_file);
         formData.append(`password`, data?.password);
 
         const vali_Data = {
             name: data?.name ?? '',
             email: data?.email ?? '',
+            experience: data?.experience ?? '',
             mobile: data?.mobile ?? '',
             whatsApp: data?.whatsApp ?? '',
             city: data?.city ?? '',
             address: data?.address ?? '',
             file: data?.file ?? '',
+            press_file: data?.press_file ?? '',
             password: data?.password ?? '',
             c_password: data?.c_password ?? '',
         }
@@ -161,7 +180,9 @@ const Reportersignup = () => {
                                 <div className="w-full flex flex-col gap-4">
                                     <Labelinput label='Name' type='text' error={errors?.name} value={data?.name} onChange={(e) => setData({ ...data, name: e.target.value })} placeholder='Enter Name' />
                                     <Labelinput label='Email' type='email' error={errors?.email} value={data?.email} onChange={(e) => setData({ ...data, email: e.target.value })} placeholder='Enter E-mail' />
+                                    <Labelinput label='Experience' type='text' error={errors?.experience} value={data?.experience} onChange={(e) => setData({ ...data, experience: e.target.value })} placeholder='Enter Experience' />
                                     <Labelinput label='Profile Image' type='file' error={errors?.file} onChange={(e) => setData({ ...data, file: e.target.files[0] })} />
+                                    <Labelinput label='Press ID' type='file' error={errors?.press_file} onChange={(e) => setData({ ...data, press_file: e.target.files[0] })} />
                                     <Labelinput label='Mobile Number' type='number' error={errors?.mobile} value={data?.mobile} onChange={(e) => setData({ ...data, mobile: e.target.value })} placeholder='Enter Mobile Number' />
                                     <Labelinput label='Whatsapp Number' type='number' error={errors?.whatsApp} value={data?.whatsApp} onChange={(e) => setData({ ...data, whatsApp: e.target.value })} placeholder='Enter Whatsapp Number' />
                                     <Labelinput label='Location' type='text' error={errors?.city} value={data?.city} onChange={(e) => setData({ ...data, city: e.target.value })} placeholder='Enter Your Location' />

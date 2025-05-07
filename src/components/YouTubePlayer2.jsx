@@ -89,12 +89,12 @@ const YouTubePlayer2 = ({ profile, data }) => {
 
     setCurrentVideoId('');
     setTimeout(() => {
-      setCurrentVideoId(scheduledVideo || { video: fallbackVideo, type: 'default' });
+      setCurrentVideoId(scheduledVideo || { video: fallbackVideo });
     }, 100);
   };
 
   return (
-    <div className='relative overflow-hidden'>
+    <div className='relative overflow-hidden hh'>
       {profile?.logo && (
         <img
           loading="lazy"

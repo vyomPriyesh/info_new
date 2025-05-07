@@ -153,8 +153,8 @@ const YouTubePlayer = ({ profile, type, setTitle, data }) => {
   // console.log(names)
   // console.log(heroData)
 
-  return (
-    <div className='relative overflow-hidden'>
+  return ( 
+    <div className='relative overflow-hidden hh'>
       {profile?.logo &&
         <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo' src={profile?.logo} />
       }

@@ -10,19 +10,14 @@ import 'aos/dist/aos.css';
 import Menu from './components/Menu'
 import First from './components/First'
 import Postdata from './utilis/Postdata'
-import { Modal } from 'flowbite-react'
 import axios from 'axios'
-import Singlecategory from './components/Singlecategory'
-import Modalnews from './utilis/Modalnews'
-import Ourboard from './pages/Ourboard'
 import Reportersignup from './pages/Reportersignup'
-import YouTubePlayer from './components/YouTubePlayer2'
-import YouTubePlayer2 from './components/YouTubePlayer2'
 import { Helmet } from 'react-helmet'
 import { useMyContext } from './context/Allcontext'
-import Check from './utilis/Check'
-import Contact from './pages/Contact'
 import Ctg from './pages/Ctg'
+import Singlecenter from './components/Singlecenter'
+import Cmsmenudata from './pages/Cmsmenudata'
+import Ourboardmenudata from './pages/Ourboardmenudata'
 
 function App() {
 
@@ -37,23 +32,21 @@ function App() {
     easing: 'ease',
   });
 
-  const { active, setActive, refresh } = useMyContext();
 
-  const [modalData, setModaldata] = useState(null)
-  const [open, setOpen] = useState(false)
+  const {
+    active, setActive, refresh,
+    setReporterdata,
+    firstRefresh,
+    setLivedata,
+    setLocation,
+    setFallbackVideo,
+    setHerodata,
+    setOurdata,
+    setAllctg, menu, setMenu, menu2, setMenu2
+  } = useMyContext();
 
-  const { setReporterdata } = useMyContext()
-  const { firstRefresh, setLivedata } = useMyContext();
-  const { setLocation, setFallbackVideo } = useMyContext();
-  const { setHerodata, setOurdata, setAllctg } = useMyContext();
-
-  const [images, setImages] = useState([])
-  const [modalText, setModaltext] = useState([])
   const [all, setAll] = useState([])
-  const [center, setCenter] = useState(false)
-  const [centerRefresh, setCenterRefresh] = useState(0)
   const [centerData, setCenterdata] = useState([])
-  const [singleCenter, setSinglecenter] = useState(null)
   const [title, setTitle] = useState('')
   const [advertise, setAdvertise] = useState([])
   const [sponsers, setSponsers] = useState([])
@@ -70,8 +63,6 @@ function App() {
   const navigate = useNavigate();
   const [type, setType] = useState(null)
   const [change, setChange] = useState(null)
-  const [menu, setMenu] = useState([])
-  const [menu2, setMenu2] = useState([])
   const [scrollNews, setNews] = useState()
   const [bannerImg, setBannerimg] = useState([])
   const [newsData, setNewsData] = useState([])
@@ -80,8 +71,8 @@ function App() {
   const [bannerText, setBannerText] = useState([]);
 
   useEffect(() => {
-    if (idValue) {
-      setActive(idValue)
+    if (idValue && active?.to == 0) {
+      setActive({ to: idValue })
     }
   }, [idValue])
 
@@ -93,18 +84,6 @@ function App() {
       const response = await axios.get(`${apiUrl}common/1`);
       if (response.data.status) {
         setLocation(response.data.data.location ?? [])
-        // setMenu(response.data.data.Category.map(list => ({
-        //   to: list.id,
-        //   name: list.name
-        // })))
-        // setMenu2(response.data.data.Cms.map(list => ({
-        //   to: list.id,
-        //   name: list.title
-        // })))
-        // setHerodata(response.data.data.Video.map(list => ({
-        //   ...list,
-        //   details: list.video
-        // })))
         const allNews = response.data.data.ScrollNews.map(list => list.news)
         setNews(allNews)
         setFallbackVideo(response.data.data.Setting.preload_link)
@@ -144,24 +123,18 @@ function App() {
     }
   }
 
-
   const allMenu2 = async () => {
     try {
-      const response = await axios.get(`${apiUrl}cms/1`);
+      const response = await axios.get(`${apiUrl}cms_menu/1`);
       if (response.data.status) {
         const dynamicMenu = response.data.data.map(list => ({
-          to: list.id,
-          name: list.title,
+          to: `our-board/${list.id}`,
+          name: list.name,
           slug: list.slug,
         }));
         const staticItem = [
-          // {
-          //   to: 1,
-          //   name: "Our Board",
-          //   slug: "our-board",
-          // },
           {
-            to: 1,
+            to: '/our-board/reporter-sign-up',
             name: "Reporter Login",
             slug: "reporter-sign-up",
           }];
@@ -171,6 +144,24 @@ function App() {
       console.log(err)
     }
   }
+
+  const allMenu3 = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}cms/1`);
+      if (response.data.status) {
+        const dynamicMenu = response.data.data.map(list => ({
+          to: `cms/${list.id}`,
+          name: list.title,
+          slug: list.slug,
+        }));
+        setMenu2(prev => [...prev, ...dynamicMenu]);
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
 
   const firstVideo = async () => {
     try {
@@ -197,7 +188,7 @@ function App() {
 
   const allDatanews = async () => {
     try {
-      const response = await axios.get(`${apiUrl}news/1/${active}`);
+      const response = await axios.get(`${apiUrl}news/1/${active.to}`);
       if (response.data.status) {
         // setAll(response.data.data.map(list => ({
         //   type: list.type,
@@ -260,9 +251,9 @@ function App() {
 
   const oidData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}our-board/1`);
+      const response = await axios.get(`${apiUrl}cms_menu_details/1/${oIdValue}`);
       if (response.data.status) {
-        setOurdata(response.data.data.find(list => list.id == oIdValue))
+        setOurdata(response.data.data)
       }
     } catch (err) {
       console.log(err)
@@ -287,7 +278,7 @@ function App() {
   }, [oIdValue])
 
   useEffect(() => {
-    if (!rIdvalue) {
+    if (!rIdvalue && active) {
       allDatanews()
     }
   }, [active, refresh])
@@ -299,18 +290,12 @@ function App() {
     getAllctg()
     allMenu()
     allMenu2()
+    allMenu3()
   }, [])
 
   useEffect(() => {
     firstVideo()
   }, [firstRefresh])
-
-  // useEffect(() => {
-  //   if (!title) {
-  //     firstVideo()
-  //   }
-  // }, [title])
-
 
 
   const protocol = window.location.protocol;  // 'http:' or 'https:'
@@ -378,11 +363,6 @@ function App() {
     }
   }
 
-
-  // const filtered = response.data.data.filter(list => list.blog_image?.length > 1)
-  // const filtered = response.data.data.filter(list => list.type == 2)
-  // setAll(filtered)
-
   useEffect(() => {
     if (nidValue) {
       changeVideo({
@@ -390,52 +370,6 @@ function App() {
       })
     }
   }, [nidValue])
-
-  const delay2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-  const loopWithDelay = async () => {
-    for (let i = 0; i <= centerData.length; i++) {
-      await delay2(1500)
-      setSinglecenter(centerData[i])
-      await delay2(1000)
-      setCenter(true)
-      await delay2(4000)
-      setCenter(false)
-      await delay2(2000);
-      if (i + 1 == centerData.length) {
-        setCenterRefresh((prev) => prev + 1)
-      }
-    }
-  };
-
-  useEffect(() => {
-    setCenter(false)
-    loopWithDelay()
-  }, [centerRefresh, centerData])
-
-
-  const [modalLocation, setModalLocation] = useState([])
-  const [modalHerodata, setModalHerodata] = useState([])
-
-  const openModal = async (id) => {
-    try {
-      const response = await axios.get(`${apiUrl}breaking_details/1/${id}`);
-      if (response.data.status) {
-        const locations = [];
-        if (response.data.data.location) locations.push(response.data.data.location);
-        if (response.data.data.location_1) locations.push(response.data.data.location_1);
-        if (response.data.data.location_2) locations.push(response.data.data.location_2);
-        setModalLocation(locations)
-        setOpen(true)
-        setModaldata(response.data.data)
-        setImages(response.data.data.blog_image.map(list => list.details))
-        setModalHerodata(response.data.data.blog_image)
-        setModaltext(response.data.data.blog_ticker.filter(list => list.type == 2))
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   const reporterDatahandle = async (id) => {
     try {
@@ -466,9 +400,7 @@ function App() {
     newsData,
     delay,
     bannerDelay,
-    active,
     all,
-    setActive,
     bannerText,
     changeVideo,
     advertise,
@@ -480,8 +412,6 @@ function App() {
   }, [active]);
 
   const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`
-
-  const pathname = useLocation();
 
   return (
     <>
@@ -498,29 +428,22 @@ function App() {
         <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/hqdefault.jpg`} />
         <meta name="url" content={shareUrl} />
       </Helmet>
-      <div className="">
-        {pathname?.pathname !== '/cms/reporter-sign-up' && pathname?.pathname !== '/cms/Info%20Gujarat' && singleCenter &&
-          <button onClick={() => openModal(singleCenter?.id)} className={`fixed me-auto text-start flex flex-col text-white rounded-lg w-fit bg top-2/3 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-3 me-3 ' : '-translate-x-28 me-0'} `}>
-            <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>
-            <span className='text-sm line-clamp-1'>{singleCenter?.title.substring(0, 13)}...</span>
-          </button>
-        }
-      </div>
+      <Singlecenter centerData={centerData} />
       <div className='sticky top-0 z-50 bg-white'>
         <Menu menu={menu2} />
         <First {...data} />
       </div>
       <Postdata {...data} show={true} />
-      <Menu menu={menu} first={true} setActive={setActive} />
+      <Menu menu={menu} first={true} />
       <Routes>
         {/* <Route path='/web' element={<Check />} /> */}
         <Route path='/' element={<Landingpage {...data} />} />
         <Route path='/ctg/:id' element={<Ctg {...data} />} />
         {/* <Route path='/cms/our-board' element={<Ourboard {...data} />} /> */}
-        <Route path='/cms/reporter-sign-up' element={<Reportersignup {...data} />} />
-        <Route path='/cms/:id' element={<Contact {...data} />} />
+        <Route path='/our-board/reporter-sign-up' element={<Reportersignup {...data} />} />
+        <Route path='/our-board/:id' element={<Ourboardmenudata {...data} />} />
+        <Route path='/cms/:id' element={<Cmsmenudata {...data} />} />
       </Routes>
-      <Modalnews images={images} open={open} set={setOpen} data={modalData} location={modalLocation} heroData={modalHerodata} type={type} text={modalText} />
     </>
   )
 }

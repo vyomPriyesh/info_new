@@ -1,13 +1,18 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import { useMyContext } from '../context/Allcontext';
+import Ourboardui from '../utilis/Ourboardui';
+import Reporterui from '../utilis/Reporterui';
 
-const Contact = () => {
+const Cmsmenudata = () => {
+
 
     const apiUrl = import.meta.env.VITE_APP_BASEURL;
 
     const { id } = useParams();
     const [data, setData] = useState()
+    const { menu2, setActive } = useMyContext()
 
     const allData = async () => {
         try {
@@ -21,6 +26,14 @@ const Contact = () => {
     }
 
     useEffect(() => {
+        if (id && menu2.length > 0) {
+            const find = menu2?.find(list => list.to == `cms/${id}`)
+            setActive(find)
+            allData()
+        }
+    }, [id, menu2])
+
+    useEffect(() => {
         allData()
     }, [id])
 
@@ -31,4 +44,4 @@ const Contact = () => {
     )
 }
 
-export default Contact
+export default Cmsmenudata

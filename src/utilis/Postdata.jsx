@@ -1,3 +1,4 @@
+import {  styled, Tooltip, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet';
 import { FaEye, FaInstagram, FaStopwatch, FaWhatsapp } from 'react-icons/fa';
@@ -47,6 +48,25 @@ const Postdata = ({ show, title, profile, moreData }) => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    const HtmlTooltip = styled(({ className, ...props }) => (
+        <Tooltip {...props} classes={{ popper: className }} arrow />
+    ))(({ theme }) => ({
+        '& .MuiTooltip-tooltip': {
+            backgroundColor: 'white',
+            color: 'black',
+            fontSize: '0.7rem !important',
+            borderRadius: '5px',
+            boxShadow: '0px 3px 15px rgba(0, 0, 0, 0.19), 0px 3px 6px rgba(0, 0, 0, 0.23)',
+        },
+        '& .MuiTooltip-arrow': {
+            color: 'white', // Must match tooltip background
+            '&:before': {
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' // Optional shadow for arrow
+            }
+        },
+    }));
+
 
     return (
         <>
@@ -111,36 +131,44 @@ const Postdata = ({ show, title, profile, moreData }) => {
                             </div>
                         }
                         {profile?.share &&
-                            <button ref={dropdownRef} onClick={() => setShare(!share)} className="text-lg text-blue-500 relative ">
-                                <IoShareSocial />
-                                {share &&
-                                    <div
-                                        className={`
-    absolute flex rounded-md z-50 flex-col gap-6 text-4xl
-    left-0
-    md:-top-10   // Desktop: open above
-    top-full     // Mobile: open below
-    bg-white border border-gray-300 p-2
-  `}
-                                    >
-                                        <a
-                                            target='_blank'
-                                            href={whatsappUrl}
-                                            data-title={title}
-                                            data-description={moreData}
-                                            data-image={`https://img.youtube.com/vi/${profile?.video_img}/0.jpg`}
-                                            data-url={whatsappUrl}
-                                            id="whatsapp-share"
-                                            className="text-green-600"
-                                        >
-                                            <FaWhatsapp />
-                                        </a>
-                                        <a href="#" className="text-yellow-700"><FaInstagram /></a>
-                                        <a href="#"><RiFacebookFill /></a>
-                                    </div>
+                                <HtmlTooltip
+                                    open={share}
+                                    onClose={() => setShare(false)}
 
-                                }
-                            </button>
+                                    title={
+                                        <Typography color="inherit">
+                                            <div ref={dropdownRef}
+                                                className={`
+                                                    flex flex-row gap-6 z-10 text-4xl
+                                                    bg-white
+                                                `}
+                                            >
+                                                <a
+                                                    target='_blank'
+                                                    href={whatsappUrl}
+                                                    data-title={title}
+                                                    data-description={moreData}
+                                                    data-image={`https://img.youtube.com/vi/${profile?.video_img}/0.jpg`}
+                                                    data-url={whatsappUrl}
+                                                    id="whatsapp-share"
+                                                    className="text-green-600"
+                                                >
+                                                    <FaWhatsapp />
+                                                </a>
+                                                <a href="#" className="text-yellow-700"><FaInstagram /></a>
+                                                <a href="#"><RiFacebookFill /></a>
+                                            </div>
+
+                                        </Typography>
+                                    }
+                                >
+                                    <button
+                                        className=" justify-center place-items-center py-1 hover:text-blue-600 inline-block cursor-pointer"
+                                        onClick={() => setShare(!share)}
+                                    >
+                                        <IoShareSocial />
+                                    </button>
+                                </HtmlTooltip>
                         }
                     </div>
                 }

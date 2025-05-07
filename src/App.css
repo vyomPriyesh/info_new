@@ -203,7 +203,7 @@
 
 @keyframes name {
   0% {
-    transform: translateX(170px);
+    transform: translateX(100%);
   }
   10%{
     transform: translateX(140px);
@@ -216,7 +216,7 @@
   }
 
   100% {
-    transform: translateX(170px);
+    transform: translateX(100%);
   }
 }
 
@@ -231,4 +231,7 @@ iframe {
   background-repeat: no-repeat;
   background-size: cover;
   background-position-y: center;
+}
+.hh {
+  z-index: 1600 !important;
 }

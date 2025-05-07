@@ -39,7 +39,7 @@ const Singlecategory = ({ all, changeVideo, title, activeTitle, id }) => {
                 {all?.slice(0, 20).map((list, i) => (
                     <>
                         {list.type == 1 &&
-                            <SwiperSlide className='max-w-[250px] w-full z-50'><Imagetovideo key={i} {...data} list={list} title={activeTitle} show={list.category_id == 1}/></SwiperSlide>
+                            <SwiperSlide className='max-w-[250px] w-full z-50' key={`slide-${i}-${list.id || list.title || Math.random()}`} ><Imagetovideo key={i} {...data} list={list} title={activeTitle} show={list.category_id == 1}/></SwiperSlide>
                         }
                     </>
                 ))}

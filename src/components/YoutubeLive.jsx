@@ -42,7 +42,7 @@ const YoutubeLive = () => {
     };
 
     return (
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden hh">
             {liveData?.[0]?.live_link && (
                 <>
                     <YouTube

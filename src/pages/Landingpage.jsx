@@ -16,8 +16,6 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
     const data = {
         title,
         changeVideo,
-        advertise,
-        sponsers,
     };
 
     const renderedCategoryIds = new Set();
@@ -51,7 +49,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
         if ((i + 1) % 10 === 5) {
             advertiseRendered = true;
-            elements.push(<Advertise key={`ad-${i}`} {...data} />);
+            elements.push(<Advertise key={`ad-${i}`} advertise={advertise} />);
         }
 
         if ((i + 1) % 8 === 0 && allCtg?.length) {
@@ -76,7 +74,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
         if ((i + 1) % 10 === 0) {
             sponsersRendered = true;
-            elements.push(<Sponsers key={`sponsor-${i}`} {...data} />);
+            elements.push(<Sponsers key={`sponsor-${i}`} sponsers={sponsers} />);
         }
 
         return <React.Fragment key={i}>{elements}</React.Fragment>;
@@ -84,7 +82,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
     // 🔁 Render remaining Singlecategory components if any left
     if (!advertiseRendered && allCtg.length ==0) {
-        content.push(<Advertise key="ad-fallback" {...data} />);
+        content.push(<Advertise key="ad-fallback" sponsers={sponsers} />);
     }
 
     const fallbackCategories = [];
@@ -106,14 +104,14 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
     });
 
     if (fallbackCategories.length > 0) {
-        content.push(<Sponsers key="sponsor-before-fallback" {...data} />);
+        content.push(<Sponsers key="sponsor-before-fallback" sponsers={sponsers} />);
         content.push(...fallbackCategories);
-        content.push(<Advertise key="advertise-after-fallback" {...data} />);
+        content.push(<Advertise key="advertise-after-fallback" advertise={advertise} />);
     }
 
 
     if (!sponsersRendered && allCtg.length ==0) {
-        content.push(<Sponsers key="sponsor-fallback" {...data} />);
+        content.push(<Sponsers key="sponsor-fallback" sponsers={sponsers} />);
     }
 
     return (

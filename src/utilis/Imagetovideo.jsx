@@ -12,8 +12,6 @@ const Imagetovideo = ({ title, list, changeVideo, show }) => {
     const [all, setAll] = useState([])
     const [location, setLocation] = useState([])
 
-
-
     const [profile, setProfile] = useState({
         video_img: '',
         name: '',
@@ -49,7 +47,6 @@ const Imagetovideo = ({ title, list, changeVideo, show }) => {
 
         setLocation(locations)
     }, [refresh, list]);
-
 
     return (
         <>
