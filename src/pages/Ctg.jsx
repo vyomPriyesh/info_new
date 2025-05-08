@@ -140,6 +140,7 @@ const Ctg = ({ all, changeVideo, advertise, sponsers, title }) => {
         content.push(<Sponsers key="sponsor-fallback" {...data} />);
     }
 
+
     return (
         <>
             <Reporterdata />

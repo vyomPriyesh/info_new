@@ -253,7 +253,14 @@ function App() {
     try {
       const response = await axios.get(`${apiUrl}cms_menu_details/1/${oIdValue}`);
       if (response.data.status) {
-        setOurdata(response.data.data)
+        setOurdata({
+          name: response.data.data.name,
+          desegregation: response.data.data.desegregation,
+          mobile: response.data.data.mobile,
+          email: response.data.data.email,
+          image: response.data.data.image,
+          image_path: response.data.data.image_path,
+        })
       }
     } catch (err) {
       console.log(err)
@@ -284,7 +291,6 @@ function App() {
   useEffect(() => {
     if (!rIdvalue && active && !location.pathname.includes('/our-board')) {
       const datda = typeof active?.to === 'string' && active.to.includes('/our-board');
-      console.log(datda)
       allDatanews()
     }
   }, [active])
@@ -381,7 +387,14 @@ function App() {
     try {
       const response = await axios.get(`${apiUrl}reporter/${id}`);
       if (response.data.status) {
-        setReporterdata(response.data.data.user)
+        setReporterdata({
+          name: response.data.data.user.name,
+          desegregation: 'Reporter',
+          mobile: response.data.data.user.mobile,
+          email: response.data.data.user.email,
+          image: response.data.data.user.image,
+          image_path: response.data.data.user.image_path,
+        })
         setAll(response.data.data.BreakingNews)
       }
     } catch (err) {
@@ -435,12 +448,12 @@ function App() {
         <meta name="url" content={shareUrl} />
       </Helmet>
       <Singlecenter centerData={centerData} />
+      <Menu menu={menu2} />
       <div className='sticky top-0 z-50 bg-white'>
-        <Menu menu={menu2} />
         <First {...data} />
+        <Menu menu={menu} first={true} />
       </div>
       <Postdata {...data} show={true} />
-      <Menu menu={menu} first={true} />
       <Routes>
         {/* <Route path='/web' element={<Check />} /> */}
         <Route path='/' element={<Landingpage {...data} />} />
