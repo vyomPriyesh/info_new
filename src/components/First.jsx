@@ -365,7 +365,7 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                     }
                 </div> */}
                 {both.length > 0 &&
-                    <div className='relative h-12 flex justify-center place-items-center'>
+                    <div className='relative h-12 flex justify-center place-items-center mt-0.5'>
                         {mode === 'news' &&
                             <div className="flex flex-row h-full w-full bg" data-aos="fade-left">
                                 <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-xl font-bold">
