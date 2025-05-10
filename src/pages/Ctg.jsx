@@ -16,7 +16,7 @@ const Ctg = ({ all, changeVideo, advertise, sponsers, title }) => {
 
     useEffect(() => {
         if (id) {
-            setActive(id);
+            setActive({ to: id });
         }
         window.scrollTo(0, 0); // Scroll to top when category changes
     }, [id]);

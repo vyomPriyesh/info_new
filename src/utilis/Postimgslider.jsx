@@ -15,7 +15,7 @@ const Postimgslider = ({ list, show }) => {
             profile: {
                 time: data?.create_date,
                 name: data?.user?.name,
-                img: data?.user?.image,
+                img: data?.user?.image_path,
                 view: data?.count,
                 share: data?.id,
             }
@@ -29,7 +29,7 @@ const Postimgslider = ({ list, show }) => {
             ...profile,
             time: list?.create_date,
             name: list?.user?.name,
-            img: list?.user?.image,
+            img: list?.user?.image_path,
             view: list?.count,
             share: list?.id,
         })

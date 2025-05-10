@@ -90,7 +90,7 @@ const Modalnews = ({ open, set, data, images, location, heroData, type, text }) 
                                 ))}
                             </Swiper>
                         }
-                        {data?.type == 1 &&
+                        {data?.type == 1 || data?.type == 3 &&
                             <>
                                 <div className="mb-10">
                                     <Modalyoutubeplayer type={type} heroData={heroData} location={location} />

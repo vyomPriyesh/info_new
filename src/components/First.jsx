@@ -34,11 +34,100 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
     const [singleNews, setSinglenews] = useState(null)
     const [time, setTime] = useState(10);
     const [banner, setBanner] = useState()
-    const [showBanner, setShowbanner] = useState(true)
+    const [currentIndex, setCurrentIndex] = useState(0); // index in data
+    const [mode, setMode] = useState("news");
+    const [textIndex, setTextIndex] = useState(0);
+    const [bannerIndex, setBannerIndex] = useState(0);
+
+    const [both, setBoth] = useState([])
+    const currentItem = both[currentIndex];
+    const banners = currentItem?.banner?.flat();
 
     const { liveData, firstRefresh } = useMyContext();
 
+    useEffect(() => {
+        if (bannerImg?.length > 0 || newsData?.length > 0) {
+            const result = bannerImg.map(bannerGroup => ({
+                news: ['Breaking', 'News'],
+                text: newsData,
+                banner: [bannerGroup]
+            }));
 
+            setBoth(result);
+        }
+    }, [bannerImg, newsData]);
+
+    useEffect(() => {
+        let interval;
+        let newsTimeout;
+
+        const currentItem = both[currentIndex];
+        const banners = currentItem?.banner?.flat() || [];
+        const texts = currentItem?.text || [];
+
+        if (mode === "news") {
+            // Show "news" for 4 seconds, then decide next mode
+            newsTimeout = setTimeout(() => {
+                if (texts.length > 0) {
+                    setMode("text");
+                } else if (banners.length > 0) {
+                    setMode("banner");
+                } else {
+                    // Nothing to show, skip to next item
+                    setCurrentIndex((prev) => (prev + 1) % both.length);
+                    setMode("news");
+                }
+            }, 4000);
+        } else {
+            interval = setInterval(() => {
+                const currentItem = both[currentIndex];
+                const banners = currentItem?.banner?.flat() || [];
+                const texts = currentItem?.text || [];
+
+                if (mode === "text") {
+                    if (texts.length === 0) {
+                        // No text, go to banner
+                        setMode("banner");
+                        return;
+                    }
+
+                    if (textIndex < texts.length - 1) {
+                        setTextIndex((prev) => prev + 1);
+                    } else {
+                        setTextIndex(0);
+                        if (banners.length > 0) {
+                            setMode("banner");
+                            setBannerIndex(0);
+                        } else {
+                            // No banners, skip to next news
+                            setCurrentIndex((prev) => (prev + 1) % both.length);
+                            setMode("news");
+                        }
+                    }
+                } else if (mode === "banner") {
+                    if (banners.length === 0) {
+                        // No banners, skip to next
+                        setCurrentIndex((prev) => (prev + 1) % both.length);
+                        setMode("news");
+                        return;
+                    }
+
+                    if (bannerIndex < banners.length - 1) {
+                        setBannerIndex((prev) => prev + 1);
+                    } else {
+                        setBannerIndex(0);
+                        setCurrentIndex((prev) => (prev + 1) % both.length);
+                        setMode("news");
+                    }
+                }
+            }, 4000);
+        }
+
+        return () => {
+            clearInterval(interval);
+            clearTimeout(newsTimeout);
+        };
+    }, [mode, textIndex, bannerIndex, currentIndex, both]);
 
     // const newsDatachange = async () => {
 
@@ -57,24 +146,24 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
 
     useEffect(() => {
         let isMounted = true;
-    
+
         const loopWithDelay = async () => {
             if (!bannerImg || bannerImg.length === 0 || showNews) return;
-    
+
             for (let i = 0; i < bannerImg.length && isMounted; i++) {
                 setImg(true);
                 setBanner(bannerImg[i]);
                 await delay2(4000);
             }
-    
+
             if (isMounted) {
                 setImg(false);
                 setShownews(true); // Switch to news
             }
         };
-    
+
         loopWithDelay();
-    
+
         return () => {
             isMounted = false;
         };
@@ -92,27 +181,27 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
 
     useEffect(() => {
         if (!newsData || newsData.length === 0 || !showNews) return;
-    
+
         let isCancelled = false;
-    
+
         const newsDatachange = async () => {
             for (let i = 0; i < newsData.length && !isCancelled; i++) {
                 setNews(false);
                 await delay2(3000);
-    
+
                 setSinglenews(newsData[i]);
                 setNews(true);
                 await delay2(5000);
             }
-    
+
             if (!isCancelled) {
                 setShownews(false); // Switch back to banners
                 setImg(true);
             }
         };
-    
+
         newsDatachange();
-    
+
         return () => {
             isCancelled = true;
         };
@@ -246,7 +335,7 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                     </div>
                     <span className={`${show ? 'translate-x-0 ' : '-translate-x-full `'} uppercase transition-all duration-1000 ease-in bg-white px-1 absolute top-0`}>{data}</span>
                 </div>
-                <div className="bg-white h-[46px] relative">
+                {/* <div className="bg-white h-[46px] relative">
                     {showNews &&
                         <div className={`bg heading overflow-hidden absolute h-[47px] mt-[1px]  z-30 w-full`}>
                             <>
@@ -274,7 +363,36 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                             <img loading="lazy" src={banner} data-aos="fade-left" className='h-full w-full' key={banner} alt="" />
                         </div>
                     }
-                </div>
+                </div> */}
+                {both.length > 0 &&
+                    <div className='relative h-12 flex justify-center place-items-center'>
+                        {mode === 'news' &&
+                            <div className="flex flex-row h-full w-full bg" data-aos="fade-left">
+                                <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-xl font-bold">
+                                    <h1 className="">Breaking</h1>
+                                </div>
+                                <div className="w-1/2 bg flex justify-center place-items-center text-white text-xl font-bold">
+                                    <h1 className="">News</h1>
+                                </div>
+                            </div>
+                        }
+                        {mode === "text" &&
+                            <div className='absolute bg h-full w-full flex justify-center place-items-center text-white font-black'>
+                                <span data-aos="fade-left" key={currentItem?.text[textIndex]} >{currentItem?.text[textIndex]}</span>
+                            </div>
+                        }
+                        {mode === "banner" && (
+                            <div className='absolute h-full flex justify-center place-items-center bg-white w-full'>
+                                <img
+                                    data-aos="fade-left" key={banners[bannerIndex]?.image_path}
+                                    src={banners[bannerIndex]?.image_path}
+                                    alt="Banner"
+                                    className='h-full w-full'
+                                />
+                            </div>
+                        )}
+                    </div>
+                }
                 <div className="">
 
                     {/* <Swiper

@@ -76,7 +76,6 @@ function App() {
     }
   }, [idValue])
 
-
   const apiUrl = import.meta.env.VITE_APP_BASEURL;
 
   const allData = async () => {
@@ -88,7 +87,7 @@ function App() {
         setNews(allNews)
         setFallbackVideo(response.data.data.Setting.preload_link)
         setCenterdata(response.data.data.BreakingNews)
-        setBannerimg(response.data.data.BannerAds.map(list => list.image !== null ? list.image_path : ''))
+        setBannerimg(response.data.data.bannerAds)
         setNewsData(response.data.data.BottomNews.map(list => list.name))
         setDelay(response.data.data.Setting.bottom_news_cycle)
         setBannerdelay(response.data.data.Setting.banner_ads_cycle)
