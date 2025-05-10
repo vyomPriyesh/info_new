@@ -1,15 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useMyContext } from '../context/Allcontext';
 import Nameplate from '../utilis/Nameplate';
 import Location from '../utilis/Location';
 import Redbanner from '../utilis/Redbanner';
 import { GoMute, GoUnmute } from 'react-icons/go';
 
-const Modalyoutubeplayer = ({ profile, type, data, heroData }) => {
-
-
-
-    const { location } = useMyContext();
+const Modalyoutubeplayer = ({ profile, type, data, heroData,location }) => {
 
     const instanceId = useRef(`yt-${Math.random().toString(36).substr(2, 9)}`).current;
 
@@ -152,6 +147,7 @@ const Modalyoutubeplayer = ({ profile, type, data, heroData }) => {
     // console.log(names)
     // console.log(heroData)
 
+
     return (
         <div className='relative overflow-hidden'>
             {profile?.logo &&
@@ -165,7 +161,7 @@ const Modalyoutubeplayer = ({ profile, type, data, heroData }) => {
                 //   }
                 //   `}>
                 className={`flex transition-all duration-500 ease-in-out overflow-hidden justify-center w-full place-items-center mt-1  
-        ${type == 3 ? isShrunk ? 'h-[240px]' : 'h-[450px]' : 'h-[240px]'} `}
+        ${type == 3 ? isShrunk ? 'h-[240px]' : 'h-[350px]' : 'h-[240px]'} `}
             >
                 {/* <iframe width="100%" height="240" src={`https://www.youtube.com/embed/${heroData}?enablejsapi=1&rel=0&amp;autoplay=1&mute=${mute ? '1':'0'}&controls=0&modestbranding=1`} className=" not-allowed"
                         allow="autoplay;  encrypted-media;"

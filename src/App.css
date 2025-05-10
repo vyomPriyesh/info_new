@@ -155,7 +155,7 @@
 #wordDisplay span {
   display: inline-block;
   opacity: 0;
-  animation: showWord 1s ease-in-out forwards;
+  animation: showWord 0.5s ease-in-out forwards;
 }
 #wordDisplay span:nth-child(n) {
   animation-delay: calc(0.05s * var(--i));
