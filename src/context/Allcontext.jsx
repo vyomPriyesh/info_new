@@ -33,7 +33,7 @@ export const AllProvider = ({ children }) => {
     useEffect(() => {
         const interval = setInterval(() => {
             setFirstrefresh(prev => prev + 1);
-        }, 10000); // every 60 seconds
+        }, 60000); // every 60 seconds
 
         return () => clearInterval(interval); // clean up on unmount
     }, []);
