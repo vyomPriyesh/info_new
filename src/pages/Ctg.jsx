@@ -9,6 +9,7 @@ import Advertise from '../components/Advertise'
 import Sponsers from '../components/Sponsers'
 import Postimgslider from '../utilis/Postimgslider'
 import Singlecategory from '../components/Singlecategory'
+import Shortsvideo from '../utilis/Shortsvideo'
 
 const Ctg = ({ all, changeVideo, advertise, sponsers, title }) => {
     const { id } = useParams();
@@ -51,7 +52,7 @@ const Ctg = ({ all, changeVideo, advertise, sponsers, title }) => {
     const content = all?.map((list, i) => {
         const elements = [];
 
-        if (list.type === 1 || list.type === 3) {
+        if (list.type === 1) {
             elements.push(
                 <div key={`imgtovideo-${i}`}>
                     <Imagetovideo {...data} list={list} show={list.category_id === 1} />
@@ -63,6 +64,13 @@ const Ctg = ({ all, changeVideo, advertise, sponsers, title }) => {
             elements.push(
                 <div className="" key={`postslider-${i}`}>
                     <Postimgslider list={list} show={true} />
+                </div>
+            );
+        }
+        if (list.type === 3) {
+            elements.push(
+                <div key={`shortvideo-${i}`}>
+                    <Shortsvideo {...data} list={list} show={list.category_id === 1} />
                 </div>
             );
         }

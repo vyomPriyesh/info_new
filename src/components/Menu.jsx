@@ -22,7 +22,7 @@ const Menu = ({ menu, first }) => {
             <Link to='/' onClick={() => handleClick({ to: 0 })} className={`${active?.to == 0 ? 'text-black border-black ' : 'text-red-500 border-red-500'} px-3  border-2 rounded-md font-medium text-sm md:text-base`}>Home</Link>
           }
           {menu.map((list, i) => (
-            <Link onClick={() => handleClick(list)} key={i} to={`/?id=${list.to}`} className={` ${active != list ? 'text-red-500  border-red-500' : 'border-black'} px-3 border-2 rounded-md font-medium text-sm md:text-base`}>{list.name}</Link>
+            <Link onClick={() => handleClick(list)} key={i} to={`/?id=${list.to}`} className={` ${active?.to != list.to ? 'text-red-500  border-red-500' : 'border-black'} px-3 border-2 rounded-md font-medium text-sm md:text-base`}>{list.name}</Link>
           ))}
         </div>
         :

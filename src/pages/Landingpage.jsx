@@ -8,6 +8,7 @@ import Sponsers from '../components/Sponsers';
 import RandomeFour from '../utilis/RandomeFour';
 import Singlecategory from '../components/Singlecategory';
 import { useMyContext } from '../context/Allcontext';
+import Shortsvideo from '../utilis/Shortsvideo';
 
 const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 
@@ -25,7 +26,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
     const content = all?.map((list, i) => {
         const elements = [];
 
-        if (list.type === 1 || list.type === 3) {
+        if (list.type === 1) {
             elements.push(
                 <div key={`imgtovideo-${i}`}>
                     <Imagetovideo {...data} list={list} show={list.category_id === 1} />
@@ -40,6 +41,14 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
                 </div>
             );
         }
+        if (list.type === 3) {
+            elements.push(
+                <div key={`shortvideo-${i}`}>
+                    <Shortsvideo {...data} list={list} show={list.category_id === 1} />
+                </div>
+            );
+        }
+
 
         if (list.typeNew === 2) {
             elements.push(
@@ -56,7 +65,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
             const categoryIndex = Math.floor((i + 1) / 8) - 1;
             const category = allCtg[categoryIndex];
 
-            if (category  && !renderedCategoryIds.has(category.id)) {
+            if (category && !renderedCategoryIds.has(category.id)) {
                 renderedCategoryIds.add(category.id);
                 elements.push(
                     <div className='' key={`singlecat-${i}`}>
@@ -81,7 +90,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
     });
 
     // 🔁 Render remaining Singlecategory components if any left
-    if (!advertiseRendered && allCtg.length ==0) {
+    if (!advertiseRendered && allCtg.length == 0) {
         content.push(<Advertise key="ad-fallback" sponsers={sponsers} />);
     }
 
@@ -110,7 +119,7 @@ const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
     }
 
 
-    if (!sponsersRendered && allCtg.length ==0) {
+    if (!sponsersRendered && allCtg.length == 0) {
         content.push(<Sponsers key="sponsor-fallback" sponsers={sponsers} />);
     }
 

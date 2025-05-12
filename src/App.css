@@ -230,7 +230,7 @@ iframe {
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position-y: center;
+  background-position-y: top;
 }
 .hh {
   z-index: 1600 !important;

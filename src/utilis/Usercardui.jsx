@@ -112,7 +112,7 @@ const Usercardui = ({ data }) => {
                             </div>
                         }
                         {data?.city &&
-                            <div className="flex flex-col place-items-center w-full">
+                            <div className="flex flex-row  gap-2 place-items-center w-full">
                                 <span className='font-normal text-neutral-400 text-sm '>Location</span>
                                 <span className='text-sm line-clamp-2'>{data?.city}</span>
                             </div>

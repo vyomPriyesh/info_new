@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Redbanner from './Redbanner';
-import { FaEye, FaInstagram, FaStopwatch, FaWhatsapp } from 'react-icons/fa';
-import { IoShareSocial } from 'react-icons/io5';
-import { RiFacebookFill } from 'react-icons/ri';
 import Postdata from './Postdata';
 import Location from './Location';
 
 const Imagetovideo = ({ title, list, changeVideo, show }) => {
 
-    const [refresh, setRefresh] = useState(0)
     const [all, setAll] = useState([])
     const [location, setLocation] = useState([])
 
@@ -36,6 +32,7 @@ const Imagetovideo = ({ title, list, changeVideo, show }) => {
 
 
     useEffect(() => {
+        setAll([])
         if (list?.blog_ticker.length > 0) {
             const filtered = list?.blog_ticker.filter(list => list.type == 1)
             setAll(filtered.map(list => list.details))
@@ -46,7 +43,7 @@ const Imagetovideo = ({ title, list, changeVideo, show }) => {
         if (list?.location_2) locations.push(list?.location_2);
 
         setLocation(locations)
-    }, [refresh, list]);
+    }, [ list]);
 
     return (
         <>

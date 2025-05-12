@@ -10,7 +10,7 @@ const Redbanner = ({ data = [] }) => {
         const delay2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
         for (let i = 0; i < data.length; i++) {
-            await delay2(2000);
+            // await delay2(2000);
             setText(data[i]);
             await delay2(5000);
             if (i + 1 == data.length) {
@@ -23,7 +23,7 @@ const Redbanner = ({ data = [] }) => {
         if (data.length > 0) {
             bannerData();
         }
-    }, [refresh, data.length > 0]);
+    }, [refresh, data]);
 
     return (
         <>

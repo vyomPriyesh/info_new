@@ -41,7 +41,7 @@ function App() {
     setLocation,
     setFallbackVideo,
     setHerodata,
-    setOurdata,
+    setOurdata, cuurentId,
     setAllctg, menu, setMenu, menu2, setMenu2
   } = useMyContext();
 
@@ -166,19 +166,29 @@ function App() {
     try {
       const response = await axios.get(`${apiUrl}video-schedule/1`);
       if (response.data.status) {
+
+        const current = response.data.current_video;
+        const next = response.data.next_video;
+
+        if (cuurentId == current.video) return;
+        const videoArray = [];
+
+        if (current) videoArray.push({ current_video: current })
+        if (next) videoArray.push({ next_video: next })
+
         // let video = []
         // if (response.data.data) video.push({
         //   ...response.data.data,
         //   details: response.data.data?.video
         // })
-        const video = response.data.data?.map(list => ({
-          details: list.video,
-          ...list,
-        }))
+        // const video = response.data.data?.map(list => ({
+        //   details: list.video,
+        //   ...list,
+        // }))
         // console.log(video)
-        setHerodata(video)
+        setHerodata(videoArray)
         setLivedata(response.data.live ?? [])
-        setChange(video[0]?.duration * 1000)
+        // setChange(video[0]?.duration * 1000)
       }
     } catch (err) {
       console.log(err)
@@ -285,8 +295,6 @@ function App() {
 
   const location = useLocation();
 
-
-
   useEffect(() => {
     if (!rIdvalue && active && !location.pathname.includes('/our-board')) {
       const datda = typeof active?.to === 'string' && active.to.includes('/our-board');
@@ -373,6 +381,9 @@ function App() {
       console.log(err)
     }
   }
+
+
+
 
   useEffect(() => {
     if (nidValue) {
