@@ -431,7 +431,6 @@ function App() {
     <>
       {loading && <Loader />}
       <Helmet>
-        {console.log(img)}
         <title>{title}</title>
         <meta property="og:title" content={meta?.title} />
         <meta property="og:site_name" content="Info Gujarat" />
