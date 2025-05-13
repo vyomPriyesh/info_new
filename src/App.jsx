@@ -42,7 +42,7 @@ function App() {
     setLivedata,
     setLocation,
     setFallbackVideo,
-    setHerodata, loading,
+    setHerodata, loading, setLoading, setLogo,
     setOurdata, cuurentId,
     setAllctg, menu, setMenu, menu2, setMenu2
   } = useMyContext();
@@ -74,6 +74,18 @@ function App() {
   const [bannerText, setBannerText] = useState([]);
 
   useEffect(() => {
+    // This runs only once when the component first mounts
+    setLoading(true);
+
+    // Optional: simulate finish
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Remove this if you only want to set it once and leave it true
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     if (idValue && active?.to == 0) {
       setActive({ to: idValue })
     }
@@ -94,6 +106,7 @@ function App() {
       setBannerdelay(response.data.Setting.banner_ads_cycle)
       setAdvertise(response.data.Fastival)
       setSponsers(response.data.SponsorLogo)
+      setLogo(response.data.Setting.news_logo ? response.data.Setting.news_logo_path : null,)
       setProfile({
         ...profile,
         logo: response.data.Setting.news_logo ? response.data.Setting.news_logo_path : '',
@@ -148,7 +161,7 @@ function App() {
 
   const firstVideo = async () => {
     const response = await apiGet(API.videoSchedule);
-    if (response.status) {
+    if (response.status && response.current_video) {
 
       const current = response.current_video;
       const next = response.next_video;

@@ -238,6 +238,10 @@ iframe {
   background-position-y: center;
 }
 
-.hh {
+/* .hh {
   z-index: 1600 !important;
+} */
+
+.z-important {
+  z-index: 49 !important;
 }

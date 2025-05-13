@@ -3,10 +3,10 @@ import { useMyContext } from '../context/Allcontext';
 
 export const apiFunctions = () => {
 
-    const { setLoading } = useMyContext();
+    // const { setLoading } = useMyContext();
 
     const apiGet = async (url, authToken) => {
-        setLoading(true);
+        // setLoading(true);
         try {
             const response = await axios.get(url, {
                 headers: {
@@ -17,12 +17,12 @@ export const apiFunctions = () => {
         } catch (error) {
             throw error;
         } finally {
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
     const apiPost = async (url, payload, authToken) => {
-        setLoading(true);
+        // setLoading(true);
         try {
             const response = await axios.post(url, payload, {
                 headers: {
@@ -33,12 +33,12 @@ export const apiFunctions = () => {
         } catch (error) {
             throw error;
         } finally {
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
     const apiDelete = async (url, authToken) => {
-        setLoading(true);
+        // setLoading(true);
         try {
             const response = await axios.delete(url, {
                 headers: {
@@ -49,7 +49,7 @@ export const apiFunctions = () => {
         } catch (error) {
             throw error;
         } finally {
-            setLoading(false);
+            // setLoading(false);
         }
     };
 

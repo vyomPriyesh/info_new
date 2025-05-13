@@ -143,35 +143,33 @@
 
 
 import React, { useEffect, useRef, useState } from 'react'
-import { useMyContext } from '../context/Allcontext';
 import YouTube from 'react-youtube';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useMyContext } from '../context/Allcontext';
 
 const YouTubePlayer2 = ({ profile, data }) => {
 
-  const { location, heroData, cuurentId } = useMyContext();
+  const { fallbackVideo, heroData, cuurentId } = useMyContext();
 
   const [isMuted, setIsMuted] = useState(true);
   const [player, setPlayer] = useState(null);
   const [nowNext, setNownext] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visible, setVisible] = useState(true);
-  // const [videoId, setVideoId] = useState(null);
-  const { fallbackVideo } = useMyContext();
+  const [videoId, setVideoId] = useState(null);
 
 
-  const videoId = heroData[0]?.current_video?.video ?? fallbackVideo;
+  const newVideoId = heroData?.[0]?.current_video?.video ?? fallbackVideo;
 
-  // useEffect(() => {
-  //   const newVideoId = heroData?.[0]?.current_video?.video;
-  //   if (newVideoId) {
-  //     localStorage.setItem("current", newVideoId)
-  //     setVideoId(newVideoId);
-  //   }
-  // }, [heroData]);
+  useEffect(() => {
+    if (newVideoId && newVideoId !== cuurentId) {
+      // localStorage.setItem("current", newVideoId)
+      setVideoId(newVideoId);
+    }
+  }, [newVideoId]);
 
-
+  console.log(videoId)
 
   useEffect(() => {
     if (heroData.length > 0) {
@@ -241,16 +239,19 @@ const YouTubePlayer2 = ({ profile, data }) => {
 
   return (
     <div className="relative w-full h-full">
-      {videoId !== cuurentId &&
-        <YouTube
-          key={videoId}
-          videoId={videoId}
-          opts={opts}
-          onReady={onPlayerReady}
-          className="w-full h-[240px]"
-        />
-      }
-
+      {videoId && (
+        videoId !== cuurentId ? (
+          <div className="" key={videoId}>
+            <YouTube
+              // force re-render if different
+              videoId={videoId}
+              opts={opts}
+              onReady={onPlayerReady}
+              className="w-full h-[240px]"
+            />
+          </div>
+        ) : null // don't re-render YouTube if ID matches
+      )}
       <button
         onClick={toggleMute}
         className="absolute bottom-5 left-0 bg-white p-2  text-xl z-50"

@@ -3,8 +3,12 @@ import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import Postdata from "./Postdata";
 import ShortsPlayer from "../videoplayer/ShortsPlayer";
+import { useMyContext } from "../context/Allcontext";
 
 const Shortsmodal = ({ open, set, data }) => {
+
+    const { logo } = useMyContext();
+
     const [[page, direction], setPage] = useState([0, 0]);
 
     const index = wrap(0, data.length, page); // Safe index
@@ -62,6 +66,8 @@ const Shortsmodal = ({ open, set, data }) => {
         };
     }, [open, set]);
 
+    console.log(logo)
+
 
     return (
         <AnimatePresence>
@@ -74,10 +80,14 @@ const Shortsmodal = ({ open, set, data }) => {
                 >
                     <button
                         onClick={() => set(false)}
-                        className="absolute right-5 top-5 z-50 bg-white rounded-full h-7 w-7 flex justify-center items-center text-black"
+                        className="absolute left-5 top-10 z-50 bg-white rounded-full h-7 w-7 flex justify-center items-center text-black"
                     >
                         <RxCross2 />
                     </button>
+
+                    {logo &&
+                        <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-5 top-10 logo z-50' src={logo} />
+                    }
 
                     <div className="relative w-full h-full overflow-hidden">
                         <AnimatePresence initial={false} custom={direction}>

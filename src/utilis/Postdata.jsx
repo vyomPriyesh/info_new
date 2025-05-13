@@ -68,6 +68,7 @@ const Postdata = ({ show, title, profile, moreData }) => {
     }));
 
 
+
     return (
         <>
             {/* <Helmet>
@@ -113,7 +114,7 @@ const Postdata = ({ show, title, profile, moreData }) => {
                         </div>
                     </div>
 
-                    <div className="flex flex-row gap-4 flex-wrap place-items-center mt-2 text-nowrap pb-1.5 px-1.5">
+                    <div className="flex flex-row gap-4 flex-wrap place-items-center overflow-hidden mt-2 text-nowrap pb-1.5 px-1.5">
                         {show &&
                             <>
                                 {profile?.name &&
@@ -137,12 +138,12 @@ const Postdata = ({ show, title, profile, moreData }) => {
                             <HtmlTooltip
                                 open={share}
                                 onClose={() => setShare(false)}
-
+                                className='z-important'
                                 title={
                                     <Typography color="inherit">
                                         <div ref={dropdownRef}
                                             className={`
-                                                    flex flex-row gap-6 z-10 text-4xl
+                                                    flex flex-row gap-6  text-4xl
                                                     bg-white
                                                 `}
                                         >
@@ -166,7 +167,7 @@ const Postdata = ({ show, title, profile, moreData }) => {
                                 }
                             >
                                 <button
-                                    className=" justify-center place-items-center py-1 hover:text-blue-600 inline-block cursor-pointer"
+                                    className=" justify-center place-items-center py-1 text-blue-600 inline-block cursor-pointer"
                                     onClick={() => setShare(!share)}
                                 >
                                     <IoShareSocial />

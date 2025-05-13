@@ -21,6 +21,7 @@ export const AllProvider = ({ children }) => {
     const [menu2, setMenu2] = useState([])
     const [allShorts, setAllshorts] = useState([])
     const [cuurentId, setCuurentId] = useState(null)
+    const [logo, setLogo] = useState(null)
 
     const currentPlaying = localStorage.getItem("current")
 
@@ -32,14 +33,15 @@ export const AllProvider = ({ children }) => {
 
     // useEffect(() => {
     //     const interval = setInterval(() => {
+    //         // localStorage.removeItem("current")
     //         setFirstrefresh(prev => prev + 1);
-    //     }, 60000); // every 60 seconds
+    //     }, 10000); // every 60 seconds
 
     //     return () => clearInterval(interval); // clean up on unmount
     // }, []);
 
     return (
-        <AllContext.Provider value={{ cuurentId, setCuurentId, allShorts, setAllshorts, menu, setMenu, menu2, setMenu2, loading, setLoading, liveData, setLivedata, allCtg, setAllctg, active, setActive, firstRefresh, setFirstrefresh, fallbackVideo, setFallbackVideo, reporterData, setReporterdata, location, setLocation, heroData, setHerodata, ourData, setOurdata }}>
+        <AllContext.Provider value={{ logo, setLogo, cuurentId, setCuurentId, allShorts, setAllshorts, menu, setMenu, menu2, setMenu2, loading, setLoading, liveData, setLivedata, allCtg, setAllctg, active, setActive, firstRefresh, setFirstrefresh, fallbackVideo, setFallbackVideo, reporterData, setReporterdata, location, setLocation, heroData, setHerodata, ourData, setOurdata }}>
             {/* {loading && <Loader />} */}
             {children}
         </AllContext.Provider>

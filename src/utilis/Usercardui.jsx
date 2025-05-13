@@ -123,7 +123,7 @@ const Usercardui = ({ data, share }) => {
                             }
                         </div>
                         {share &&
-                            <button onClick={() => navigate(`/?oid=${data?.id}`)}><BsFillShareFill /></button>
+                            <button className='text-blue-600' onClick={() => navigate(`/?oid=${data?.id}`)}><BsFillShareFill /></button>
                         }
                     </div>
                 </div>

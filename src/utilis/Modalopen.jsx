@@ -137,8 +137,11 @@ import { Modal } from 'flowbite-react';
 import { RxCross2 } from 'react-icons/rx';
 import { AnimatePresence, motion, wrap } from 'framer-motion';
 import Postdata from './Postdata';
+import { useMyContext } from '../context/Allcontext';
 
 const Modalopen = ({ open, set, data }) => {
+
+    const { logo } = useMyContext();
 
 
     useEffect(() => {
@@ -211,10 +214,13 @@ const Modalopen = ({ open, set, data }) => {
                     >
                         <button
                             onClick={() => set(false)}
-                            className="absolute right-5 top-5 z-50 bg-white rounded-full h-7 w-7 flex justify-center items-center text-black"
+                            className="absolute left-5 top-10 z-50 bg-white rounded-full h-7 w-7 flex justify-center items-center text-black"
                         >
                             <RxCross2 />
                         </button>
+                        {logo &&
+                            <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-5 top-10 logo z-50' src={logo} />
+                        }
 
                         <div className="w-full max-w-2xl relative h-screen flex flex-col items-center">
                             {/* <div className="relative h-full w-full overflow-hidden"> */}
