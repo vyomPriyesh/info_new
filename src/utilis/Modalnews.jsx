@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
-import Modalyoutubeplayer from '../components/Modalyoutubeplayer';
+import Modalyoutubeplayer from '../videoplayer/Modalyoutubeplayer';
 import { RxCross1 } from 'react-icons/rx';
 
 const Modalnews = ({ open, set, data, images, location, heroData, type, text }) => {

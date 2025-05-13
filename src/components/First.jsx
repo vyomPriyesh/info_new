@@ -1,22 +1,8 @@
 import React, { use, useEffect, useRef, useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
-
-import { Autoplay } from 'swiper/modules';
-import Redbanner from '../utilis/Redbanner';
-import Location from '../utilis/Location';
-import Menu from './Menu';
-import { FaEye, FaInstagram, FaStopwatch, FaWhatsapp } from 'react-icons/fa';
-import { IoShareSocial } from 'react-icons/io5';
-import { RiFacebookFill } from 'react-icons/ri';
-import Postdata from '../utilis/Postdata';
-import { GoMute, GoUnmute } from 'react-icons/go';
-import YouTubePlayer from './YouTubePlayer';
-import YouTubePlayer2 from './YouTubePlayer2';
 import { useMyContext } from '../context/Allcontext';
-import YoutubeLive from './YoutubeLive';
+import YoutubeLive from '../videoplayer/YoutubeLive';
+import YouTubePlayer from '../videoplayer/YouTubePlayer';
+import YouTubePlayer2 from '../videoplayer/YouTubePlayer2';
 
 const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerText, newsData, delay, bannerDelay }) => {
 

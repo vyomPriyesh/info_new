@@ -158,8 +158,10 @@ const YouTubePlayer2 = ({ profile, data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visible, setVisible] = useState(true);
   // const [videoId, setVideoId] = useState(null);
+  const { fallbackVideo } = useMyContext();
 
-  const videoId = heroData[0]?.current_video?.video;
+
+  const videoId = heroData[0]?.current_video?.video ?? fallbackVideo;
 
   // useEffect(() => {
   //   const newVideoId = heroData?.[0]?.current_video?.video;

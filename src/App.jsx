@@ -1,8 +1,5 @@
 import { use, useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import Hero from './components/Hero'
 import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Landingpage from './pages/Landingpage'
 import Aos from 'aos'
@@ -18,6 +15,9 @@ import Ctg from './pages/Ctg'
 import Singlecenter from './components/Singlecenter'
 import Cmsmenudata from './pages/Cmsmenudata'
 import Ourboardmenudata from './pages/Ourboardmenudata'
+import API from './apis/Apis'
+import { apiFunctions } from './apis/apiFunctions'
+import Loader from './utilis/Loader'
 
 function App() {
 
@@ -26,6 +26,8 @@ function App() {
   const rIdvalue = params.get('rid');
   const idValue = params.get('id');
   const oIdValue = params.get('oid');
+
+  const { apiPost, apiGet } = apiFunctions();
 
   Aos.init({
     duration: 2000,
@@ -40,10 +42,11 @@ function App() {
     setLivedata,
     setLocation,
     setFallbackVideo,
-    setHerodata,
+    setHerodata, loading,
     setOurdata, cuurentId,
     setAllctg, menu, setMenu, menu2, setMenu2
   } = useMyContext();
+
 
   const [all, setAll] = useState([])
   const [centerData, setCenterdata] = useState([])
@@ -76,214 +79,179 @@ function App() {
     }
   }, [idValue])
 
-  const apiUrl = import.meta.env.VITE_APP_BASEURL;
 
   const allData = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}common/1`);
-      if (response.data.status) {
-        setLocation(response.data.data.location ?? [])
-        const allNews = response.data.data.ScrollNews.map(list => list.news)
-        setNews(allNews)
-        setFallbackVideo(response.data.data.Setting.preload_link)
-        setCenterdata(response.data.data.BreakingNews)
-        setBannerimg(response.data.data.bannerAds)
-        setNewsData(response.data.data.BottomNews.map(list => list.name))
-        setDelay(response.data.data.Setting.bottom_news_cycle)
-        setBannerdelay(response.data.data.Setting.banner_ads_cycle)
-        setAdvertise(response.data.data.Fastival)
-        setSponsers(response.data.data.SponsorLogo)
-        setProfile({
-          ...profile,
-          logo: response.data.data.Setting.news_logo ? response.data.data.Setting.news_logo_path : '',
-          name: response.data.data.user?.name,
-          img: response.data.data.user?.image ? response.data.data.user.image_path + '/' + response.data.data.user.image : null,
-          time: response.data.data.create_date,
-          view: response.data.data.count,
-          share: response.data.data.id,
-        })
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await apiGet(API.common);
+    if (response.status) {
+      setLocation(response.data.location ?? [])
+      const allNews = response.data.ScrollNews.map(list => list.news)
+      setNews(allNews)
+      setFallbackVideo(response.data.Setting.preload_link)
+      setCenterdata(response.data.BreakingNews)
+      setBannerimg(response.data.bannerAds)
+      setNewsData(response.data.BottomNews.map(list => list.name))
+      setDelay(response.data.Setting.bottom_news_cycle)
+      setBannerdelay(response.data.Setting.banner_ads_cycle)
+      setAdvertise(response.data.Fastival)
+      setSponsers(response.data.SponsorLogo)
+      setProfile({
+        ...profile,
+        logo: response.data.Setting.news_logo ? response.data.Setting.news_logo_path : '',
+        name: response.data.user?.name,
+        img: response.data.user?.image ? response.data.user.image_path + '/' + response.data.user.image : null,
+        time: response.data.create_date,
+        view: response.data.count,
+        share: response.data.id,
+      })
     }
   }
 
   const allMenu = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}category/1`);
-      if (response.data.status) {
-        setMenu(response.data.data.map(list => ({
-          to: list.id,
-          name: list.name,
-        })))
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await apiGet(API.category);
+    if (response.status) {
+      setMenu(response.data.map(list => ({
+        to: list.id,
+        name: list.name,
+      })))
     }
   }
 
   const allMenu2 = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}cms_menu/1`);
-      if (response.data.status) {
-        const dynamicMenu = response.data.data.map(list => ({
-          to: `our-board/${list.id}`,
-          name: list.name,
-          slug: list.slug,
-        }));
-        const staticItem = [
-          {
-            to: '/our-board/reporter-sign-up',
-            name: "Reporter Login",
-            slug: "reporter-sign-up",
-          }];
-        setMenu2([...staticItem, ...dynamicMenu]);
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await apiGet(API.cmsMenu);
+    if (response.status) {
+      const dynamicMenu = response.data.map(list => ({
+        to: `our-board/${list.id}`,
+        name: list.name,
+        slug: list.slug,
+      }));
+      const staticItem = [
+        {
+          to: '/cms/reporter-sign-up',
+          name: "Reporter Login",
+          slug: "reporter-sign-up",
+        }];
+      setMenu2([...staticItem, ...dynamicMenu]);
     }
   }
 
   const allMenu3 = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}cms/1`);
-      if (response.data.status) {
-        const dynamicMenu = response.data.data.map(list => ({
-          to: `cms/${list.id}`,
-          name: list.title,
-          slug: list.slug,
-        }));
-        setMenu2(prev => [...prev, ...dynamicMenu]);
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await apiGet(API.cms);
+    if (response.status) {
+      const dynamicMenu = response.data.map(list => ({
+        to: `cms/${list.id}`,
+        name: list.title,
+        slug: list.slug,
+      }));
+      setMenu2(prev => [...prev, ...dynamicMenu]);
     }
   }
 
-
-
   const firstVideo = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}video-schedule/1`);
-      if (response.data.status) {
+    const response = await apiGet(API.videoSchedule);
+    if (response.status) {
 
-        const current = response.data.current_video;
-        const next = response.data.next_video;
+      const current = response.current_video;
+      const next = response.next_video;
 
-        if (cuurentId == current.video) return;
-        const videoArray = [];
+      if (cuurentId == current.video) return;
+      const videoArray = [];
 
-        if (current) videoArray.push({ current_video: current })
-        if (next) videoArray.push({ next_video: next })
+      if (current) videoArray.push({ current_video: current })
+      if (next) videoArray.push({ next_video: next })
 
-        // let video = []
-        // if (response.data.data) video.push({
-        //   ...response.data.data,
-        //   details: response.data.data?.video
-        // })
-        // const video = response.data.data?.map(list => ({
-        //   details: list.video,
-        //   ...list,
-        // }))
-        // console.log(video)
-        setHerodata(videoArray)
-        setLivedata(response.data.live ?? [])
-        // setChange(video[0]?.duration * 1000)
-      }
-    } catch (err) {
-      console.log(err)
+      // let video = []
+      // if (response.data) video.push({
+      //   ...response.data,
+      //   details: response.data?.video
+      // })
+      // const video = response.data?.map(list => ({
+      //   details: list.video,
+      //   ...list,
+      // }))
+      // console.log(video)
+      setHerodata(videoArray)
+      setLivedata(response.live ?? [])
+      // setChange(video[0]?.duration * 1000)
     }
   }
 
   const allDatanews = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}news/1/${active.to}`);
-      if (response.data.status) {
-        // setAll(response.data.data.map(list => ({
-        //   type: list.type,
-        //   ...list,
-        // })))
+    const response = await apiGet(API.ctgNews(active.to));
+    if (response.status) {
+      // setAll(response.data.map(list => ({
+      //   type: list.type,
+      //   ...list,
+      // })))
 
 
-        const step = 9;
-        const groupSize = 4;
-        let dataList = response.data.data;
+      const step = 9;
+      const groupSize = 4;
+      let dataList = response.data;
 
-        const filteredDates = dataList.filter(item => item.type == 1);
+      const filteredDates = dataList.filter(item => item.type == 1);
 
-        const maxGroups = Math.floor(dataList.length / step);
-        const totalNeeded = maxGroups * groupSize;
+      const maxGroups = Math.floor(dataList.length / step);
+      const totalNeeded = maxGroups * groupSize;
 
-        const shuffled = filteredDates.sort(() => 0.5 - Math.random());
-        const selectedItems = shuffled.slice(0, totalNeeded).map(item => ({
-          ...item,
-          typeNew: 2
-        }));
+      const shuffled = filteredDates.sort(() => 0.5 - Math.random());
+      const selectedItems = shuffled.slice(0, totalNeeded).map(item => ({
+        ...item,
+        typeNew: 2
+      }));
 
-        const groupedItems = [];
-        for (let i = 0; i < selectedItems.length; i += groupSize) {
-          groupedItems.push(selectedItems.slice(i, i + groupSize));
-        }
-
-        let insertedCount = 0;
-        groupedItems.forEach((group, index) => {
-          const insertIndex = (index + 1) * step + insertedCount;
-
-          if (insertIndex <= dataList.length) {
-            dataList = dataList.filter(
-              item => !group.some(pick => pick.id === item.id)
-            );
-
-            dataList.splice(insertIndex, 0, {
-              typeNew: 2,
-              data: group
-            });
-
-            insertedCount++;
-          }
-        });
-
-        dataList = dataList.map(item => {
-          if (!item.typeNew) {
-            return { ...item, typeNew: 1 };
-          }
-          return item;
-        });
-
-        response.data.data = dataList;
-        setAll(response.data.data)
+      const groupedItems = [];
+      for (let i = 0; i < selectedItems.length; i += groupSize) {
+        groupedItems.push(selectedItems.slice(i, i + groupSize));
       }
-    } catch (err) {
-      console.log("Error fetching data:", err);
+
+      let insertedCount = 0;
+      groupedItems.forEach((group, index) => {
+        const insertIndex = (index + 1) * step + insertedCount;
+
+        if (insertIndex <= dataList.length) {
+          dataList = dataList.filter(
+            item => !group.some(pick => pick.id === item.id)
+          );
+
+          dataList.splice(insertIndex, 0, {
+            typeNew: 2,
+            data: group
+          });
+
+          insertedCount++;
+        }
+      });
+
+      dataList = dataList.map(item => {
+        if (!item.typeNew) {
+          return { ...item, typeNew: 1 };
+        }
+        return item;
+      });
+
+      response.data = dataList;
+      setAll(response.data)
     }
   }
 
   const oidData = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}cms_menu_details/1/${oIdValue}`);
-      if (response.data.status) {
-        setOurdata({
-          name: response.data.data.name,
-          desegregation: response.data.data.desegregation,
-          mobile: response.data.data.mobile,
-          email: response.data.data.email,
-          image: response.data.data.image,
-          image_path: response.data.data.image_path,
-        })
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await apiGet(API.oidData(oIdValue));
+    if (response.status) {
+      setOurdata({
+        name: response.data.name,
+        desegregation: response.data.desegregation,
+        mobile: response.data.mobile,
+        email: response.data.email,
+        image: response.data.image,
+        image_path: response.data.image_path,
+      })
     }
   }
 
   const getAllctg = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}category-video/1`);
-      if (response.data.status) {
-        setAllctg(response.data.data)
-      }
-    } catch (err) {
-      console.log(err)
+    const response = await apiGet(API.allCategory);
+    if (response.status) {
+      setAllctg(response.data)
     }
   }
 
@@ -342,43 +310,39 @@ function App() {
         video_img: '',
       })
     }
-    try {
-      const response = await axios.get(`${apiUrl}news_details/1/${list?.id}`);
-      if (response.data.status) {
-        setType(response.data.data.type)
-        const locations = [];
-        if (response.data.data.location) locations.push(response.data.data.location);
-        if (response.data.data.location_1) locations.push(response.data.data.location_1);
-        if (response.data.data.location_2) locations.push(response.data.data.location_2);
-        setLocation(locations)
-        setHerodata(response.data.data.blog_image)
-        setBannerText(response.data.data.blog_ticker.map(list => list.details))
-        setTitle(response.data.data.title)
-        setMoreData(response.data.data.description)
-        setProfile({
-          ...profile,
-          video_img: response.data.data.blog_image[0].details,
-          name: response.data.data.user.name,
-          img: response.data.data.user.image ? response.data.data.user.image_path : null,
-          time: response.data.data.create_date,
-          view: response.data.data.count,
-          share: response.data.data.id,
-        })
+    const response = await apiGet(API.newsDetails(list?.id));
+    if (response.status) {
+      setType(response.data.type)
+      const locations = [];
+      if (response.data.location) locations.push(response.data.location);
+      if (response.data.location_1) locations.push(response.data.location_1);
+      if (response.data.location_2) locations.push(response.data.location_2);
+      setLocation(locations)
+      setHerodata(response.data.blog_image)
+      setBannerText(response.data.blog_ticker.map(list => list.details))
+      setTitle(response.data.title)
+      setMoreData(response.data.description)
+      setProfile({
+        ...profile,
+        video_img: response.data.blog_image[0].details,
+        name: response.data.user.name,
+        img: response.data.user.image ? response.data.user.image_path : null,
+        time: response.data.create_date,
+        view: response.data.count,
+        share: response.data.id,
+      })
 
-        // document.querySelector('meta[property="og:title"]').setAttribute("content", response.data.data.title);
-        // document.querySelector('meta[property="og:description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
-        // document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
-        // document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
+      // document.querySelector('meta[property="og:title"]').setAttribute("content", response.data.title);
+      // document.querySelector('meta[property="og:description"]').setAttribute("content", typeof response.data.description === 'string' ? response.data.description.replace(/(<([^>]+)>)/gi, '') : '');
+      // document.querySelector('meta[property="og:image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.blog_image[0].details}/sddefault.jpg`);
+      // document.querySelector('meta[property="og:url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
-        // document.querySelector('meta[name="title"]').setAttribute("content", response.data.data.title);
-        // document.querySelector('meta[name="description"]').setAttribute("content", typeof response.data.data.description === 'string' ? response.data.data.description.replace(/(<([^>]+)>)/gi, '') : '');
-        // document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.data.blog_image[0].details}/sddefault.jpg`);
-        // document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
+      // document.querySelector('meta[name="title"]').setAttribute("content", response.data.title);
+      // document.querySelector('meta[name="description"]').setAttribute("content", typeof response.data.description === 'string' ? response.data.description.replace(/(<([^>]+)>)/gi, '') : '');
+      // document.querySelector('meta[name="image"]').setAttribute("content", `https://img.youtube.com/vi/${response.data.blog_image[0].details}/sddefault.jpg`);
+      // document.querySelector('meta[name="url"]').setAttribute("content", `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`);
 
-        // document.title = response.data.data.title;
-      }
-    } catch (err) {
-      console.log(err)
+      // document.title = response.data.title;
     }
   }
 
@@ -394,21 +358,17 @@ function App() {
   }, [nidValue])
 
   const reporterDatahandle = async (id) => {
-    try {
-      const response = await axios.get(`${apiUrl}reporter/${id}`);
-      if (response.data.status) {
-        setReporterdata({
-          name: response.data.data.user.name,
-          desegregation: 'Reporter',
-          mobile: response.data.data.user.mobile,
-          email: response.data.data.user.email,
-          image: response.data.data.user.image,
-          image_path: response.data.data.user.image_path,
-        })
-        setAll(response.data.data.BreakingNews)
-      }
-    } catch (err) {
-      console.log("Error fetching reporter data:", err);
+    const response = await apiGet(API.ridData(id));
+    if (response.status) {
+      setReporterdata({
+        name: response.data.user.name,
+        desegregation: 'Reporter',
+        mobile: response.data.user.mobile,
+        email: response.data.user.email,
+        image: response.data.user.image,
+        image_path: response.data.user.image_path,
+      })
+      setAll(response.data.BreakingNews)
     }
   }
 
@@ -444,6 +404,7 @@ function App() {
 
   return (
     <>
+      {loading && <Loader />}
       <Helmet>
         <title>{title}</title>
         <meta property="og:title" content={title} />
@@ -469,8 +430,8 @@ function App() {
         <Route path='/' element={<Landingpage {...data} />} />
         <Route path='/ctg/:id' element={<Ctg {...data} />} />
         {/* <Route path='/cms/our-board' element={<Ourboard {...data} />} /> */}
-        <Route path='/our-board/reporter-sign-up' element={<Reportersignup {...data} />} />
         <Route path='/our-board/:id' element={<Ourboardmenudata {...data} />} />
+        <Route path='/cms/reporter-sign-up' element={<Reportersignup {...data} />} />
         <Route path='/cms/:id' element={<Cmsmenudata {...data} />} />
       </Routes>
     </>

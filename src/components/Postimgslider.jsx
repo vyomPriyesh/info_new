@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Postdata from './Postdata'
-import Modalopen from './Modalopen';
+import Postdata from '../utilis/Postdata'
+import Modalopen from '../utilis/Modalopen'
 
 const Postimgslider = ({ list, show }) => {
 

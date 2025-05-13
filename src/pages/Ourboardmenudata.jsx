@@ -3,9 +3,12 @@ import { useParams } from 'react-router-dom';
 import { useMyContext } from '../context/Allcontext';
 import axios from 'axios';
 import Usercardui from '../utilis/Usercardui';
+import API from '../apis/Apis';
+import { apiFunctions } from '../apis/apiFunctions';
 
 const Ourboardmenudata = () => {
-    const apiUrl = import.meta.env.VITE_APP_BASEURL;
+
+    const { apiGet } = apiFunctions();
 
     const { id } = useParams();
     const [data, setData] = useState()
@@ -13,14 +16,10 @@ const Ourboardmenudata = () => {
     const { setActive, menu2 } = useMyContext();
 
     const allData = async () => {
-        try {
-            const response = await axios.get(`${apiUrl}cms_menu/1/${id}`);
-            if (response.data.status) {
-                setData(response.data.data)
-                setAllour(response.data.data.cms_menu_detail)
-            }
-        } catch (err) {
-            console.log(err)
+        const response = await apiGet(API.cmsMenuData(id));
+        if (response.status) {
+            setData(response.data)
+            setAllour(response.data.cms_menu_detail)
         }
     }
 
@@ -36,7 +35,7 @@ const Ourboardmenudata = () => {
         <>
             <div className="flex flex-col">
                 {allOur.map((list, i) => (
-                    <Usercardui data={list} key={i} />
+                    <Usercardui data={list} key={i} share={true} />
                 ))}
             </div>
         </>

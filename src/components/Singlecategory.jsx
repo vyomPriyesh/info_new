@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import Imagetovideo from '../utilis/Imagetovideo'
+import Imagetovideo from './Imagetovideo'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 // Import Swiper styles

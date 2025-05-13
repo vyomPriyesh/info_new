@@ -2,24 +2,21 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useMyContext } from '../context/Allcontext';
+import { apiFunctions } from '../apis/apiFunctions';
 
 const Cmsmenudata = () => {
 
 
-    const apiUrl = import.meta.env.VITE_APP_BASEURL;
+    const { apiGet } = apiFunctions();
 
     const { id } = useParams();
     const [data, setData] = useState()
     const { menu2, setActive } = useMyContext()
 
     const allData = async () => {
-        try {
-            const response = await axios.get(`${apiUrl}cms/1/${id}`);
-            if (response.data.status) {
-                setData(response.data.data)
-            }
-        } catch (err) {
-            console.log(err)
+        const response = await apiGet(API.cmsData(id));
+        if (response.status) {
+            setData(response.data)
         }
     }
 

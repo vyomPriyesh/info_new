@@ -8,13 +8,13 @@ import { address } from 'framer-motion/client';
 import { useMyContext } from '../context/Allcontext';
 import loader from '../assets/loader.gif'
 import Loader from '../utilis/Loader';
-
+import API from '../apis/Apis';
 
 const Reportersignup = () => {
 
-    const apiUrl = import.meta.env.VITE_APP_BASEURL;
+    const { setActive, menu2 } = useMyContext();
 
-    const { loading, setLoading, setActive, menu2 } = useMyContext();
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (menu2.length > 0) {
@@ -125,7 +125,7 @@ const Reportersignup = () => {
         setLoading(true)
         try {
             await step1Schema.validate({ data: vali_Data }, { abortEarly: false });
-            const response = await axios.post(`${apiUrl}register/1`, formData, {
+            const response = await axios.post(API.register, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }

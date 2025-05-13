@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Reporterdata from '../components/Reporterdata';
 import Ourboarddata from '../components/Ourboarddata';
-import Imagetovideo from '../utilis/Imagetovideo';
-import Postimgslider from '../utilis/Postimgslider';
 import Advertise from '../components/Advertise';
 import Sponsers from '../components/Sponsers';
 import RandomeFour from '../utilis/RandomeFour';
 import Singlecategory from '../components/Singlecategory';
 import { useMyContext } from '../context/Allcontext';
-import Shortsvideo from '../utilis/Shortsvideo';
+import Imagetovideo from '../components/Imagetovideo';
+import Postimgslider from '../components/Postimgslider';
+import Shortsvideo from '../components/Shortsvideo';
 
 const Landingpage = ({ all, changeVideo, advertise, sponsers, title }) => {
 

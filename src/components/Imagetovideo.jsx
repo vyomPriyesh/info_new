@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Redbanner from './Redbanner';
-import Postdata from './Postdata';
-import Location from './Location';
+import Location from '../utilis/Location'
+import Redbanner from '../utilis/Redbanner'
+import Postdata from '../utilis/Postdata'
 
 const Imagetovideo = ({ title, list, changeVideo, show }) => {
 

@@ -88,7 +88,7 @@ const ShortsPlayer = ({ videoId, locations, tickers, authors = [] }) => {
 
       <Location data={locations} />
       <Redbanner data={tickers} />
-      <div className="absolute top-2/3 z-50 right-0">
+      <div className="absolute top-2/3 z-50 right-0 w-full">
         <Nameplate data={authors} />
       </div>
     </div>

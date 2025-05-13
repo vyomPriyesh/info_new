@@ -3,13 +3,13 @@ import Reporterdata from '../components/Reporterdata'
 import Ourboarddata from '../components/Ourboarddata'
 import { useParams } from 'react-router-dom'
 import { useMyContext } from '../context/Allcontext'
-import Imagetovideo from '../utilis/Imagetovideo'
 import RandomeFour from '../utilis/RandomeFour'
 import Advertise from '../components/Advertise'
 import Sponsers from '../components/Sponsers'
-import Postimgslider from '../utilis/Postimgslider'
 import Singlecategory from '../components/Singlecategory'
-import Shortsvideo from '../utilis/Shortsvideo'
+import Imagetovideo from '../components/Imagetovideo'
+import Postimgslider from '../components/Postimgslider'
+import Shortsvideo from '../components/Shortsvideo'
 
 const Ctg = ({ all, changeVideo, advertise, sponsers, title }) => {
     const { id } = useParams();

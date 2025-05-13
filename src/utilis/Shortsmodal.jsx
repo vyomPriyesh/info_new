@@ -1,8 +1,8 @@
 import { AnimatePresence, motion, wrap } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import ShortsPlayer from "../components/ShortsPlayer";
 import { RxCross2 } from "react-icons/rx";
 import Postdata from "./Postdata";
+import ShortsPlayer from "../videoplayer/ShortsPlayer";
 
 const Shortsmodal = ({ open, set, data }) => {
     const [[page, direction], setPage] = useState([0, 0]);

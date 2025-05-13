@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { BsFillShareFill } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
 
-const Usercardui = ({ data }) => {
+const Usercardui = ({ data, share }) => {
 
     const imgUrl = import.meta.env.VITE_IMAGE_BASEURL;
+    const navigate = useNavigate();
 
     const tabs = ['Profile', 'Press ID'];
     const [activeTab, setActiveTab] = useState('Profile')
@@ -104,18 +107,23 @@ const Usercardui = ({ data }) => {
 
                         </div>
                     </div>
-                    <div className="mt-2 space-y-2">
-                        {data?.email &&
-                            <div className="flex flex-row gap-2  place-items-center w-full">
-                                <span className='font-normal text-neutral-400 text-sm '>E-mail</span>
-                                <span className='text-sm line-clamp-2'>{data?.email}</span>
-                            </div>
-                        }
-                        {data?.city &&
-                            <div className="flex flex-row  gap-2 place-items-center w-full">
-                                <span className='font-normal text-neutral-400 text-sm '>Location</span>
-                                <span className='text-sm line-clamp-2'>{data?.city}</span>
-                            </div>
+                    <div className="mt-2 flex flex-row justify-between gap-5 place-items-start">
+                        <div className="space-y-2">
+                            {data?.email &&
+                                <div className="flex flex-row gap-2  place-items-center w-full">
+                                    <span className='font-normal text-neutral-400 text-sm '>E-mail</span>
+                                    <span className='text-sm line-clamp-2'>{data?.email}</span>
+                                </div>
+                            }
+                            {data?.city &&
+                                <div className="flex flex-row  gap-2 place-items-center w-full">
+                                    <span className='font-normal text-neutral-400 text-sm '>Location</span>
+                                    <span className='text-sm line-clamp-2'>{data?.city}</span>
+                                </div>
+                            }
+                        </div>
+                        {share &&
+                            <button onClick={() => navigate(`/?oid=${data?.id}`)}><BsFillShareFill /></button>
                         }
                     </div>
                 </div>

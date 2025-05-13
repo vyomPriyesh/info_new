@@ -30,13 +30,13 @@ export const AllProvider = ({ children }) => {
         }
     }, [cuurentId])
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setFirstrefresh(prev => prev + 1);
-        }, 60000); // every 60 seconds
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setFirstrefresh(prev => prev + 1);
+    //     }, 60000); // every 60 seconds
 
-        return () => clearInterval(interval); // clean up on unmount
-    }, []);
+    //     return () => clearInterval(interval); // clean up on unmount
+    // }, []);
 
     return (
         <AllContext.Provider value={{ cuurentId, setCuurentId, allShorts, setAllshorts, menu, setMenu, menu2, setMenu2, loading, setLoading, liveData, setLivedata, allCtg, setAllctg, active, setActive, firstRefresh, setFirstrefresh, fallbackVideo, setFallbackVideo, reporterData, setReporterdata, location, setLocation, heroData, setHerodata, ourData, setOurdata }}>

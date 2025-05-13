@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import Modalnews from '../utilis/Modalnews';
 import axios from 'axios';
+import API from '../apis/Apis';
+import { apiFunctions } from '../apis/apiFunctions';
 
 const Singlecenter = ({ centerData }) => {
 
@@ -17,7 +19,7 @@ const Singlecenter = ({ centerData }) => {
     const [type, setType] = useState(null)
 
 
-    const apiUrl = import.meta.env.VITE_APP_BASEURL;
+    const { apiGet } = apiFunctions();
 
 
 
@@ -50,23 +52,19 @@ const Singlecenter = ({ centerData }) => {
     const pathname = useLocation();
 
     const openModal = async (id) => {
-        try {
-            const response = await axios.get(`${apiUrl}breaking_details/1/${id}`);
-            if (response.data.status) {
-                const locations = [];
-                if (response.data.data.location) locations.push(response.data.data.location);
-                if (response.data.data.location_1) locations.push(response.data.data.location_1);
-                if (response.data.data.location_2) locations.push(response.data.data.location_2);
-                setModalLocation(locations)
-                setOpen(true)
-                setType(response.data.data.type)
-                setModaldata(response.data.data)
-                setImages(response.data.data.blog_image.map(list => list.details))
-                setModalHerodata(response.data.data.blog_image)
-                setModaltext(response.data.data.blog_ticker.filter(list => list.type == 2))
-            }
-        } catch (err) {
-            console.log(err)
+        const response = await apiGet(API.breakingDetails(id));
+        if (response.status) {
+            const locations = [];
+            if (response.data.location) locations.push(response.data.location);
+            if (response.data.location_1) locations.push(response.data.location_1);
+            if (response.data.location_2) locations.push(response.data.location_2);
+            setModalLocation(locations)
+            setOpen(true)
+            setType(response.data.type)
+            setModaldata(response.data)
+            setImages(response.data.blog_image.map(list => list.details))
+            setModalHerodata(response.data.blog_image)
+            setModaltext(response.data.blog_ticker.filter(list => list.type == 2))
         }
     }
 
