@@ -61,7 +61,7 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                 } else {
                     // Nothing to show, skip to next item
                     setCurrentIndex((prev) => (prev + 1) % both.length);
-                    setMode("news");
+                    // setMode("news");
                 }
             }, 4000);
         } else {
@@ -352,31 +352,46 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                 </div> */}
                 {both.length > 0 &&
                     <div className='relative h-12 flex justify-center place-items-center mt-0.5 overflow-hidden'>
-                        {mode === 'news' &&
-                            <div className="flex flex-row h-full w-full bg" data-aos="fade-left">
-                                <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-xl font-bold">
-                                    <h1 className="">Breaking</h1>
+                        {newsData?.length > 0 ?
+                            <>
+                                {mode === 'news' &&
+                                    <div className="flex flex-row h-full w-full bg" data-aos="fade-left">
+                                        <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-xl font-bold">
+                                            <h1 className="">Breaking</h1>
+                                        </div>
+                                        <div className="w-1/2 bg flex justify-center place-items-center text-white text-xl font-bold">
+                                            <h1 className="">News</h1>
+                                        </div>
+                                    </div>
+                                }
+                                {mode === "text" &&
+                                    <div className='absolute bg h-full w-full flex justify-center place-items-center text-white font-black'>
+                                        <span data-aos="fade-left" key={currentItem?.text[textIndex]} >{currentItem?.text[textIndex]}</span>
+                                    </div>
+                                }
+                                {mode === "banner" &&
+                                    <div className='absolute h-full flex justify-center place-items-center bg-white w-full'>
+                                        <img
+                                            data-aos="fade-left" key={banners[bannerIndex]?.image_path}
+                                            src={banners[bannerIndex]?.image_path}
+                                            alt="Banner"
+                                            className='h-full w-full'
+                                        />
+                                    </div>
+                                }
+                            </>
+                            :
+                            bannerImg.length > 0 && (
+                                <div className='absolute h-full flex justify-center place-items-center bg-white w-full'>
+                                    <img
+                                        data-aos="fade-left" key={banners[bannerIndex]?.image_path}
+                                        src={banners[bannerIndex]?.image_path}
+                                        alt="Banner"
+                                        className='h-full w-full'
+                                    />
                                 </div>
-                                <div className="w-1/2 bg flex justify-center place-items-center text-white text-xl font-bold">
-                                    <h1 className="">News</h1>
-                                </div>
-                            </div>
+                            )
                         }
-                        {mode === "text" &&
-                            <div className='absolute bg h-full w-full flex justify-center place-items-center text-white font-black'>
-                                <span data-aos="fade-left" key={currentItem?.text[textIndex]} >{currentItem?.text[textIndex]}</span>
-                            </div>
-                        }
-                        {mode === "banner" && (
-                            <div className='absolute h-full flex justify-center place-items-center bg-white w-full'>
-                                <img
-                                    data-aos="fade-left" key={banners[bannerIndex]?.image_path}
-                                    src={banners[bannerIndex]?.image_path}
-                                    alt="Banner"
-                                    className='h-full w-full'
-                                />
-                            </div>
-                        )}
                     </div>
                 }
                 <div className="">

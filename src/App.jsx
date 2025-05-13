@@ -153,7 +153,7 @@ function App() {
       const current = response.current_video;
       const next = response.next_video;
 
-      if (cuurentId == current.video) return;
+      if (cuurentId == current?.video) return;
       const videoArray = [];
 
       if (current) videoArray.push({ current_video: current })
