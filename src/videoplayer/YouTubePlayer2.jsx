@@ -169,7 +169,6 @@ const YouTubePlayer2 = ({ profile, data }) => {
     }
   }, [newVideoId]);
 
-  console.log(videoId)
 
   useEffect(() => {
     if (heroData.length > 0) {
