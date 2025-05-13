@@ -426,7 +426,7 @@ function App() {
         {/* <meta property="og:title" content={title} /> */}
         {/* <meta property="og:site_name" content="Info Gujarat" /> */}
         {/* <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} /> */}
-        {/* <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/hqdefault.jpg`} /> */}
+        <meta property="og:image" content={img} />
         {/* <meta property="og:url" content={shareUrl} /> */}
 
         <meta property="title" content={'hh'} />
