@@ -66,8 +66,6 @@ const Shortsmodal = ({ open, set, data }) => {
         };
     }, [open, set]);
 
-    console.log(logo)
-
 
     return (
         <AnimatePresence>
