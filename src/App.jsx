@@ -9,7 +9,6 @@ import First from './components/First'
 import Postdata from './utilis/Postdata'
 import axios from 'axios'
 import Reportersignup from './pages/Reportersignup'
-import { Helmet } from 'react-helmet'
 import { useMyContext } from './context/Allcontext'
 import Ctg from './pages/Ctg'
 import Singlecenter from './components/Singlecenter'
@@ -18,6 +17,7 @@ import Ourboardmenudata from './pages/Ourboardmenudata'
 import API from './apis/Apis'
 import { apiFunctions } from './apis/apiFunctions'
 import Loader from './utilis/Loader'
+import { Helmet } from 'react-helmet-async'
 
 function App() {
 
