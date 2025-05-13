@@ -6,7 +6,7 @@ import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri';
 // import Head from 'next/head';
 
-const Postdata = ({ show, title, profile, moreData }) => {
+const Postdata = ({ show, title, profile, moreData, z }) => {
 
 
     const [more, setMore] = useState(false)
@@ -138,7 +138,7 @@ const Postdata = ({ show, title, profile, moreData }) => {
                             <HtmlTooltip
                                 open={share}
                                 onClose={() => setShare(false)}
-                                className='z-important'
+                                className={z ?? 'z-important'}
                                 title={
                                     <Typography color="inherit">
                                         <div ref={dropdownRef}

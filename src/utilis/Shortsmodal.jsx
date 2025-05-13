@@ -66,6 +66,8 @@ const Shortsmodal = ({ open, set, data }) => {
         };
     }, [open, set]);
 
+    console.log(currentItem?.profile)
+
 
     return (
         <AnimatePresence>
@@ -87,7 +89,7 @@ const Shortsmodal = ({ open, set, data }) => {
                         <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-5 top-10 logo z-50' src={logo} />
                     }
 
-                    <div className="relative w-full h-full overflow-hidden">
+                    <div className="relative w-full h-full ">
                         <AnimatePresence initial={false} custom={direction}>
                             <motion.div
                                 key={page}
@@ -114,14 +116,15 @@ const Shortsmodal = ({ open, set, data }) => {
                                 }}
                                 className="absolute w-full h-full top-0 left-0"
                             >
-                                {/* Video Player */}
+
                                 <ShortsPlayer videoId={currentDetails} locations={currentItem?.locations} tickers={currentItem?.tickers} authors={currentItem?.authors} />
 
-                                {/* Post Data */}
+
                                 {currentItem?.profile && (
-                                    <div className="absolute bottom-20 left-0 w-full px-4 z-40">
-                                        <div className="bg_2 bg-opacity-80 backdrop-blur-md text-white max-h-[50vh] p-4 overflow-y-auto rounded-lg">
+                                    <div className="absolute bottom-20 left-0 w-full px-4 0 ">
+                                        <div className="bg_2 bg-opacity-80 backdrop-blur-md text-white z-40 p-4 rounded-lg">
                                             <Postdata
+                                                z='50'
                                                 title={currentItem.title}
                                                 moreData={currentItem.description}
                                                 profile={currentItem.profile}
