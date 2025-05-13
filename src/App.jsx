@@ -49,6 +49,7 @@ function App() {
 
 
   const [all, setAll] = useState([])
+  const [img, setImage] = useState(null)
   const [centerData, setCenterdata] = useState([])
   const [title, setTitle] = useState('')
   const [advertise, setAdvertise] = useState([])
@@ -325,6 +326,7 @@ function App() {
     }
     const response = await apiGet(API.newsDetails(list?.id));
     if (response.status) {
+      setImage(`https://img.youtube.com/vi/${response?.data.blog_image[0].details}/sddefault.jpg`)
       setType(response.data.type)
       const locations = [];
       if (response.data.location) locations.push(response.data.location);
@@ -419,17 +421,18 @@ function App() {
     <>
       {loading && <Loader />}
       <Helmet>
+        {console.log(img)}
         <title>{title}</title>
-        <meta property="og:title" content={title} />
-        <meta property="og:site_name" content="Info Gujarat" />
-        <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} />
-        <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/hqdefault.jpg`} />
-        <meta property="og:url" content={shareUrl} />
+        {/* <meta property="og:title" content={title} /> */}
+        {/* <meta property="og:site_name" content="Info Gujarat" /> */}
+        {/* <meta property="og:description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} /> */}
+        {/* <meta property="og:image" content={`https://img.youtube.com/vi/${profile?.video_img}/hqdefault.jpg`} /> */}
+        {/* <meta property="og:url" content={shareUrl} /> */}
 
-        <meta property="og:title" content={'hh'} />
-        <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} />
-        <meta name="image" content={`https://img.youtube.com/vi/${profile?.video_img}/hqdefault.jpg`} />
-        <meta name="url" content={shareUrl} />
+        <meta property="title" content={'hh'} />
+        {/* <meta name="description" content={typeof moreData === 'string' ? moreData.replace(/(<([^>]+)>)/gi, '') : 'Default description'} /> */}
+        <meta name="image" content={img} />
+        {/* <meta name="url" content={shareUrl} /> */}
       </Helmet>
       <Singlecenter centerData={centerData} />
       <Menu menu={menu2} />
