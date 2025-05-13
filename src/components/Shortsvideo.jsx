@@ -134,7 +134,7 @@ const Shortsvideo = ({ title, list, show }) => {
                     <div
                         onClick={() => handleShorts(list)}
                         style={{ backgroundImage: `url(https://img.youtube.com/vi/${list?.blog_image[0]?.details}/hqdefault.jpg)` }}
-                        className="relative z-30 bg-youtube h-[220px] overflow-hidden w-full">
+                        className="relative z-30 bg-shorts h-[220px] overflow-hidden w-full">
                         {title == list?.title &&
                             <div className="bg-black/45 absolute h-full w-full z-20"></div>
                         }

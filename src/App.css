@@ -223,15 +223,21 @@
 iframe {
   pointer-events: none !important;
 }
-
+.bg-shorts{
+   background-position-x: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: top;
+}
 
 .bg-youtube{
   /* height: 220px; */
   background-position-x: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position-y: top;
+  background-position-y: center;
 }
+
 .hh {
   z-index: 1600 !important;
 }
