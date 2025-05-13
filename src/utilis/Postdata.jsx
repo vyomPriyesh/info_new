@@ -1,6 +1,5 @@
 import { styled, Tooltip, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
-import { Helmet } from 'react-helmet';
 import { FaEye, FaInstagram, FaStopwatch, FaWhatsapp } from 'react-icons/fa';
 import { IoShareSocial } from 'react-icons/io5';
 import { RiFacebookFill } from 'react-icons/ri';
