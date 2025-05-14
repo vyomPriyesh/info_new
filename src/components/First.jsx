@@ -366,8 +366,8 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
                                     </div>
                                 }
                                 {mode === "text" &&
-                                    <div className='absolute bg h-full w-full flex justify-center place-items-center text-white font-black'>
-                                        <span data-aos="fade-left" key={currentItem?.text[textIndex]} >{currentItem?.text[textIndex]}</span>
+                                    <div className='absolute b h-full w-full flex justify-center text-2xl place-items-center text-white bg px-4 font-black'>
+                                        <span data-aos="fade-left" key={currentItem?.text[textIndex]} className='line-clamp-1 text-center w-full'>{currentItem?.text[textIndex]}</span>
                                     </div>
                                 }
                                 {mode === "banner" &&

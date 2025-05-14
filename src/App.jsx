@@ -152,7 +152,7 @@ function App() {
 
   const firstVideo = async () => {
     const response = await apiGet(API.videoSchedule);
-    if (response.status && response.current_video) {
+    if (response.status) {
 
       const current = response.current_video;
       const next = response.next_video;
@@ -189,30 +189,32 @@ function App() {
   }
 
   useEffect(() => {
-    if (liveData.length > 0 && !title) {
-      const interval = setInterval(async () => {
-        // localStorage.removeItem("current")
+    // if (liveData.length > 0 && !title) {
+    const interval = setInterval(async () => {
+      // localStorage.removeItem("current")
 
-        const data = await getCuurentid();
+      const data = await getCuurentid();
 
-        const current = data.current_video;
-        const next = data.next_video;
-        const videoArray = [];
-        if (current) videoArray.push({ current_video: current })
-        if (next) videoArray.push({ next_video: next })
+      const current = data?.current_video;
+      const next = data?.next_video;
+      const videoArray = [];
+      if (current) videoArray.push({ current_video: current })
+      if (next) videoArray.push({ next_video: next })
 
-        const newId = data?.current_video?.video
+      const newId = data?.current_video?.video
 
-        if (newId !== cuurentId) {
-          setHerodata(videoArray)
-          setLivedata(data.live ?? [])
-        }
+      if (newId !== cuurentId) {
+        setHerodata(videoArray)
+        setLivedata(data?.live ?? [])
+      }
 
-      }, 10000); // every 60 seconds
+    }, 60000); // every 60 seconds
 
-      return () => clearInterval(interval); // clean up on unmount
-    }
-  }, [liveData, title]);
+    return () => clearInterval(interval); // clean up on unmount
+    // }
+  }, [cuurentId]);
+
+  // console.log(cuurentId)
 
 
   const allDatanews = async () => {

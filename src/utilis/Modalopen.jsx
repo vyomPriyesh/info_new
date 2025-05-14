@@ -258,6 +258,7 @@ const Modalopen = ({ open, set, data }) => {
                                 <div className="absolute bottom-20 left-0 w-full px-4 z-50">
                                     <div className="bg_2 bg-opacity-80 backdrop-blur-md text-white max-h-[50vh] p-4 overflow-y-auto rounded-lg">
                                         <Postdata
+                                            z='50'
                                             title={data?.title}
                                             moreData={data?.description}
                                             profile={data?.profile}
