@@ -39,7 +39,7 @@ function App() {
     active, setActive,
     setReporterdata,
     firstRefresh,
-    setLivedata,
+    setLivedata, liveData,
     setLocation,
     setFallbackVideo,
     setHerodata, loading, setLoading, setLogo,
@@ -53,7 +53,7 @@ function App() {
     img: '',
     title: '',
     description: '',
-    url:'',
+    url: '',
   })
   const [centerData, setCenterdata] = useState([])
   const [title, setTitle] = useState('')
@@ -71,12 +71,9 @@ function App() {
   })
   const navigate = useNavigate();
   const [type, setType] = useState(null)
-  const [change, setChange] = useState(null)
   const [scrollNews, setNews] = useState()
   const [bannerImg, setBannerimg] = useState([])
   const [newsData, setNewsData] = useState([])
-  const [delay, setDelay] = useState(null)
-  const [bannerDelay, setBannerdelay] = useState(null)
   const [bannerText, setBannerText] = useState([]);
 
   useEffect(() => {
@@ -101,27 +98,15 @@ function App() {
   const allData = async () => {
     const response = await apiGet(API.common);
     if (response.status) {
-      setLocation(response.data.location ?? [])
       const allNews = response.data.ScrollNews.map(list => list.news)
       setNews(allNews)
       setFallbackVideo(response.data.Setting.preload_link)
       setCenterdata(response.data.BreakingNews)
       setBannerimg(response.data.bannerAds)
       setNewsData(response.data.BottomNews.map(list => list.name))
-      setDelay(response.data.Setting.bottom_news_cycle)
-      setBannerdelay(response.data.Setting.banner_ads_cycle)
       setAdvertise(response.data.Fastival)
       setSponsers(response.data.SponsorLogo)
       setLogo(response.data.Setting.news_logo ? response.data.Setting.news_logo_path : null,)
-      setProfile({
-        ...profile,
-        logo: response.data.Setting.news_logo ? response.data.Setting.news_logo_path : '',
-        name: response.data.user?.name,
-        img: response.data.user?.image ? response.data.user.image_path + '/' + response.data.user.image : null,
-        time: response.data.create_date,
-        view: response.data.count,
-        share: response.data.id,
-      })
     }
   }
 
@@ -172,7 +157,7 @@ function App() {
       const current = response.current_video;
       const next = response.next_video;
 
-      if (cuurentId == current?.video) return;
+      // if (cuurentId == current?.video) return;
       const videoArray = [];
 
       if (current) videoArray.push({ current_video: current })
@@ -193,6 +178,42 @@ function App() {
       // setChange(video[0]?.duration * 1000)
     }
   }
+
+  const getCuurentid = async () => {
+    const response = await apiGet(API.videoSchedule);
+    if (response.status && response.current_video) {
+
+      return response;
+    }
+    return null
+  }
+
+  useEffect(() => {
+    if (liveData.length > 0 && !title) {
+      const interval = setInterval(async () => {
+        // localStorage.removeItem("current")
+
+        const data = await getCuurentid();
+
+        const current = data.current_video;
+        const next = data.next_video;
+        const videoArray = [];
+        if (current) videoArray.push({ current_video: current })
+        if (next) videoArray.push({ next_video: next })
+
+        const newId = data?.current_video?.video
+
+        if (newId !== cuurentId) {
+          setHerodata(videoArray)
+          setLivedata(data.live ?? [])
+        }
+
+      }, 10000); // every 60 seconds
+
+      return () => clearInterval(interval); // clean up on unmount
+    }
+  }, [liveData, title]);
+
 
   const allDatanews = async () => {
     const response = await apiGet(API.ctgNews(active.to));
@@ -254,6 +275,7 @@ function App() {
   }
 
   const oidData = async () => {
+    setActive({ to: 0 })
     const response = await apiGet(API.oidData(oIdValue));
     if (response.status) {
       setOurdata({
@@ -290,9 +312,7 @@ function App() {
   }, [active])
 
   useEffect(() => {
-    if (!nidValue) {
-      allData()
-    }
+    allData()
     getAllctg()
     allMenu()
     allMenu2()
@@ -335,7 +355,7 @@ function App() {
         img: `https://img.youtube.com/vi/${response?.data.blog_image[0].details}/sddefault.jpg`,
         title: response.data.title,
         description: typeof response.data.description === 'string' ? response.data.description.replace(/(<([^>]+)>)/gi, '') : '',
-        url:`${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`
+        url: `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${list?.id}`
       })
       setType(response.data.type)
       const locations = [];
@@ -383,6 +403,7 @@ function App() {
   }, [nidValue])
 
   const reporterDatahandle = async (id) => {
+    setActive({ to: 0 })
     const response = await apiGet(API.ridData(id));
     if (response.status) {
       setReporterdata({
@@ -406,14 +427,11 @@ function App() {
   const data = {
     type,
     title,
-    setTitle,
     moreData,
     profile,
     scrollNews,
     bannerImg,
     newsData,
-    delay,
-    bannerDelay,
     all,
     bannerText,
     changeVideo,
@@ -422,10 +440,8 @@ function App() {
   }
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // add behavior for clarity
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [active]);
-
-  const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?nid=${profile?.share}`
 
   return (
     <>
@@ -455,9 +471,9 @@ function App() {
         <Route path='/' element={<Landingpage {...data} />} />
         <Route path='/ctg/:id' element={<Ctg {...data} />} />
         {/* <Route path='/cms/our-board' element={<Ourboard {...data} />} /> */}
-        <Route path='/our-board/:id' element={<Ourboardmenudata {...data} />} />
-        <Route path='/cms/reporter-sign-up' element={<Reportersignup {...data} />} />
-        <Route path='/cms/:id' element={<Cmsmenudata {...data} />} />
+        <Route path='/our-board/:id' element={<Ourboardmenudata />} />
+        <Route path='/cms/reporter-sign-up' element={<Reportersignup />} />
+        <Route path='/cms/:id' element={<Cmsmenudata />} />
       </Routes>
     </>
   )

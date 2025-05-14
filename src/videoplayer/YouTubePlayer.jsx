@@ -5,12 +5,12 @@ import { GoMute, GoUnmute } from 'react-icons/go';
 import Nameplate from '../utilis/Nameplate';
 import { useMyContext } from '../context/Allcontext';
 
-const YouTubePlayer = ({ profile, type, setTitle, data }) => {
+const YouTubePlayer = ({ type, data }) => {
 
-  const { heroData, setHerodata } = useMyContext();
+  const { heroData, setFirstrefresh } = useMyContext();
 
 
-  const { location } = useMyContext();
+  const { location, logo } = useMyContext();
 
   const instanceId = useRef(`yt-${Math.random().toString(36).substr(2, 9)}`).current;
 
@@ -78,8 +78,7 @@ const YouTubePlayer = ({ profile, type, setTitle, data }) => {
       const loopedBackToStart = nextIndex === 0;
 
       if (loopedBackToStart) {
-        setHerodata([])
-        setTitle(""); // Reset title when all videos are completed
+        setFirstrefresh((prev) => prev + 1)
       }
 
       // If we looped back to the first video, you can add a delay or trigger an event
@@ -153,10 +152,10 @@ const YouTubePlayer = ({ profile, type, setTitle, data }) => {
   // console.log(names)
   // console.log(heroData)
 
-  return ( 
+  return (
     <div className='relative overflow-hidden hh'>
-      {profile?.logo &&
-        <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo' src={profile?.logo} />
+      {logo &&
+        <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo' src={logo} />
       }
       <div
         // ref={playerRef_2}

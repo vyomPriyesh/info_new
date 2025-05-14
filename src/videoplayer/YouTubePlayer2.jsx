@@ -147,34 +147,38 @@ import YouTube from 'react-youtube';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMyContext } from '../context/Allcontext';
+import Customeplayer from './Customeplayer';
+import { IoLocationSharp } from 'react-icons/io5';
+import Redbanner from '../utilis/Redbanner';
 
-const YouTubePlayer2 = ({ profile, data }) => {
+const YouTubePlayer2 = () => {
 
-  const { fallbackVideo, heroData, cuurentId } = useMyContext();
+  const { fallbackVideo, heroData, logo, setCuurentId } = useMyContext();
 
-  const [isMuted, setIsMuted] = useState(true);
-  const [player, setPlayer] = useState(null);
   const [nowNext, setNownext] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visible, setVisible] = useState(true);
   const [videoId, setVideoId] = useState(null);
 
-
   const newVideoId = heroData?.[0]?.current_video?.video ?? fallbackVideo;
 
   useEffect(() => {
-    if (newVideoId && newVideoId !== cuurentId) {
-      // localStorage.setItem("current", newVideoId)
-      setVideoId(newVideoId);
-    }
+    setVideoId(newVideoId);
+    setCuurentId(newVideoId)
   }, [newVideoId]);
 
 
   useEffect(() => {
     if (heroData.length > 0) {
+      const location = heroData[0]?.current_video?.location && (
+        <span className="flex items-center gap-1">
+          <h1 className='text-red-500 text-lg'><IoLocationSharp /></h1>
+          {heroData[0].current_video.location}
+        </span>
+      );
       const current = heroData?.[0]?.current_video?.name && 'Now : ' + heroData?.[0]?.current_video?.name;
-      const next = heroData?.[0]?.next_video?.name && 'Next : ' + heroData?.[0]?.next_video?.name;
-      setNownext([current, next].filter(Boolean));
+      const next = heroData?.[1]?.next_video?.name && 'Next : ' + heroData?.[1]?.next_video?.name;
+      setNownext([location, current, next].filter(Boolean));
       setCurrentIndex(0);
     }
   }, [heroData]);
@@ -200,64 +204,13 @@ const YouTubePlayer2 = ({ profile, data }) => {
     exit: { x: "-100%", opacity: 1 },
   };
 
-  const opts = {
-    height: "100%",
-    width: "100%",
-    playerVars: {
-      autoplay: 1,
-      controls: 0,
-      modestbranding: 1,
-      rel: 0,
-      showinfo: 0,
-      fs: 0,
-      loop: 1,
-      mute: 1,
-      disablekb: 1,
-      playsinline: 1,
-      iv_load_policy: 3,
-      playlist: videoId, // loop video
-    },
-  };
-
-  const onPlayerReady = (event) => {
-    setPlayer(event.target);
-    event.target.mute(); // default mute
-    event.target.playVideo();
-  };
-
-  const toggleMute = () => {
-    if (!player) return;
-
-    if (isMuted) {
-      player.unMute();
-    } else {
-      player.mute();
-    }
-    setIsMuted(!isMuted);
-  };
 
   return (
     <div className="relative w-full h-full">
-      {videoId && (
-        videoId !== cuurentId ? (
-          <div className="" key={videoId}>
-            <YouTube
-              // force re-render if different
-              videoId={videoId}
-              opts={opts}
-              onReady={onPlayerReady}
-              className="w-full h-[240px]"
-            />
-          </div>
-        ) : null // don't re-render YouTube if ID matches
-      )}
-      <button
-        onClick={toggleMute}
-        className="absolute bottom-5 left-0 bg-white p-2  text-xl z-50"
-        title={isMuted ? "Unmute" : "Mute"}
-      >
-        {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-      </button>
+      {logo &&
+        <img loading="lazy" className='md:h-16 md:w-16 h-12 w-12 absolute aspect-square right-2 top-2 logo z-50' src={logo} />
+      }
+      <Customeplayer videoId={videoId} />
       <AnimatePresence mode="wait">
         {visible && (
           <motion.h1
@@ -267,12 +220,14 @@ const YouTubePlayer2 = ({ profile, data }) => {
             exit="exit"
             variants={variants}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            className="text-black text-sm font-semibold absolute top-3 bg-white h-fit w-fit px-2 line-clamp-1"
+            className="text-black text-sm capitalize font-semibold absolute top-2 clipPath bg-white h-fit w-fit ps-2 pe-5 line-clamp-1"
           >
             {nowNext[currentIndex]}
           </motion.h1>
         )}
+        <Redbanner data={[heroData?.[0]?.current_video?.name]} />
       </AnimatePresence>
+
     </div>
   )
 }

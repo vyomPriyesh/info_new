@@ -3,8 +3,9 @@ import { useMyContext } from '../context/Allcontext';
 import YoutubeLive from '../videoplayer/YoutubeLive';
 import YouTubePlayer from '../videoplayer/YouTubePlayer';
 import YouTubePlayer2 from '../videoplayer/YouTubePlayer2';
+import Customeplayer from '../videoplayer/Customeplayer';
 
-const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerText, newsData, delay, bannerDelay }) => {
+const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
 
     // console.log(object)
     const [show, setShow] = useState(false)
@@ -29,7 +30,7 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
     const currentItem = both[currentIndex];
     const banners = currentItem?.banner?.flat();
 
-    const { liveData, firstRefresh } = useMyContext();
+    const { liveData, firstRefresh, logo } = useMyContext();
 
     useEffect(() => {
         if (bannerImg?.length > 0 || newsData?.length > 0) {
@@ -303,9 +304,9 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                     <YoutubeLive />
                     :
                     title ?
-                        <YouTubePlayer setTitle={setTitle} type={type} profile={profile} data={bannerText} />
+                        <YouTubePlayer type={type} data={bannerText} />
                         :
-                        <YouTubePlayer2 profile={profile} data={bannerText} />
+                        <YouTubePlayer2 />
                 }
                 <div className='bg-[#002793] relative h-5'>
                     <div>
@@ -313,7 +314,7 @@ const First = ({ type, title, setTitle, profile, scrollNews, bannerImg, bannerTe
                             <p className="space-x-4 flex flex-row" key={refresh + 1}>
                                 {scrollNews?.map((list, index) => (
                                     <>
-                                        <span className='place-items-center font-black flex text-sm flex-row gap-2' key={index}><img loading="lazy" src={profile?.logo} alt="" className='h-4 w-4' />{list + '\u00A0'}</span>
+                                        <span className='place-items-center font-black flex text-sm flex-row gap-2' key={index}><img loading="lazy" src={logo} alt="" className='h-4 w-4' />{list + '\u00A0'}</span>
                                     </>
                                 ))}
                             </p>

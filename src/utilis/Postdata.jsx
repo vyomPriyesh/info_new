@@ -136,7 +136,7 @@ const Postdata = ({ show, title, profile, moreData, z }) => {
                         {profile?.share &&
                             <HtmlTooltip
                                 open={share}
-                                onClose={() => setShare(false)}
+                                // onClose={() => setShare(false)}
                                 className={z ?? 'z-important'}
                                 title={
                                     <Typography color="inherit">
@@ -159,7 +159,7 @@ const Postdata = ({ show, title, profile, moreData, z }) => {
                                                 <FaWhatsapp />
                                             </a>
                                             <a href="#" className="text-yellow-700"><FaInstagram /></a>
-                                            <a href="#"><RiFacebookFill /></a>
+                                            <a href="#" className='text-blue-600'><RiFacebookFill /></a>
                                         </div>
 
                                     </Typography>

@@ -196,6 +196,11 @@
   }
 }
 
+.clipPath {
+  clip-path: polygon(0% 0%, 90% 0%, 100% 100%, 0% 100%);
+}
+
+
 .name {
   clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 25% 0%);
   animation: name infinite 5s linear;

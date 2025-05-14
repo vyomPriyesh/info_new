@@ -66,9 +66,6 @@ const Shortsmodal = ({ open, set, data }) => {
         };
     }, [open, set]);
 
-    console.log(currentItem?.profile)
-
-
     return (
         <AnimatePresence>
             {open && (
@@ -86,7 +83,7 @@ const Shortsmodal = ({ open, set, data }) => {
                     </button>
 
                     {logo &&
-                        <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-5 top-10 logo z-50' src={logo} />
+                        <img loading="lazy" className='md:h-16 md:w-16 h-14 w-14 absolute aspect-square right-4 top-4 logo z-50' src={logo} />
                     }
 
                     <div className="relative w-full h-full ">

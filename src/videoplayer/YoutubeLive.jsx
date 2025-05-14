@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react';
 import YouTube from 'react-youtube';
 import { useMyContext } from '../context/Allcontext';
 import { GoMute, GoUnmute } from 'react-icons/go';
+import Customeplayer from './Customeplayer';
 
 const YoutubeLive = () => {
-    const { setFirstrefresh, liveData } = useMyContext();
+    const { setFirstrefresh, liveData, logo } = useMyContext();
     const playerRef = useRef(null);
     const [muted, setMuted] = useState(true);
 
@@ -43,21 +44,11 @@ const YoutubeLive = () => {
 
     return (
         <div className="relative overflow-hidden hh">
+            {logo &&
+                <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo z-50' src={logo} />
+            }
             {liveData?.[0]?.live_link && (
-                <>
-                    <YouTube
-                        videoId={liveData[0].live_link}
-                        opts={opts}
-                        onReady={onReady}
-                        onEnd={onEnd}
-                    />
-                    <button
-                        onClick={toggleMute}
-                        className="absolute bg-white aspect-square left-0 bottom-10 z-50 text-2xl p-1"
-                    >
-                        {muted ? <GoMute /> : <GoUnmute />}
-                    </button>
-                </>
+                <Customeplayer videoId={liveData[0].live_link} />
             )}
         </div>
     );

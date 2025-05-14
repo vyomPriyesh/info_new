@@ -35,7 +35,7 @@ const Ourboardmenudata = () => {
         <>
             <div className="flex flex-col">
                 {allOur.map((list, i) => (
-                    <Usercardui data={list} key={i} share={true} />
+                    <Usercardui data={list} key={i} share={true} shareId='oid'/>
                 ))}
             </div>
         </>

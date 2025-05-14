@@ -1,15 +1,52 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BsFillShareFill } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
+import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { RiFacebookFill } from 'react-icons/ri';
+import { styled, Tooltip, Typography } from '@mui/material';
+import { IoShareSocial } from 'react-icons/io5';
 
-const Usercardui = ({ data, share }) => {
 
-    const imgUrl = import.meta.env.VITE_IMAGE_BASEURL;
-    const navigate = useNavigate();
+const Usercardui = ({ data, share, shareId }) => {
 
-    const tabs = ['Profile', 'Press ID'];
-    const [activeTab, setActiveTab] = useState('Profile')
+    const [open, setOpen] = useState(false);
 
+    const HtmlTooltip = styled(({ className, ...props }) => (
+        <Tooltip {...props} classes={{ popper: className }} arrow />
+    ))(({ theme }) => ({
+        '& .MuiTooltip-tooltip': {
+            backgroundColor: 'white',
+            color: 'black',
+            fontSize: '0.7rem !important',
+            borderRadius: '5px',
+            boxShadow: '0px 3px 15px rgba(0, 0, 0, 0.19), 0px 3px 6px rgba(0, 0, 0, 0.23)',
+        },
+        '& .MuiTooltip-arrow': {
+            color: 'white', // Must match tooltip background
+            '&:before': {
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)' // Optional shadow for arrow
+            }
+        },
+    }));
+
+    const dropdownRef = useRef();
+
+    const protocol = window.location.protocol;
+    const host = window.location.hostname;
+    const port = window.location.port;
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+
+    const shareUrl = `${protocol}//${host}${port ? `:${port}` : ''}/?${shareId}=${data?.id}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`;
 
     return (
         <>
@@ -123,7 +160,44 @@ const Usercardui = ({ data, share }) => {
                             }
                         </div>
                         {share &&
-                            <button className='text-blue-600' onClick={() => navigate(`/?oid=${data?.id}`)}><BsFillShareFill /></button>
+                            <HtmlTooltip
+                                open={open}
+                                // onClose={() => setShare(false)}
+                                className={'z-important'}
+                                title={
+                                    <Typography color="inherit">
+                                        <div ref={dropdownRef}
+                                            className={`
+                                                    flex flex-row gap-6  text-4xl
+                                                    bg-white
+                                                `}
+                                        >
+                                            <a
+                                                target='_blank'
+                                                href={whatsappUrl}
+                                                // data-title={title}
+                                                // data-description={moreData}
+                                                data-image={data?.image_path}
+                                                data-url={whatsappUrl}
+                                                id="whatsapp-share"
+                                                className="text-green-600"
+                                            >
+                                                <FaWhatsapp />
+                                            </a>
+                                            <a href="#" className="text-yellow-700"><FaInstagram /></a>
+                                            <a href="#" className='text-blue-600'><RiFacebookFill /></a>
+                                        </div>
+
+                                    </Typography>
+                                }
+                            >
+                                <button
+                                    className=" justify-center place-items-center py-1 text-blue-600 inline-block cursor-pointer"
+                                    onClick={() => setOpen(!open)}
+                                >
+                                    <IoShareSocial />
+                                </button>
+                            </HtmlTooltip>
                         }
                     </div>
                 </div>
