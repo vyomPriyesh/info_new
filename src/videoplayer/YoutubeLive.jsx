@@ -20,9 +20,9 @@ const YoutubeLive = () => {
 
     return (
         <div className="relative overflow-hidden hh">
-            {/* {logo &&
+            {logo &&
                 <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo z-50' src={logo} />
-            } */}
+            }
             {liveData?.[0]?.live_link && (
                 <Customeplayer videoId={liveData[0].live_link} />
             )}

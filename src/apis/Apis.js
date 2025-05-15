@@ -17,6 +17,7 @@ const API = {
     register: `${apiUrl}register/1`,
     shorts: `${apiUrl}shorts-details/1`,
     breakingDetails: (id) => `${apiUrl}breaking_details/1/${id}`,
+    subscribe: `${apiUrl}subscribe`,
 
     // AUTH: {
     //     sendOtp: `${apiUrl}/send_otp`,

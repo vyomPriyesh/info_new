@@ -18,6 +18,7 @@ import API from './apis/Apis'
 import { apiFunctions } from './apis/apiFunctions'
 import Loader from './utilis/Loader'
 import { Helmet } from 'react-helmet-async'
+import Subscribe from './components/Subscribe'
 
 function App() {
 
@@ -461,6 +462,7 @@ function App() {
         <meta name="image" content={meta?.img} />
         <meta name="url" content={meta?.url} />
       </Helmet>
+      <Subscribe />
       <Singlecenter centerData={centerData} />
       <Menu menu={menu2} />
       <div className='sticky top-0 z-50 bg-white'>

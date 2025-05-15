@@ -7,15 +7,15 @@ const Redbanner = ({ data = [] }) => {
 
     useEffect(() => {
         if (data.length > 0) {
-            setText(data[0]); // Show the first item initially
+            setText(data[0]); 
             indexRef.current = 1;
 
             intervalRef.current = setInterval(() => {
                 setText(data[indexRef.current]);
                 indexRef.current = (indexRef.current + 1) % data.length;
-            }, 7000); // every 5 seconds
+            }, 7000);
 
-            return () => clearInterval(intervalRef.current); // Cleanup
+            return () => clearInterval(intervalRef.current); 
         }
     }, [data]);
 

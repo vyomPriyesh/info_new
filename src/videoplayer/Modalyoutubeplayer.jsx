@@ -3,8 +3,9 @@ import Nameplate from '../utilis/Nameplate';
 import Location from '../utilis/Location';
 import Redbanner from '../utilis/Redbanner';
 import { GoMute, GoUnmute } from 'react-icons/go';
+import { useMyContext } from '../context/Allcontext';
 
-const Modalyoutubeplayer = ({ profile, type, data, heroData,location }) => {
+const Modalyoutubeplayer = ({ type, data, heroData, location }) => {
 
     const instanceId = useRef(`yt-${Math.random().toString(36).substr(2, 9)}`).current;
 
@@ -12,6 +13,7 @@ const Modalyoutubeplayer = ({ profile, type, data, heroData,location }) => {
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     const playerRef = useRef(null);
     const [names, setName] = useState({})
+    const { logo } = useMyContext();
 
 
     const [isShrunk, setIsShrunk] = useState(false);
@@ -150,8 +152,8 @@ const Modalyoutubeplayer = ({ profile, type, data, heroData,location }) => {
 
     return (
         <div className='relative overflow-hidden'>
-            {profile?.logo &&
-                <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-2 logo' src={profile?.logo} />
+            {logo &&
+                <img loading="lazy" className='md:h-16 md:w-16 h-10 w-10 absolute aspect-square right-2 top-3 logo z-50' src={logo} />
             }
             <div
                 // ref={playerRef_2}
