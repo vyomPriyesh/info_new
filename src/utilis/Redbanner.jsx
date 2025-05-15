@@ -1,43 +1,38 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react';
 
 const Redbanner = ({ data = [] }) => {
-
-    const [refresh, setRefresh] = useState(0)
-    const [text, setText] = useState(null)
-
-    const bannerData = async () => {
-
-        const delay2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-        for (let i = 0; i < data.length; i++) {
-            // await delay2(2000);
-            setText(data[i]);
-            await delay2(5000);
-            if (i + 1 == data.length) {
-                setRefresh((prev) => prev + 1)
-            }
-        }
-    };
+    const [text, setText] = useState(null);
+    const indexRef = useRef(0);
+    const intervalRef = useRef(null);
 
     useEffect(() => {
         if (data.length > 0) {
-            bannerData();
+            setText(data[0]); // Show the first item initially
+            indexRef.current = 1;
+
+            intervalRef.current = setInterval(() => {
+                setText(data[indexRef.current]);
+                indexRef.current = (indexRef.current + 1) % data.length;
+            }, 7000); // every 5 seconds
+
+            return () => clearInterval(intervalRef.current); // Cleanup
         }
-    }, [refresh, data]);
+    }, [data]);
+
 
     return (
         <>
-        {text &&
-            <div className='flex absolute bottom-1 justify-center place-items-center w-full'>
-                <div className={`bg-red-500 banner  banner-animation text-white flex justify-center place-items-center px-8`}>
-                    <span className='line-clamp-1 text-sm'>
-                        {text}
-                    </span>
+            {text && (
+                <div className='flex absolute bottom-1 justify-center place-items-center w-full'>
+                    <div className='bg-red-500 banner banner-animation text-white flex justify-center place-items-center px-8'>
+                        <span className='line-clamp-1 text-sm'>
+                            {text}
+                        </span>
+                    </div>
                 </div>
-            </div>
-        }
+            )}
         </>
-    )
-}
+    );
+};
 
-export default Redbanner
+export default Redbanner;

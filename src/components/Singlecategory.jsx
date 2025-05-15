@@ -36,16 +36,16 @@ const Singlecategory = ({ all, changeVideo, title, activeTitle, id }) => {
                 modules={[Autoplay]}
                 className="mySwiper mt-2"
             >
-                {all?.slice(0, 20).map((list, i) => (
-                    <>
-                        {list.type == 1 &&
-                            <SwiperSlide className='max-w-[250px] w-full z-50' key={`slide-${i}-${list.id || list.title || Math.random()}`} ><Imagetovideo key={i} {...data} list={list} title={activeTitle} show={list.category_id == 1} /></SwiperSlide>
-                        }
-                        {list.type == 3 &&
-                            <SwiperSlide className='max-w-[250px] w-full z-50' key={`slide-${i}-${list.id || list.title || Math.random()}`} ><Imagetovideo key={i} {...data} list={list} title={activeTitle} show={list.category_id == 1} /></SwiperSlide>
-                        }
-                    </>
-                ))}
+                {all?.slice(0, 20).map((list, i) => {
+                    if (list.type === 1 || list.type === 3) {
+                        return (
+                            <SwiperSlide className='max-w-[250px] w-full z-50' key={list.id || i}>
+                                <Imagetovideo {...data} list={list} title={activeTitle} show={list.category_id == 1} />
+                            </SwiperSlide>
+                        );
+                    }
+                    return null;
+                })}
             </Swiper>
             {/* <div className="flex flex-row overflow-x-auto gap-5 heading mt-2 w-full">
                 {all?.slice(0, 3).map((list, i) => (

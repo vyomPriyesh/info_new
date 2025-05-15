@@ -44,7 +44,7 @@ const Postimgslider = ({ list, show }) => {
                 <div className="flex flex-row gap-2 overflow-y-auto heading w-full" onClick={() => openModal(list)}>
                     {list?.blog_image.map((item, i) => (
                         list?.blog_image.length == 1 ?
-                            <img src={`${imgUrl}${item?.details}`} alt="" className='w-full aspect-[16/9] bg-cover bg-no-repeat h-full  object-contain'
+                            <img key={i} src={`${imgUrl}${item?.details}`} alt="" className='w-full aspect-[16/9] bg-cover bg-no-repeat h-full  object-contain'
                                 style={{
                                     backgroundImage: `
                               linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
@@ -53,7 +53,7 @@ const Postimgslider = ({ list, show }) => {
                             />
                             :
                             list?.blog_image.length == 2 ?
-                                <img src={`${imgUrl}${item?.details}`} alt="" className='w-1/2 aspect-[16/11] bg-cover bg-no-repeat h-full object-contain' style={{
+                                <img key={i} src={`${imgUrl}${item?.details}`} alt="" className='w-1/2 aspect-[16/11] bg-cover bg-no-repeat h-full object-contain' style={{
                                     backgroundImage: `
       linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
       url(${imgUrl}${item?.details})
@@ -61,7 +61,7 @@ const Postimgslider = ({ list, show }) => {
                                 }} />
                                 :
 
-                                <img src={`${imgUrl}${item?.details}`} alt="" className='w-2/5 aspect-[16/15] bg-cover bg-no-repeat h-full  object-contain' style={{
+                                <img key={i} src={`${imgUrl}${item?.details}`} alt="" className='w-2/5 aspect-[16/15] bg-cover bg-no-repeat h-full  object-contain' style={{
                                     backgroundImage: `
       linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
       url(${imgUrl}${item?.details})

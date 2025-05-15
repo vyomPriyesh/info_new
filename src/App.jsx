@@ -469,10 +469,8 @@ function App() {
       </div>
       <Postdata {...data} show={true} />
       <Routes>
-        {/* <Route path='/web' element={<Check />} /> */}
         <Route path='/' element={<Landingpage {...data} />} />
         <Route path='/ctg/:id' element={<Ctg {...data} />} />
-        {/* <Route path='/cms/our-board' element={<Ourboard {...data} />} /> */}
         <Route path='/our-board/:id' element={<Ourboardmenudata />} />
         <Route path='/cms/reporter-sign-up' element={<Reportersignup />} />
         <Route path='/cms/:id' element={<Cmsmenudata />} />

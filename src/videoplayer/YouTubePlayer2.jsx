@@ -225,8 +225,8 @@ const YouTubePlayer2 = () => {
             {nowNext[currentIndex]}
           </motion.h1>
         )}
-        <Redbanner data={[heroData?.[0]?.current_video?.name]} />
       </AnimatePresence>
+        <Redbanner data={[heroData?.[0]?.current_video?.name]} />
 
     </div>
   )

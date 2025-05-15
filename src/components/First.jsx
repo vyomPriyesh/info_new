@@ -9,12 +9,8 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
 
     // console.log(object)
     const [show, setShow] = useState(false)
-    const [mute, setMute] = useState(false)
     const [data, setData] = useState('')
-    const [refresh, setRefresh] = useState(0)
-    const [refresh2, setRefresh2] = useState(0)
     const [refresh3, setRefresh3] = useState(0)
-    const [refresh4, setRefresh4] = useState(0)
     const [showNews, setShownews] = useState(true)
     const [news, setNews] = useState(false)
     const [img, setImg] = useState(true)
@@ -308,7 +304,7 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
                         :
                         <YouTubePlayer2 />
                 }
-                <div className='bg-[#002793] relative h-5'>
+                {/* <div className='bg-[#002793] relative h-5'>
                     <div>
                         <marquee className="marq text-white" direction="left" loop="" scrollAmount={5}>
                             <p className="space-x-4 flex flex-row" key={refresh + 1}>
@@ -321,7 +317,7 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
                         </marquee>
                     </div>
                     <span className={`${show ? 'translate-x-0 ' : '-translate-x-full `'} uppercase transition-all duration-1000 ease-in bg-white px-1 absolute top-0`}>{data}</span>
-                </div>
+                </div> */}
                 {/* <div className="bg-white h-[46px] relative">
                     {showNews &&
                         <div className={`bg heading overflow-hidden absolute h-[47px] mt-[1px]  z-30 w-full`}>
