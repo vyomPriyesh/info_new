@@ -29,18 +29,18 @@ const Subscribe = () => {
 
     return (
         <>
-            <div className="fixed inset-0 z-[51] flex justify-end items-end h-full">
+            {/* <div className=" flex justify-end items-end h-full bg-green-500"> */}
                 <button
                     onClick={() => setOpen(!open)}
-                    className="me-5 mb-7 transition-all duration-300 ease-in-out bg-red-600 hover:bg-red-700 h-14 w-14 flex justify-center items-center rounded-full text-2xl text-white shadow-lg"
+                    className="me-5 mb-7 transition-all duration-300 z-[51] fixed bottom-0 right-1 ease-in-out bg-red-600 hover:bg-red-700 h-14 w-14 flex justify-center items-center rounded-full text-2xl text-white shadow-lg"
                 >
                     <FaBell />
                 </button>
-            </div>
+            {/* </div> */}
             <AnimatePresence>
                 {open && (
                     <motion.div
-                        className="fixed inset-0 p-10 h-screen w-full z-[51] flex justify-center items-center bg-black/30"
+                        className="fixed inset-0 p-10 h-screen w-full z-[51] flex justify-center items-center bg-black/70"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
