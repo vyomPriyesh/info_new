@@ -5,14 +5,14 @@ import YouTubePlayer from '../videoplayer/YouTubePlayer';
 import YouTubePlayer2 from '../videoplayer/YouTubePlayer2';
 import Customeplayer from '../videoplayer/Customeplayer';
 
-const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
+const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData }) => {
 
     // console.log(object)
     const [show, setShow] = useState(false)
     const [data, setData] = useState('')
     const [refresh3, setRefresh3] = useState(0)
     const [showNews, setShownews] = useState(true)
-    const [news, setNews] = useState(false)
+    const [news, setNews] = useState(true)
     const [img, setImg] = useState(true)
     const [singleNews, setSinglenews] = useState(null)
     const [time, setTime] = useState(10);
@@ -28,89 +28,150 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
 
     const { liveData, firstRefresh, logo } = useMyContext();
 
+    // useEffect(() => {
+    //     if (bannerImg?.length > 0 || newsData?.length > 0) {
+    //         const result = bannerImg.map(bannerGroup => ({
+    //             news: ['Breaking', 'News'],
+    //             text: newsData[0].map(list => list.name),
+    //             banner: [bannerGroup]
+    //         }));
+
+    //         setBoth(result);
+    //     }
+    // }, [bannerImg, newsData]);
+
+    // useEffect(() => {
+    //     if (newsData?.length > 0) {
+    //         // Prepare groups of headlines
+    //         const newsGroups = newsData.map(group => ({
+    //             news: ['Breaking', 'News'],
+    //             text: group.map(item => item.name),
+    //             banner: [],
+    //         }));
+
+    //         // Phase 1: Show all news groups
+    //         const phase1 = [...newsGroups];
+
+    //         // Phase 2: For each banner, show banner + all news groups again
+    //         const phase2 = bannerImg.flatMap((bannerGroup) => ([
+    //             {
+    //                 news: [],
+    //                 text: [],
+    //                 banner: [bannerGroup], // Show banner
+    //             },
+    //             ...newsGroups.map(group => ({
+    //                 news: ['Breaking', 'News'],
+    //                 text: group.text,
+    //                 banner: [],
+    //             })),
+    //         ]));
+
+    //         const fullCycle = [...phase1, ...phase2];
+
+    //         setBoth(fullCycle);
+    //     }
+    // }, [bannerImg, newsData]);
+
     useEffect(() => {
-        if (bannerImg?.length > 0 || newsData?.length > 0) {
-            const result = bannerImg.map(bannerGroup => ({
+    if (newsData?.length > 0) {
+        // For each banner, create a full newsData cycle
+        const fullCycle = bannerImg.flatMap((banner, bannerIdx) => {
+            return newsData.map((group, index) => ({
                 news: ['Breaking', 'News'],
-                text: newsData,
-                banner: [bannerGroup]
+                text: group.map(item => item.name),
+                banner: index === newsData.length - 1 ? [banner] : [], // Add banner only on last newsData item
             }));
+        });
 
-            setBoth(result);
-        }
-    }, [bannerImg, newsData]);
+        setBoth(fullCycle);
+    }
+}, [bannerImg, newsData]);
 
-    useEffect(() => {
-        let interval;
-        let newsTimeout;
 
-        const currentItem = both[currentIndex];
-        const banners = currentItem?.banner?.flat() || [];
-        const texts = currentItem?.text || [];
 
-        if (mode === "news") {
-            // Show "news" for 4 seconds, then decide next mode
-            newsTimeout = setTimeout(() => {
-                if (texts.length > 0) {
-                    setMode("text");
-                } else if (banners.length > 0) {
-                    setMode("banner");
-                } else {
-                    // Nothing to show, skip to next item
-                    setCurrentIndex((prev) => (prev + 1) % both.length);
-                    // setMode("news");
-                }
-            }, 4000);
-        } else {
-            interval = setInterval(() => {
-                const currentItem = both[currentIndex];
-                const banners = currentItem?.banner?.flat() || [];
-                const texts = currentItem?.text || [];
+   useEffect(() => {
+    let interval;
+    let newsTimeout;
 
-                if (mode === "text") {
-                    if (texts.length === 0) {
-                        // No text, go to banner
+    const currentItem = both[currentIndex];
+    const banners = currentItem?.banner?.flat() || [];
+    const texts = currentItem?.text || [];
+
+    if (mode === "news") {
+        // Show "news" for 4 seconds, then decide next mode
+        newsTimeout = setTimeout(() => {
+            // If no texts and there are banners, skip to banner directly
+            if (texts.length > 0) {
+                setMode("text");
+            } else if (banners.length > 0) {
+                setMode("banner");
+            } else {
+                setCurrentIndex((prev) => (prev + 1) % both.length);
+            }
+        }, 4000);
+    } else {
+        interval = setInterval(() => {
+            const currentItem = both[currentIndex];
+            const banners = currentItem?.banner?.flat() || [];
+            const texts = currentItem?.text || [];
+
+            if (mode === "text") {
+                if (texts.length === 0) {
+                    // No text, go directly to banner (skip showing news/text)
+                    if (banners.length > 0) {
                         setMode("banner");
-                        return;
-                    }
-
-                    if (textIndex < texts.length - 1) {
-                        setTextIndex((prev) => prev + 1);
                     } else {
-                        setTextIndex(0);
-                        if (banners.length > 0) {
-                            setMode("banner");
-                            setBannerIndex(0);
-                        } else {
-                            // No banners, skip to next news
-                            setCurrentIndex((prev) => (prev + 1) % both.length);
-                            setMode("news");
-                        }
-                    }
-                } else if (mode === "banner") {
-                    if (banners.length === 0) {
-                        // No banners, skip to next
                         setCurrentIndex((prev) => (prev + 1) % both.length);
                         setMode("news");
-                        return;
                     }
+                    return;
+                }
 
-                    if (bannerIndex < banners.length - 1) {
-                        setBannerIndex((prev) => prev + 1);
-                    } else {
+                if (textIndex < texts.length - 1) {
+                    setTextIndex((prev) => prev + 1);
+                } else {
+                    setTextIndex(0);
+                    if (banners.length > 0) {
+                        setMode("banner");
                         setBannerIndex(0);
+                    } else {
                         setCurrentIndex((prev) => (prev + 1) % both.length);
                         setMode("news");
                     }
                 }
-            }, 4000);
-        }
+            } else if (mode === "banner") {
+                if (banners.length === 0) {
+                    // No banners, skip to next news item
+                    setCurrentIndex((prev) => (prev + 1) % both.length);
+                    setMode("news");
+                    return;
+                }
 
-        return () => {
-            clearInterval(interval);
-            clearTimeout(newsTimeout);
-        };
-    }, [mode, textIndex, bannerIndex, currentIndex, both]);
+                if (bannerIndex < banners.length - 1) {
+                    setBannerIndex((prev) => prev + 1);
+                } else {
+                    // After last banner, skip news text and go to next news item
+                    setBannerIndex(0);
+                    setCurrentIndex((prev) => (prev + 1) % both.length);
+
+                    // Here’s the important part: 
+                    // if current item has banners but no news text, skip "news" mode, go directly to banner or next index
+                    const nextItem = both[(currentIndex + 1) % both.length];
+                    if (!nextItem?.text?.length && nextItem?.banner?.length) {
+                        setMode("banner");
+                    } else {
+                        setMode("news");
+                    }
+                }
+            }
+        }, 4000);
+    }
+
+    return () => {
+        clearInterval(interval);
+        clearTimeout(newsTimeout);
+    };
+}, [mode, textIndex, bannerIndex, currentIndex, both]);
 
     // const newsDatachange = async () => {
 
@@ -292,6 +353,7 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
 
     }, [refresh3]);
 
+
     return (
         <>
             <div className="" key={firstRefresh}>
@@ -353,10 +415,10 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData}) => {
                             <>
                                 {mode === 'news' &&
                                     <div className="flex flex-row h-full w-full bg" data-aos="fade-left">
-                                        <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-xl font-bold">
+                                        <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-3xl font-bold">
                                             <h1 className="">Breaking</h1>
                                         </div>
-                                        <div className="w-1/2 bg flex justify-center place-items-center text-white text-xl font-bold">
+                                        <div className="w-1/2 bg flex justify-center place-items-center text-white text-3xl font-bold">
                                             <h1 className="">News</h1>
                                         </div>
                                     </div>

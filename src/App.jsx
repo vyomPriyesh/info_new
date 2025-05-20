@@ -104,7 +104,7 @@ function App() {
       setFallbackVideo(response.data.Setting.preload_link)
       setCenterdata(response.data.BreakingNews)
       setBannerimg(response.data.bannerAds)
-      setNewsData(response.data.BottomNews.map(list => list.name))
+      setNewsData(response.data.BottomNews)
       setAdvertise(response.data.Fastival)
       setSponsers(response.data.SponsorLogo)
       setLogo(response.data.Setting.news_logo ? response.data.Setting.news_logo_path : null,)

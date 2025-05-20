@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 
 // 👇 Child component only re-renders if videoId changes
-const MemoizedPlayer = React.memo(({ videoId, muted }) => {
+const MemoizedPlayer = React.memo(({ videoId, muted, onEnded }) => {
     const url = `https://www.youtube.com/watch?v=${videoId}`;
     const playerRef = useRef(null);
 
@@ -14,16 +14,18 @@ const MemoizedPlayer = React.memo(({ videoId, muted }) => {
             url={url}
             width="100%"
             height="100%"
-            controls="1"
-            modestbranding="1"
+            controls
+            modestbranding
             playing
             muted={muted}
+            onEnded={onEnded}
         />
     );
 });
 
+
 const Customeplayer = ({ videoId }) => {
-    const { setCuurentId } = useMyContext();
+    const { setCuurentId, setFirstrefresh } = useMyContext();
     const [muted, setMuted] = useState(true);
     const [currentVideoId, setCurrentVideoId] = useState(videoId);
 
@@ -39,7 +41,7 @@ const Customeplayer = ({ videoId }) => {
     return (
         <div className="relative w-full h-full">
             <div className="w-full h-[240px]">
-                <MemoizedPlayer videoId={currentVideoId} muted={muted} />
+                <MemoizedPlayer onEnded={() => setFirstrefresh(prev => prev + 1)} videoId={currentVideoId} muted={muted} />
             </div>
             <button
                 onClick={toggleMute}

@@ -32,7 +32,7 @@ const Subscribe = () => {
             {/* <div className=" flex justify-end items-end h-full bg-green-500"> */}
                 <button
                     onClick={() => setOpen(!open)}
-                    className="me-5 mb-7 transition-all duration-300 z-[51] fixed bottom-0 right-1 ease-in-out bg-red-600 hover:bg-red-700 h-14 w-14 flex justify-center items-center rounded-full text-2xl text-white shadow-lg"
+                    className="me-5 mb-5 transition-all duration-300 z-[51] fixed bottom-0 right-1 ease-in-out bg-red-600 hover:bg-red-700 h-12 w-12 flex justify-center items-center rounded-full text-xl text-white shadow-lg"
                 >
                     <FaBell />
                 </button>
