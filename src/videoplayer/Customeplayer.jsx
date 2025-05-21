@@ -14,8 +14,6 @@ const MemoizedPlayer = React.memo(({ videoId, muted, onEnded }) => {
             url={url}
             width="100%"
             height="100%"
-            controls
-            modestbranding
             playing
             muted={muted}
             onEnded={onEnded}

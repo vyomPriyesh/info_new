@@ -10,7 +10,7 @@ const Nameplate = ({ data = [] }) => {
         let isCancelled = false;
     
         const loopWithDelay = async () => {
-            // await delay2(7000);
+            await delay2(7000);
     
             while (!isCancelled) {
                 for (let i = 0; i < data.length && !isCancelled; i++) {

@@ -72,106 +72,136 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData }) => 
     //     }
     // }, [bannerImg, newsData]);
 
+    // useEffect(() => {
+    //     if (newsData?.length > 0) {
+    //         // For each banner, create a full newsData cycle
+    //         const fullCycle = bannerImg.flatMap((banner, bannerIdx) => {
+    //             return newsData.map((group, index) => ({
+    //                 news: ['Breaking', 'News'],
+    //                 text: group.map(item => item.name),
+    //                 banner: index === newsData.length - 1 ? [banner] : [], // Add banner only on last newsData item
+    //             }));
+    //         });
+
+    //         setBoth(fullCycle);
+    //     }
+    // }, [bannerImg, newsData]);
+
     useEffect(() => {
-    if (newsData?.length > 0) {
-        // For each banner, create a full newsData cycle
-        const fullCycle = bannerImg.flatMap((banner, bannerIdx) => {
-            return newsData.map((group, index) => ({
+        if (newsData?.length > 0 && bannerImg?.length > 0) {
+            // Both available
+            const fullCycle = bannerImg.flatMap((banner, bannerIdx) => {
+                return newsData.map((group, index) => ({
+                    news: ['Breaking', 'News'],
+                    text: group.map(item => item.name),
+                    banner: index === newsData.length - 1 ? [banner] : [],
+                }));
+            });
+            setBoth(fullCycle);
+        } else if (newsData?.length > 0) {
+            // Only newsData available
+            const newsOnly = newsData.map(group => ({
                 news: ['Breaking', 'News'],
                 text: group.map(item => item.name),
-                banner: index === newsData.length - 1 ? [banner] : [], // Add banner only on last newsData item
+                banner: [],
             }));
-        });
+            setBoth(newsOnly);
+        } else if (bannerImg?.length > 0) {
+            // Only bannerImg available
+            const bannerOnly = bannerImg.map(banner => ({
+                news: ['Breaking', 'News'],
+                text: [],
+                banner: [banner],
+            }));
+            setBoth(bannerOnly);
+        }
+    }, [bannerImg, newsData]);
 
-        setBoth(fullCycle);
-    }
-}, [bannerImg, newsData]);
 
 
+    useEffect(() => {
+        let interval;
+        let newsTimeout;
 
-   useEffect(() => {
-    let interval;
-    let newsTimeout;
+        const currentItem = both[currentIndex];
+        const banners = currentItem?.banner?.flat() || [];
+        const texts = currentItem?.text || [];
 
-    const currentItem = both[currentIndex];
-    const banners = currentItem?.banner?.flat() || [];
-    const texts = currentItem?.text || [];
+        if (mode === "news") {
+            // Show "news" for 4 seconds, then decide next mode
+            newsTimeout = setTimeout(() => {
+                // If no texts and there are banners, skip to banner directly
+                if (texts.length > 0) {
+                    setMode("text");
+                } else if (banners.length > 0) {
+                    setMode("banner");
+                } else {
+                    setCurrentIndex((prev) => (prev + 1) % both.length);
+                }
+            }, 4000);
+        } else {
+            interval = setInterval(() => {
+                const currentItem = both[currentIndex];
+                const banners = currentItem?.banner?.flat() || [];
+                const texts = currentItem?.text || [];
 
-    if (mode === "news") {
-        // Show "news" for 4 seconds, then decide next mode
-        newsTimeout = setTimeout(() => {
-            // If no texts and there are banners, skip to banner directly
-            if (texts.length > 0) {
-                setMode("text");
-            } else if (banners.length > 0) {
-                setMode("banner");
-            } else {
-                setCurrentIndex((prev) => (prev + 1) % both.length);
-            }
-        }, 4000);
-    } else {
-        interval = setInterval(() => {
-            const currentItem = both[currentIndex];
-            const banners = currentItem?.banner?.flat() || [];
-            const texts = currentItem?.text || [];
+                if (mode === "text") {
+                    if (texts.length === 0) {
+                        // No text, go directly to banner (skip showing news/text)
+                        if (banners.length > 0) {
+                            setMode("banner");
+                        } else {
+                            setCurrentIndex((prev) => (prev + 1) % both.length);
+                            setMode("news");
+                        }
+                        return;
+                    }
 
-            if (mode === "text") {
-                if (texts.length === 0) {
-                    // No text, go directly to banner (skip showing news/text)
-                    if (banners.length > 0) {
-                        setMode("banner");
+                    if (textIndex < texts.length - 1) {
+                        setTextIndex((prev) => prev + 1);
                     } else {
+                        setTextIndex(0);
+                        if (banners.length > 0) {
+                            setMode("banner");
+                            setBannerIndex(0);
+                        } else {
+                            setCurrentIndex((prev) => (prev + 1) % both.length);
+                            setMode("news");
+                        }
+                    }
+                } else if (mode === "banner") {
+                    if (banners.length === 0) {
+                        // No banners, skip to next news item
                         setCurrentIndex((prev) => (prev + 1) % both.length);
                         setMode("news");
+                        return;
                     }
-                    return;
-                }
 
-                if (textIndex < texts.length - 1) {
-                    setTextIndex((prev) => prev + 1);
-                } else {
-                    setTextIndex(0);
-                    if (banners.length > 0) {
-                        setMode("banner");
+                    if (bannerIndex < banners.length - 1) {
+                        setBannerIndex((prev) => prev + 1);
+                    } else {
+                        // After last banner, skip news text and go to next news item
                         setBannerIndex(0);
-                    } else {
                         setCurrentIndex((prev) => (prev + 1) % both.length);
-                        setMode("news");
+
+                        // Here’s the important part: 
+                        // if current item has banners but no news text, skip "news" mode, go directly to banner or next index
+                        const nextItem = both[(currentIndex + 1) % both.length];
+                        if (!nextItem?.text?.length && nextItem?.banner?.length) {
+                            setMode("banner");
+                        } else {
+                            setMode("news");
+                        }
                     }
                 }
-            } else if (mode === "banner") {
-                if (banners.length === 0) {
-                    // No banners, skip to next news item
-                    setCurrentIndex((prev) => (prev + 1) % both.length);
-                    setMode("news");
-                    return;
-                }
+            }, 4000);
+        }
 
-                if (bannerIndex < banners.length - 1) {
-                    setBannerIndex((prev) => prev + 1);
-                } else {
-                    // After last banner, skip news text and go to next news item
-                    setBannerIndex(0);
-                    setCurrentIndex((prev) => (prev + 1) % both.length);
-
-                    // Here’s the important part: 
-                    // if current item has banners but no news text, skip "news" mode, go directly to banner or next index
-                    const nextItem = both[(currentIndex + 1) % both.length];
-                    if (!nextItem?.text?.length && nextItem?.banner?.length) {
-                        setMode("banner");
-                    } else {
-                        setMode("news");
-                    }
-                }
-            }
-        }, 4000);
-    }
-
-    return () => {
-        clearInterval(interval);
-        clearTimeout(newsTimeout);
-    };
-}, [mode, textIndex, bannerIndex, currentIndex, both]);
+        return () => {
+            clearInterval(interval);
+            clearTimeout(newsTimeout);
+        };
+    }, [mode, textIndex, bannerIndex, currentIndex, both]);
 
     // const newsDatachange = async () => {
 
@@ -366,10 +396,10 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData }) => 
                         :
                         <YouTubePlayer2 />
                 }
-                {/* <div className='bg-[#002793] relative h-5'>
+                <div className='bg-[#002793] relative h-5'>
                     <div>
-                        <marquee className="marq text-white" direction="left" loop="" scrollAmount={5}>
-                            <p className="space-x-4 flex flex-row" key={refresh + 1}>
+                        <marquee className="marq text-white" direction="left" loop="" scrollAmount={4}>
+                            <p className="space-x-4 flex flex-row" >
                                 {scrollNews?.map((list, index) => (
                                     <>
                                         <span className='place-items-center font-black flex text-sm flex-row gap-2' key={index}><img loading="lazy" src={logo} alt="" className='h-4 w-4' />{list + '\u00A0'}</span>
@@ -379,7 +409,7 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData }) => 
                         </marquee>
                     </div>
                     <span className={`${show ? 'translate-x-0 ' : '-translate-x-full `'} uppercase transition-all duration-1000 ease-in bg-white px-1 absolute top-0`}>{data}</span>
-                </div> */}
+                </div>
                 {/* <div className="bg-white h-[46px] relative">
                     {showNews &&
                         <div className={`bg heading overflow-hidden absolute h-[47px] mt-[1px]  z-30 w-full`}>
@@ -415,10 +445,10 @@ const First = ({ type, title, scrollNews, bannerImg, bannerText, newsData }) => 
                             <>
                                 {mode === 'news' &&
                                     <div className="flex flex-row h-full w-full bg" data-aos="fade-left">
-                                        <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-3xl font-bold">
+                                        <div className="w-1/2 bg-yellow-400 h-full flex justify-center place-items-center text-4xl font-bold">
                                             <h1 className="">Breaking</h1>
                                         </div>
-                                        <div className="w-1/2 bg flex justify-center place-items-center text-white text-3xl font-bold">
+                                        <div className="w-1/2 bg flex justify-center place-items-center text-white text-4xl font-bold">
                                             <h1 className="">News</h1>
                                         </div>
                                     </div>

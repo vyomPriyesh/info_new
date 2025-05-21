@@ -1,64 +1,143 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
-import { FaBell } from 'react-icons/fa';
+import React, { useEffect, useRef, useState } from 'react';
+import { FaBell, FaFacebookF } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
 import { HiMailOpen } from "react-icons/hi";
 import { apiFunctions } from '../apis/apiFunctions';
 import API from '../apis/Apis';
+import { IoIosCheckmarkCircle } from 'react-icons/io';
+import { MdEmail } from "react-icons/md";
 
 const Subscribe = () => {
-
     const { apiPost } = apiFunctions();
 
-    const [open, setOpen] = useState(false)
-    const [email, setEmail] = useState(null)
+    const [open, setOpen] = useState(false);
+    const [allOpen, setAllopen] = useState(false)
+    const [msg, setMsg] = useState(false)
+    const [email, setEmail] = useState('');
+    const [number, setNumber] = useState('');
+    const closeRef = useRef(null);
 
     const handleSubscribe = async () => {
 
-        const payload = {
-            email: email
-        }
 
-        const response = await apiPost(API.subscribe, payload);
+        const payload = { email, mobile: number };
 
-        if (response.status) {
-            setEmail(null)
-            setOpen(false)
+        try {
+            const response = await apiPost(API.subscribe, payload);
+            if (response.status) {
+                setEmail('');
+                setNumber('');
+                setMsg(true)
+                setTimeout(() => {
+                    setOpen(false);
+                    setMsg(false)
+                }, 4000);
+            }
+        } catch (error) {
+            console.error('Subscription error:', error);
         }
-    }
+    };
+
+    useEffect(() => {
+        if (!open) return;
+
+        const handleClickOutside = (event) => {
+            if (closeRef.current && !closeRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        // Use 'mousedown' instead of 'click'
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [open]);
 
     return (
         <>
-            {/* <div className=" flex justify-end items-end h-full bg-green-500"> */}
-                <button
-                    onClick={() => setOpen(!open)}
-                    className="me-5 mb-5 transition-all duration-300 z-[51] fixed bottom-0 right-1 ease-in-out bg-red-600 hover:bg-red-700 h-12 w-12 flex justify-center items-center rounded-full text-xl text-white shadow-lg"
-                >
-                    <FaBell />
+            <div
+                className={`fixed overflow-hidden bottom-0 right-1 me-5 mb-5 z-[51] h-12 ${allOpen ? 'max-w-full w-44 bg-white' : 'w-12  bg-red-600'} flex flex-row gap-5 justify-center items-center rounded-full text-xl  shadow-lg transition-all duration-300 ease-in-out`}
+                aria-label="Open Subscribe Modal"
+            >
+                {allOpen &&
+                    <>
+                        <button className='bg-blue-500 text-white rounded-full h-10 w-10 flex justify-center place-items-center'>
+                            <FaFacebookF />
+                        </button>
+                        <button onClick={()=>setOpen(true)} className='bg-red-500 text-white rounded-full h-10 w-10 flex justify-center place-items-center'>
+                            <FaBell />
+                        </button>
+                    </>
+                }
+                <button onClick={() => setAllopen(!allOpen)} className='shadow-2xl rounded-full h-10 w-10 flex justify-center place-items-center'>
+                    {allOpen ?
+                        <RxCross2 />
+                        :
+                        <FaBell className='text-white' />
+                    }
                 </button>
-            {/* </div> */}
+            </div>
+
             <AnimatePresence>
                 {open && (
                     <motion.div
-                        className="fixed inset-0 p-10 h-screen w-full z-[51] flex justify-center items-center bg-black/70"
+                        className="fixed inset-0 z-[51] flex justify-center items-center bg-black/70 p-10"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
-                        <button
-                            onClick={() => setOpen(false)}
-                            className="absolute left-5 top-10 z-50 bg-white rounded-full h-7 w-7 flex justify-center items-center text-black"
+                        <div
+                            ref={closeRef}
+                            className="relative w-full max-w-2xl bg-white px-10 py-6 flex flex-col items-center gap-5 rounded-lg"
                         >
-                            <RxCross2 />
-                        </button>
+                            {msg ?
+                                <div className="w-full flex flex-col gap-3 justify-center place-items-center">
+                                    <h1 className='text-green-500 text-8xl'><IoIosCheckmarkCircle /></h1>
+                                    <p className='text-center text-base font-medium'>Thank you for Subscribe in Info Gujarat channel and portal</p>
+                                </div>
+                                :
+                                <>
+                                    <button
+                                        onClick={() => setOpen(false)}
+                                        className="absolute top-3 left-3 h-7 w-7 text-2xl flex justify-center items-center text-black bg-white rounded-full"
+                                        aria-label="Close"
+                                    >
+                                        <RxCross2 />
+                                    </button>
 
+                                    <h1 className="text-blue-500 text-6xl"><HiMailOpen /></h1>
+                                    <h2 className="text-xl font-semibold uppercase">Subscribe</h2>
+                                    <p className="text-center text-base text-neutral-500">
+                                        Subscribe to our newsletter to receive the latest updates.
+                                    </p>
 
-                        <div className="w-full max-w-2xl flex justify-center place-items-center flex-col gap-5 bg-white px-10 py-6">
-                            <h1 className='text-blue-500 text-6xl'><HiMailOpen /></h1>
-                            <h1 className='text-xl font-semibold uppercase'>subscribe</h1>
-                            <p className='text-center text-base text-neutral-500'>subscribe our newsletter to receive the latest updates.</p>
-                            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className='border border-gray-400 focus:outline-none focus:border-black rounded-lg w-full px-2 py-2' placeholder='Enter Your Email' />
-                            <button onClick={handleSubscribe} className='bg-blue-500 px-3 py-2 text-white uppercase font-semibold'>subscribe</button>
+                                    <input
+                                        type="number"
+                                        value={number}
+                                        onChange={(e) => setNumber(e.target.value)}
+                                        className="w-full px-2 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-black"
+                                        placeholder="Enter your WhatsApp number"
+                                    />
+
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full px-2 py-2 border border-gray-400 rounded-lg focus:outline-none focus:border-black"
+                                        placeholder="Enter your email"
+                                    />
+
+                                    <button
+                                        onClick={handleSubscribe}
+                                        className="px-3 py-2 bg-blue-500 text-white uppercase font-semibold rounded hover:bg-blue-600"
+                                    >
+                                        Subscribe
+                                    </button>
+                                </>
+                            }
                         </div>
                     </motion.div>
                 )}

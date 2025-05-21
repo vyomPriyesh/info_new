@@ -96,7 +96,7 @@ const Modalyoutubeplayer = ({ type, data, heroData, location }) => {
             playerVars: {
                 autoplay: 1,
                 mute: isMuted ? 1 : 0,
-                controls: 1,
+                controls: 0,
                 modestbranding: 1,
                 rel: 0,
                 loop: 0,
