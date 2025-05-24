@@ -8,9 +8,13 @@ const Sponsers = ({ sponsers }) => {
         sponsers?.length > 0 &&
         <div>
             <Swiper
-                spaceBetween={30}
                 loop={true}
-                // centeredSlides={true}
+                slidesPerView={'auto'}
+                spaceBetween={5}
+                pagination={{
+                    clickable: true,
+                }}
+                centeredSlides={true}
                 autoplay={{
                     delay: 2500,
                     disableOnInteraction: false,
@@ -18,8 +22,8 @@ const Sponsers = ({ sponsers }) => {
                 modules={[Autoplay]}
                 className="mySwiper h-28"
             >
-                {sponsers.map((list, i) => (
-                    <SwiperSlide key={i}>
+                {sponsers.concat(sponsers).map((list, i) => (
+                    <SwiperSlide key={i} className='max-w-[320px] w-full'>
                         <a href={list?.url} target='_blank'>
                             <img loading="lazy" src={list?.sponsor_logo_path} className='h-full w-full object-contain' />
                         </a>

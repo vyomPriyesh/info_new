@@ -250,3 +250,19 @@ iframe {
 .z-important {
   z-index: 49 !important;
 }
+
+.btnAnimation{
+  animation: ani 1.5s infinite;
+}
+
+@keyframes ani{
+  0% {
+    scale: 1;
+  }
+  50%{
+    scale: 1.2;
+  }
+  100%{
+    scale: 1;
+  }
+}

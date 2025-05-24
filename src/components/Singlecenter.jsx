@@ -70,14 +70,14 @@ const Singlecenter = ({ centerData }) => {
 
     return (
         <>
-            <div className="">
+            {/* <div className=""> */}
                 {pathname?.pathname !== '/cms/reporter-sign-up' && pathname?.pathname !== '/cms/Info%20Gujarat' && singleCenter &&
-                    <button onClick={() => openModal(singleCenter?.id)} className={`fixed me-auto text-start flex flex-col text-white rounded-lg w-fit bg top-2/3 p-2 inset-0 h-fit transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-3 me-3 ' : '-translate-x-28 me-0'} `}>
+                    <buttom aria-label="Open Subscribe Modal" onClick={() => openModal(singleCenter?.id)} className={`fixed bottom-2 me-auto text-start flex flex-col text-white rounded-lg w-fit h-fit bg   p-2 transition-all duration-1000 ease-linear z-50 ${center ? 'translate-x-3 me-3 ' : '-translate-x-28 me-0'} `}>
                         <h1 className=' font-bold text-xs'>{singleCenter?.name}</h1>
                         <span className='text-sm line-clamp-1'>{singleCenter?.title.substring(0, 13)}...</span>
-                    </button>
+                    </buttom>
                 }
-            </div>
+            {/* </div> */}
             <Modalnews images={images} open={open} set={setOpen} data={modalData} location={modalLocation} heroData={modalHerodata} type={type} text={modalText} />
         </>
     )

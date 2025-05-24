@@ -1,12 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
-import { FaBell, FaFacebookF } from 'react-icons/fa';
+import { FaBell, FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
 import { HiMailOpen } from "react-icons/hi";
 import { apiFunctions } from '../apis/apiFunctions';
 import API from '../apis/Apis';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { MdEmail } from "react-icons/md";
+import subscribe from '../assets/subscribe.jpeg';
+import { BsYoutube } from 'react-icons/bs';
+import { PiWhatsappLogoBold } from "react-icons/pi";
 
 const Subscribe = () => {
     const { apiPost } = apiFunctions();
@@ -59,7 +62,7 @@ const Subscribe = () => {
     return (
         <>
             <div
-                className={`fixed overflow-hidden bottom-0 right-1 me-5 mb-5 z-[51] h-12 ${allOpen ? 'max-w-full w-44 bg-white' : 'w-12  bg-red-600'} flex flex-row gap-5 justify-center items-center rounded-full text-xl  shadow-lg transition-all duration-300 ease-in-out`}
+                className={`fixed overflow-hidden bottom-2 right-1 me-3 z-[51]  h-12 ${allOpen ? 'max-w-full w-fit px-3 bg-white' : 'w-12 bg-white btnAnimation'} flex flex-row gap-3 justify-center place-items-center rounded-full text-xl  shadow-lg transition-all duration-300 ease-in-out`}
                 aria-label="Open Subscribe Modal"
             >
                 {allOpen &&
@@ -67,16 +70,25 @@ const Subscribe = () => {
                         <button className='bg-blue-500 text-white rounded-full h-10 w-10 flex justify-center place-items-center'>
                             <FaFacebookF />
                         </button>
-                        <button onClick={()=>setOpen(true)} className='bg-red-500 text-white rounded-full h-10 w-10 flex justify-center place-items-center'>
+                        <button className='bg-green-400 text-white rounded-full h-10 w-10 text-3xl flex justify-center place-items-center'>
+                            <PiWhatsappLogoBold />
+                        </button>
+                        <button className='bg-red-500 text-white rounded-full h-10 w-10 flex justify-center place-items-center'>
+                            <BsYoutube />
+                        </button>
+                        <button className='bg-pink-400 text-white rounded-full h-10 w-10 text-3xl flex justify-center place-items-center'>
+                            <FaInstagram />
+                        </button>
+                        <button onClick={() => setOpen(true)} className='bg-sky-500 text-white rounded-full h-10 w-10 flex justify-center place-items-center'>
                             <FaBell />
                         </button>
                     </>
                 }
-                <button onClick={() => setAllopen(!allOpen)} className='shadow-2xl rounded-full h-10 w-10 flex justify-center place-items-center'>
+                <button onClick={() => setAllopen(!allOpen)} className='shadow-2xl bg-white rounded-full h-10 w-10 aspect-square flex justify-center place-items-center'>
                     {allOpen ?
                         <RxCross2 />
                         :
-                        <FaBell className='text-white' />
+                        <img src={subscribe} className='w-full h-full rounded-full aspect-square border-2 border-red-500' />
                     }
                 </button>
             </div>

@@ -167,8 +167,8 @@ const Reportersignup = () => {
                         {emailID ?
                             <div className="w-full flex flex-col gap-3 justify-center place-items-center">
                                 <h1 className='text-green-500 text-8xl'><IoIosCheckmarkCircle /></h1>
-                                <p className='text-center text-base font-medium'>Thank you for registering in Info Gujarat channel and portal</p>
-                                <p className='text-sm text-center text-neutral-500'>Now you will receive a mail on your registered mail ID in which you can open the link of the given admin panel and publish your information</p>
+                                <p className='text-center text-base font-medium'>Thank you for registering in Our channel and portal</p>
+                                <p className='text-sm text-center text-neutral-500'>Now you will receive a mail on your registered mail ID in which you can open the link of the given admin panel and publish your News & information</p>
                             </div>
                             :
                             <>

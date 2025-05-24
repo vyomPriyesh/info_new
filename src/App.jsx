@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import './App.css'
 import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Landingpage from './pages/Landingpage'
@@ -107,7 +107,7 @@ function App() {
       setNewsData(response.data.BottomNews)
       setAdvertise(response.data.Fastival)
       setSponsers(response.data.SponsorLogo)
-      setLogo(response.data.Setting.news_logo ? response.data.Setting.news_logo_path : null,)
+      setLogo(response.data.Setting.status == 1 ? response.data.Setting.news_logo ? response.data.Setting.news_logo_path : null : null,)
     }
   }
 

@@ -18,14 +18,15 @@ const Singlecategory = ({ all, changeVideo, title, activeTitle, id }) => {
 
     return (
         all.length > 0 &&
-        <div className='pt-2 px-2 w-full bg-gray-200' >
+        <div className='pt-2 w-full bg-gray-200' >
             <div className="flex flex-row justify-between place-items-center text-red-500">
                 <h1 className='font-bold  ps-5 text-xl'>{title}</h1>
                 <Link to={`/ctg/${id}`} className='rounded-xl border border-black px-2 py-1'><FaLongArrowAltRight /></Link>
             </div>
             <Swiper
                 slidesPerView={'auto'}
-                spaceBetween={15}
+                spaceBetween={3}
+                centeredSlides={true}
                 pagination={{
                     clickable: true,
                 }}
@@ -39,7 +40,7 @@ const Singlecategory = ({ all, changeVideo, title, activeTitle, id }) => {
                 {all?.slice(0, 20).map((list, i) => {
                     if (list.type === 1 || list.type === 3) {
                         return (
-                            <SwiperSlide className='max-w-[250px] w-full z-50' key={list.id || i}>
+                            <SwiperSlide className='max-w-[320px] w-full z-50' key={list.id || i}>
                                 <Imagetovideo {...data} list={list} title={activeTitle} show={list.category_id == 1} />
                             </SwiperSlide>
                         );
