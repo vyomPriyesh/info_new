@@ -38,7 +38,7 @@ const Location = ({ data = [] }) => {
                     // data-aos="fade-right" 
                     key={text} className={`flex flex-row gap-2 px-1 overflow-hidden top-2 bg-white absolute location pe-10 justify-center place-items-center capitalize`}>
                     <IoLocationSharp className='text-red-500' />
-                    <h1 className='text-sm '>{text}</h1>
+                    <h1 className='text-xs'>{text}</h1>
                 </div>
             }
         </>

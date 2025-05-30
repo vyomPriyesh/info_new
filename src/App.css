@@ -226,7 +226,7 @@
 }
 
 iframe {
-  pointer-events: none !important;
+  /* pointer-events: none !important; */
 }
 .bg-shorts{
    background-position-x: center;

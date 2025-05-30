@@ -220,7 +220,7 @@ const YouTubePlayer2 = () => {
             exit="exit"
             variants={variants}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            className="text-black text-sm capitalize font-semibold absolute top-2 clipPath bg-white h-fit w-fit ps-2 pe-5 line-clamp-1"
+            className="text-black text-xs capitalize font-semibold absolute top-2 clipPath bg-white h-fit w-fit ps-2 pe-5 line-clamp-1"
           >
             {nowNext[currentIndex]}
           </motion.h1>

@@ -62,7 +62,7 @@ const Subscribe = () => {
     return (
         <>
             <div
-                className={`fixed overflow-hidden bottom-2 right-1 me-3 z-[51]  h-12 ${allOpen ? 'max-w-full w-fit px-3 bg-white' : 'w-12 bg-white btnAnimation'} flex flex-row gap-3 justify-center place-items-center rounded-full text-xl  shadow-lg transition-all duration-300 ease-in-out`}
+                className={`fixed overflow-hidden bottom-1 right-1 me-3 z-[51]  h-12 ${allOpen ? 'max-w-full w-fit px-3 bg-white' : 'w-12 bg-white btnAnimation'} flex flex-row gap-3 justify-center place-items-center rounded-full text-xl  shadow-lg transition-all duration-300 ease-in-out`}
                 aria-label="Open Subscribe Modal"
             >
                 {allOpen &&
@@ -84,7 +84,7 @@ const Subscribe = () => {
                         </button>
                     </>
                 }
-                <button onClick={() => setAllopen(!allOpen)} className='shadow-2xl bg-white rounded-full h-10 w-10 aspect-square flex justify-center place-items-center'>
+                <button onClick={() => setAllopen(!allOpen)} className='shadow-2xl bg-white rounded-full h-9 w-9 aspect-square flex justify-center place-items-center'>
                     {allOpen ?
                         <RxCross2 />
                         :
