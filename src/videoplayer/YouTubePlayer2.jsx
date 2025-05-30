@@ -150,6 +150,7 @@ import { useMyContext } from '../context/Allcontext';
 import Customeplayer from './Customeplayer';
 import { IoLocationSharp } from 'react-icons/io5';
 import Redbanner from '../utilis/Redbanner';
+import { video } from 'framer-motion/client';
 
 const YouTubePlayer2 = () => {
 
@@ -160,7 +161,7 @@ const YouTubePlayer2 = () => {
   const [visible, setVisible] = useState(true);
   const [videoId, setVideoId] = useState(null);
 
-  const newVideoId = heroData?.[0]?.current_video?? { video: fallbackVideo };
+const newVideoId = heroData?.[0]?.current_video ?? fallbackVideo;
 
   useEffect(() => {
     setVideoId(newVideoId);

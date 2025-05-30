@@ -101,7 +101,7 @@ function App() {
     if (response.status) {
       const allNews = response.data.ScrollNews.map(list => list.news)
       setNews(allNews)
-      setFallbackVideo(response.data.Setting.preload_link)
+      setFallbackVideo({ scheduled_at: null, video: response.data.Setting.preload_link })
       setCenterdata(response.data.BreakingNews)
       setBannerimg(response.data.bannerAds)
       setNewsData(response.data.BottomNews)

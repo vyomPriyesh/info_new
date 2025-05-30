@@ -6,7 +6,7 @@ import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 // 👇 Child component only re-renders if videoId changes
 const MemoizedPlayer = React.memo(({ videoId, muted, onEnded }) => {
 
-    const url = `https://www.youtube.com/watch?v=${videoId?.video}`;
+    const url = `https://www.youtube.com/watch?v=${videoId?.video}&rel=0`;
     const playerRef = useRef(null);
 
     const scheduledAt = videoId?.scheduled_at ?? null; // e.g., "14:30"\
@@ -22,7 +22,6 @@ const MemoizedPlayer = React.memo(({ videoId, muted, onEnded }) => {
     const diffMs = now - scheduledTime;
     if (diffMs > 0) {
       const diffSeconds = Math.floor(diffMs / 1000);
-      console.log(`Seeking forward by ${diffSeconds} seconds`);
       playerRef.current.seekTo(diffSeconds, 'seconds');
     }
   };
@@ -34,7 +33,7 @@ const MemoizedPlayer = React.memo(({ videoId, muted, onEnded }) => {
             width="100%"
             height="100%"
             playing
-            // controls
+            controls
             muted={muted}
             onEnded={onEnded}
             onReady={handleReady} 
