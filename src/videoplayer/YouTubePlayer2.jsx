@@ -160,7 +160,7 @@ const YouTubePlayer2 = () => {
   const [visible, setVisible] = useState(true);
   const [videoId, setVideoId] = useState(null);
 
-  const newVideoId = heroData?.[0]?.current_video?.video ?? fallbackVideo;
+  const newVideoId = heroData?.[0]?.current_video?? { video: fallbackVideo };
 
   useEffect(() => {
     setVideoId(newVideoId);
@@ -226,7 +226,7 @@ const YouTubePlayer2 = () => {
           </motion.h1>
         )}
       </AnimatePresence>
-        <Redbanner data={[heroData?.[0]?.current_video?.name]} />
+      <Redbanner data={[heroData?.[0]?.current_video?.name]} />
 
     </div>
   )
